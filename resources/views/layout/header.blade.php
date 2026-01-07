@@ -138,7 +138,13 @@
                 <!--begin::Menu Footer-->
                 <li class="user-footer">
                   <a href="#" class="btn btn-default btn-flat">Profil</a>
-                  <a href="{{ route('logout') }}" class="btn btn-default btn-flat float-end" method="post">Keluar</a>                 
+                  <!-- <a href="{{ route('logout') }}" class="btn btn-default btn-flat float-end" method="post">Keluar</a>                  -->
+                   <form action="{{ route('logout') }}" method="POST" style="display: inline;">
+                      @csrf
+                      <button type="submit" class="btn btn-default btn-flat float-end">
+                          Keluar
+                      </button>
+                  </form>
                 </li>
                 <!--end::Menu Footer-->
               </ul>

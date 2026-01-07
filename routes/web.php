@@ -29,7 +29,7 @@ Route::get('/login', function () {
 })->name('login');
 
 Route::post('/postlogin', [LoginController::class, 'postlogin'])->name('postlogin');
-Route::get('/postlogout', [LoginController::class, 'postlogout'])->name('logout');
+Route::post('/postlogout', [LoginController::class, 'postlogout'])->name('logout');
 
 Route::middleware(['auth:user', 'ceklevel:Sekretaris Umum'])->group(function () {
     Route::get('/home', [HomeController::class, 'index'])->name('home');

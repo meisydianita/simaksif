@@ -80,16 +80,4 @@ class HomeController extends Controller
         return view ('anggota.home-anggota');
     }
 
-    public function anggotasuratmasuk (){
-        return view ('anggota.surat-masuk');
-    }
-    public function anggotasuratkeluar (){
-        return view ('anggota.surat-keluar');
-    }
-    public function anggotasertifikat (){
-        return view ('anggota.sertifikat');
-    }
-    public function anggotadokumenkegiatan (){
-        return view ('anggota.dokumen-kegiatan');
-    }
 }

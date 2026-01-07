@@ -44,11 +44,13 @@ return [
         'user' => [
             'driver' => 'session',
             'provider' => 'users',
+            'session' => 'user_session',
         ],
 
         'anggota' => [
             'driver' => 'session',
             'provider' => 'anggotas',
+            'session' => 'anggota_session',
         ],
     ],
 
