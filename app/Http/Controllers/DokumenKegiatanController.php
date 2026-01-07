@@ -4,15 +4,37 @@ namespace App\Http\Controllers;
 
 use App\Models\Dokumenkegiatan;
 use App\Models\Member;
+use GuzzleHttp\Psr7\Query;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 
 class DokumenKegiatanController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $alldokumenkegiatan = Dokumenkegiatan::all();
-        return view ('sekum.dokumenkegiatan.dokumen-kegiatan', compact('alldokumenkegiatan'));
+        $query = Dokumenkegiatan::query();
+
+        $tahun = Dokumenkegiatan::select('tahun')
+                      ->distinct()
+                      ->orderBy('tahun', 'DESC')
+                      ->pluck('tahun', 'tahun')
+                      ->toArray();
+
+        if ($request->filled('search')){
+            $query->where(function($q) use ($request) {
+            $q->where('nama_kegiatan', 'like', '%'.$request->search . '%')
+                ->orwhere('deskripsi_kegiatan', 'like', '%'.$request->search . '%');
+            });
+        }
+
+        // Filter tahun
+        if ($request->filled('tahun')) {
+            $query->where('tahun', $request->tahun);
+        }
+
+
+        $alldokumenkegiatan = $query->paginate(10)->appends($request->query());
+        return view ('sekum.dokumenkegiatan.dokumen-kegiatan', compact('alldokumenkegiatan', 'tahun'));
     }
 
     public function create()
@@ -39,12 +61,12 @@ class DokumenKegiatanController extends Controller
 
         //simpan proposal ke dalam storage
         $proposal = $request->file('proposal');
-        $proposalname = time().'_'.$proposal->getClientOriginalName();
+        $proposalname = date('Y-m-d').'_'.$proposal->getClientOriginalName();
         $proposal->storeAs('DokumenKegiatan/Proposal', $proposalname, 'public');
         
         //simpan lpj ke dalam storage
         $lpj = $request->file('laporan_pertanggungjawaban');
-        $lpjname = time().'_'.$lpj->getClientOriginalName();
+        $lpjname = date('Y-m-d').'_'.$lpj->getClientOriginalName();
         $lpj->storeAs('DokumenKegiatan/Lpj', $lpjname, 'public');
 
         //simpan nama proposal ke database
@@ -95,7 +117,7 @@ class DokumenKegiatanController extends Controller
            }
            // simpan ke file baru
            $proposal = $request->file('proposal');
-           $proposalname = time().'_'.$proposal->getClientOriginalName();
+           $proposalname = date('Y-m-d').'_'.$proposal->getClientOriginalName();
            $proposal->storeAs('DokumenKegiatan/Proposal', $proposalname, 'public');
 
            // update nama file di database
@@ -111,7 +133,7 @@ class DokumenKegiatanController extends Controller
            }
            // simpan ke file baru
           $lpj = $request->file('laporan_pertanggungjawaban');
-          $lpjname = time().'_'.$lpj->getClientOriginalName();
+          $lpjname = date('Y-m-d').'_'.$lpj->getClientOriginalName();
           $lpj->storeAs('DokumenKegiatan/Lpj', $lpjname, 'public');
 
            // update nama file di database

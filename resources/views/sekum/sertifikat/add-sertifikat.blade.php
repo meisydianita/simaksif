@@ -20,9 +20,19 @@
                 <!-- Default box -->
                 <div class="card">
                   <div class="card-header">
+                     @if ($errors->any())
+                    <div class="alert alert-danger">
+                      <ul class="mb-0">
+                        @foreach ($errors->all() as $error)
+                          <li>{{ $error }}</li>
+                        @endforeach
+                      </ul>
+                    </div>
+                  @endif
                     <!--begin::Form-->
-                  <form class="needs-validation" novalidate>
-                    <!--begin::Body-->
+                  <form class="needs-validation" action="{{ route('sertifikat.store') }}" method="post" enctype="multipart/form-data">
+                   @csrf  
+                  <!--begin::Body-->
                     <div class="card-body">
                       <!--begin::Row-->
                       <div class="row g-3">
@@ -33,6 +43,7 @@
                             type="text"
                             placeholder="Masukkan Nomor Sertifikat"
                             aria-label=".form-control-sm example"
+                            name="nomor_sertifikat"
                             />
                         </div>
 
@@ -44,14 +55,15 @@
                             type="text"
                             placeholder="Masukkan Nama Penerima"
                             aria-label=".form-control-sm example"
+                            name="nama_penerima"
                             />
                         </div>
                         <!--end::Col-->
                         <!--begin::Col -->
                         <div class="col-md-6">
                           <label for="validationCustom02" class="form-label">Peran Penerima</label>
-                        <select class="form-select form-select-sm" aria-label="Small select example">
-                          <option selected>Pilih Peran Penerima</option>
+                        <select class="form-select form-select-sm" aria-label="Small select example" name="peran_penerima">
+                          <option disabled selected value="">Pilih Peran Penerima</option>
                           <option value="Pemateri">Pemateri</option>
                           <option value="Peserta">Peserta</option>
                           <option value="Panitia">Panitia</option>
@@ -66,6 +78,7 @@
                             type="text"
                             placeholder="Masukkan Nama Kegiatan"
                             aria-label=".form-control-sm example"
+                            name="nama_kegiatan"
                             />
                         </div>
                         <!--end::Col-->
@@ -75,12 +88,13 @@
                           <input
                             type="date"
                             class="form-control form-control-sm"
+                            name="tanggal_sertifikat"
                             required
                           />
                         </div>
                         <div class="col-md-6">
                             <label for="formFile" class="form-label">Unggah Dokumen</label>
-                            <input class="form-control form-control-sm" type="file" id="formFile">
+                            <input class="form-control form-control-sm" type="file" id="formFile" name="file">
                         </div>
                         <!--end::Col-->                     
 

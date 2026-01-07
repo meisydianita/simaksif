@@ -12890,7 +12890,7 @@ textarea.form-control-lg {
 }
 
 .app-sidebar {
-  --lte-sidebar-hover-bg: rgba(0, 0, 0, 0.1);
+  --lte-sidebar-hover-bg: rgba(255, 255, 255, 0.1);
   --lte-sidebar-color: #343a40;
   --lte-sidebar-hover-color: #212529;
   --lte-sidebar-active-color: #000;
@@ -12903,6 +12903,7 @@ textarea.form-control-lg {
   --lte-sidebar-submenu-active-color: #212529;
   --lte-sidebar-submenu-active-bg: rgba(0, 0, 0, 0.1);
   --lte-sidebar-header-color: rgb(49.4, 55.1, 60.8);
+
   z-index: 1038;
   grid-area: lte-app-sidebar;
   min-width: var(--lte-sidebar-width);

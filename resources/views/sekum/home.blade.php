@@ -7,9 +7,7 @@
     <div class="app-wrapper">
       @include('layout.header')
       @include ('layout.sidebar')
-
-
-            <!--begin::App Main-->
+      <!--begin::App Main-->
       <main class="app-main pt-4">
         <!--begin::App Content Header-->
         <div class="app-content">
@@ -20,14 +18,13 @@
               <div class="col-12 col-sm-6 col-md-3">
                 <div class="info-box">
                   <span class="info-box-icon text-bg-primary shadow-sm">
-                    <i class="bi bi-gear-fill"></i>
+                    <i class="fa-solid fa-envelope"></i>
                   </span>
                   <div class="info-box-content">
-                    <span class="info-box-text">CPU Traffic</span>
+                    <span class="info-box-text">Surat Masuk</span>
                     <span class="info-box-number">
-                      10
-                      <small>%</small>
-                    </span>
+                      <a href="{{ route('suratmasuk.index') }}" style="text-decoration:none; color: black;">{{ $totalsuratmasuk }}</a>
+                    </span>                    
                   </div>
                   <!-- /.info-box-content -->
                 </div>
@@ -37,11 +34,13 @@
               <div class="col-12 col-sm-6 col-md-3">
                 <div class="info-box">
                   <span class="info-box-icon text-bg-danger shadow-sm">
-                    <i class="bi bi-hand-thumbs-up-fill"></i>
+                    <i class="fa-solid fa-envelope-open"></i>
                   </span>
                   <div class="info-box-content">
-                    <span class="info-box-text">Likes</span>
-                    <span class="info-box-number">41,410</span>
+                    <span class="info-box-text">Surat Keluar</span>
+                    <span class="info-box-number">
+                      <a href="{{ route('suratkeluar.index') }}" style="text-decoration:none; color: black;">{{ $totalsuratkeluar }}</a>                    
+                    </span>
                   </div>
                   <!-- /.info-box-content -->
                 </div>
@@ -53,11 +52,12 @@
               <div class="col-12 col-sm-6 col-md-3">
                 <div class="info-box">
                   <span class="info-box-icon text-bg-success shadow-sm">
-                    <i class="bi bi-cart-fill"></i>
+                    <i class="fa-solid fa-file"></i>
                   </span>
                   <div class="info-box-content">
-                    <span class="info-box-text">Sales</span>
-                    <span class="info-box-number">760</span>
+                    <span class="info-box-text">Sertifikat</span>
+                    <span class="info-box-number">
+                      <a href="{{ route('sertifikat.index') }}" style="text-decoration:none; color: black;">{{ $totalsertifikat }}</a>                   
                   </div>
                   <!-- /.info-box-content -->
                 </div>
@@ -66,12 +66,51 @@
               <!-- /.col -->
               <div class="col-12 col-sm-6 col-md-3">
                 <div class="info-box">
+                  <span class="info-box-icon text-bg-secondary shadow-sm">
+                    <i class="fa-solid fa-file-fragment"></i>
+                  </span>
+                  <div class="info-box-content">
+                    <span class="info-box-text">Dokumen Kegiatan</span>
+                    <span class="info-box-number">
+                      <a href="{{ route('dokumenkegiatan.index') }}" style="text-decoration:none; color: black;">{{ $totaldokumenkegiatan }}</a>
+                  </span>
+                  </div>
+                  <!-- /.info-box-content -->
+                </div>
+                <!-- /.info-box -->
+              </div>
+              <!-- /.col -->
+
+              <!-- /.col -->
+              <div class="col-12 col-sm-6 col-md-6">
+                <div class="info-box">
                   <span class="info-box-icon text-bg-warning shadow-sm">
                     <i class="bi bi-people-fill"></i>
                   </span>
                   <div class="info-box-content">
-                    <span class="info-box-text">New Members</span>
-                    <span class="info-box-number">2,000</span>
+                    <span class="info-box-text">Anggota Aktif</span>
+                    <span class="info-box-number">
+                      <a href="{{ route('member.index') }}" style="text-decoration:none; color: black;">{{ $totalmemberaktif }}</a>
+                    </span>
+                    </span>
+                  </div>
+                  <!-- /.info-box-content -->
+                </div>
+                <!-- /.info-box -->
+              </div>
+              <!-- /.col -->
+               
+              <!-- /.col -->
+              <div class="col-12 col-sm-6 col-md-6">
+                <div class="info-box">
+                  <span class="info-box-icon text-bg-warning shadow-sm">
+                    <i class="bi bi-people-fill"></i>
+                  </span>
+                  <div class="info-box-content">
+                    <span class="info-box-text">Anggota Tidak Aktif</span>
+                    <span class="info-box-number">
+                      <a href="{{ route('member.index') }}" style="text-decoration:none; color: black;">{{ $totalmembernonaktif }}</a>
+                  </span>
                   </div>
                   <!-- /.info-box-content -->
                 </div>
@@ -81,15 +120,97 @@
             </div>
             <!-- /.row -->
             <!--begin::Row-->
-
           </div>
           <!--end::Container-->
         </div>
         <!--end::App Content-->
+        <!--begin::App Main-->
+            <!--begin::App Content-->
+            <div class="app-content">
+              <!--begin::Container-->
+              <div class="container-fluid">
+                <!--begin::Row-->
+                <div class="row">
+                  <div class="col-12">
+                    <!-- Default box -->
+                    <div class="card">
+                      <div class="card-header">
+                        <h3 class="card-title">Grafik Tren Pengelolaan Data Administrasi Bulanan</h3>
+                        <div class="card-tools">
+                          <button
+                            type="button"
+                            class="btn btn-tool"
+                            data-lte-toggle="card-collapse"
+                            title="Collapse"
+                          >
+                            <i data-lte-icon="expand" class="bi bi-plus-lg"></i>
+                            <i data-lte-icon="collapse" class="bi bi-dash-lg"></i>
+                          </button>
+                          <button
+                            type="button"
+                            class="btn btn-tool"
+                            data-lte-toggle="card-remove"
+                            title="Remove"
+                          >
+                            <i class="bi bi-x-lg"></i>
+                          </button>
+                        </div>
+                      </div>
+                      <div class="card-body" id="grafik"></div>
+                      <!-- /.card-body -->
+                    </div>
+                    <!-- /.card -->
+                  </div>
+                </div>
+                <!--end::Row-->
+              </div>
+            </div>
+            <!--end::App Content-->
       </main>
       <!--end::App Main-->
-
-
+      <script src="https://code.highcharts.com/12.4.0/highcharts.js"></script>
+      <script type="text/javascript">
+          var grafiktotalsuratmasuk = <?php echo json_encode($grafiktotalsuratmasuk) ?>;
+          var grafiktotalsuratkeluar = <?php echo json_encode($grafiktotalsuratkeluar) ?>;
+          var grafiktotaldokumenkegiatan = <?php echo json_encode($grafiktotaldokumenkegiatan) ?>;
+          var grafiktotalsertifikat = <?php echo json_encode($grafiktotalsertifikat) ?>;
+          var bulan = <?php echo json_encode($bulan) ?>;
+          
+          Highcharts.chart('grafik', {
+              title: null,
+              xAxis : {
+                  categories: bulan
+              }, 
+              yAxis : {
+                  title : {
+                      text: 'Jumlah Data'
+                  },
+                  plotOptions: {
+                      series: {
+                          allowPointSelect:true
+                      }
+                  }
+              },
+              series: [
+                  {
+                      name: 'Surat Masuk',
+                      data: grafiktotalsuratmasuk
+                  },
+                  {
+                      name: 'Surat Keluar',
+                      data: grafiktotalsuratkeluar
+                  },
+                  {
+                      name: 'Dokumen Kegiatan',
+                      data: grafiktotaldokumenkegiatan
+                  },
+                  {
+                      name: 'Sertifikat',
+                      data: grafiktotalsertifikat
+                  }
+              ]
+          }); 
+      </script>
       @include('layout.footer')
     </div>
     <!--end::App Wrapper-->

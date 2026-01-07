@@ -8,7 +8,7 @@
       @include('layout.header')
       @include ('layout.sidebar')
       
-    <!--begin::App Main-->
+      <!--begin::App Main-->
       <main class="app-main">
         <!--begin::App Content-->
         <div class="app-content">

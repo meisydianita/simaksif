@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="en">
-  <title>Surat Masuk</title>
+  <title>Dokumen Kegiatan</title>
 @include('layout.head')
   <!--begin::Body-->
   <body class="fixed-header sidebar-expand-lg sidebar-open bg-body-tertiary">
@@ -20,25 +20,45 @@
             <div class="card">
               <div class="card-header">
                 <div class="d-flex align-items-center gap-2 w-100">
-                  <div class="input-group input-group-sm" style="width: 280px;">
-                    <input type="text" name="table_search" class="form-control form-control-sm float-left" placeholder="Search">
-                    <div class="input-group-append">
-                      <button type="submit" class="btn btn-sm btn-default">
-                        <i class="fas fa-search"></i>
-                      </button>
+                  <form action="{{ route('dokumenkegiatan.index') }}" method="GET" class="d-flex align-items-center gap-2 flex-grow-1">
+                  <!-- search -->
+                    <div class="input-group input-group-sm" style="width: 280px;">
+                      <input 
+                      type="text" 
+                      name="search" 
+                      id="searchInput"
+                      class="form-control form-control-sm float-left" 
+                      placeholder="Pencarian" 
+                      value="{{ request('search') }}"
+                      autocomplete="off">                  
                     </div>
-                  </div>
-                  <div class="input-group input-group-sm" style="width: 280px;">
-                    <select class="form-select form-select-sm" aria-label="Small select example" style="width: 280px";>
-                      <option disabled selected value="">Pilih Divisi</option>
-                      <option value="Kaderisasi">Kaderisasi</option>
-                      <option value="Kesekretariatan">Kesekretariatan</option>
-                      <option value="Mebiskraf">Media Bisnis dan Kreatif</option>
-                      <option value="PSDM">Peningkatan Sumber Daya Mahasiswa</option>
-                      <option value="PM">Pengabdian Masyarakat</option>
-                      <option value="Kerohanian">Kerohanian</option>
+                  <!-- Tahun -->
+                    <div class="input-group input-group-sm" style="width: 280px;">
+                    <select class="form-select form-select-sm" aria-label="Small select example" style="width: 280px"; name="tahun" onchange="this.form.submit()">
+                      <option selected value="">
+                         <!-- Clear Filter Button -->
+                            @if(request('search') || request('tahun'))
+                                <a href="{{ route('dokumenkegiatan.index') }}" class="btn btn-lg btn-sm btn-default">    
+                                </a>
+                            @endif
+                        Pilih Tahun
+                      </option>
+                      @foreach($tahun as $thn)
+                          <option value="{{ $thn }}" {{ request('tahun') == $thn ? 'selected' : '' }}>
+                              {{ $thn }}
+                          </option>
+                      @endforeach
                     </select>  
-                  </div>
+                    </div>
+                    <!-- Clear Filter Button -->
+                      @if(request('search') || request('tahun'))
+                          <a href="{{ route('dokumenkegiatan.index') }}" class="btn btn-lg btn-sm btn-default">                          
+                              <i class="fa-solid fa-xmark"></i>
+                          </a>
+                      @endif
+                    <!-- end clear filter button -->
+                  </form>
+
                   <div class="ms-auto">
                       <a href="{{ route('dokumenkegiatan.create') }}"
                             class="btn btn-sm btn-dark">
@@ -52,7 +72,7 @@
                 <table class="table table-hover text-nowrap">
                   <thead>
                     <tr>
-                      <th class="fw-normal">Id</th>
+                      <th class="fw-normal">No.</th>
                       <th class="fw-normal">Nama Kegiatan</th>
                       <th class="fw-normal">Tanggal Mulai</th>
                       <th class="fw-normal">Tanggal Selesai</th>
@@ -65,7 +85,7 @@
                     </tr>
                   </thead>
                   <tbody>
-                    @foreach ($alldokumenkegiatan as $key => $r)
+                    @forelse ($alldokumenkegiatan as $key => $r)
                       <tr>
                         <td>{{ $key +1 }}</td>
                         <td>{{ $r->nama_kegiatan }}</td>
@@ -102,30 +122,22 @@
                             </button>
                           </form>
                         </td>
-                      </tr>                   
-                    @endforeach                  
+                      </tr>   
+                      @empty
+                        <tr>
+                            <td colspan="10" class="text-center py-4">
+                                <div class="text-muted">Tidak Terdapat Data Dokumen Kegiatan</div>
+                            </td>
+                        </tr>                  
+                    @endforelse                
                   </tbody>
                 </table>
               </div>
               <!-- /.card-body -->
               <!-- begin pagination -->
-                <nav aria-label="Page navigation example" class="mt-3">
-                  <ul class="pagination justify-content-center">
-                    <li class="page-item">
-                      <a class="page-link" href="#" aria-label="Previous">
-                        <span aria-hidden="true">&laquo;</span>
-                      </a>
-                    </li>
-                    <li class="page-item"><a class="page-link" href="#">1</a></li>
-                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                    <li class="page-item">
-                      <a class="page-link" href="#" aria-label="Next">
-                        <span aria-hidden="true">&raquo;</span>
-                      </a>
-                    </li>
-                  </ul>
-                </nav>
+                <div class="my-3 mx-3">
+                  {{ $alldokumenkegiatan->links() }}
+                </div>
               <!-- end pagination -->
             </div>
             <!-- /.card -->
@@ -134,7 +146,29 @@
         <!-- /.row -->
         </div>
         <!--end::App Content-->
-
+      <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('searchInput');
+            
+            // Enter = submit
+            searchInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    this.form.submit();
+                }
+            });
+            
+            // Ketik 2+ huruf = delay 1ms lalu submit (debounce)
+            let timeout;
+            searchInput.addEventListener('input', function() {
+                clearTimeout(timeout);
+                timeout = setTimeout(() => {
+                    if (this.value.length >= 0) {
+                        this.form.submit();
+                    }
+                }, 1);
+            });
+        });
+      </script>
 
       </main>
       <!--end::App Main-->

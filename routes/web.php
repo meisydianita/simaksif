@@ -28,6 +28,7 @@ Route::get('/postlogout', [LoginController::class, 'postlogout'])->name('logout'
 
 Route::middleware(['auth:user', 'ceklevel:Sekretaris Umum'])->group(function () {
     Route::get('/home', [HomeController::class, 'index'])->name('home');
+    // Route::get('/home', [HomeController::class, 'grafiksekum'])->name('home');
     Route::resource('suratmasuk', SuratMasukController::class);
     Route::post('/download(suratmasuk)', [SuratMasukController::class, 'download'])->name('downloadsuratmasuk');
     Route::resource('suratkeluar', SuratKeluarController::class);

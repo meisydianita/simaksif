@@ -3,15 +3,27 @@
 namespace App\Http\Controllers;
 
 use App\Models\Suratmasuk;
+use GuzzleHttp\Psr7\Query;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
 class SuratMasukController extends Controller
 {
 
-    public function index()
-    {
-        $allsuratmasuk = Suratmasuk::all();
+    public function index(Request $request, Suratmasuk $suratmasuk, Query $query)
+    {    
+        $query = Suratmasuk::query();
+
+        if ($request->filled('search')) {
+        $searchTerm = $request->search; 
+        $query->where(function($q) use ($searchTerm) { 
+            $q->where('nomor_surat', 'like', '%' . $searchTerm . '%')
+              ->orWhere('asal_surat', 'like', '%' . $searchTerm . '%')
+              ->orWhere('perihal', 'like', '%' . $searchTerm . '%');
+        });
+        }
+       
+        $allsuratmasuk = $query->paginate(10)->appends($request->query());
         return view ('sekum.suratmasuk.surat-masuk', compact('allsuratmasuk'));
     }
 
@@ -35,7 +47,7 @@ class SuratMasukController extends Controller
 
          // simpan file ke storage
         $file = $request->file('file_surat');
-        $filename = time().'_'.$file->getClientOriginalName();
+        $filename = date('Y-m-d').'_'.$file->getClientOriginalName();
         $file->storeAs('SuratMasuk', $filename, 'public');
 
         // simpan nama file ke database
@@ -82,7 +94,7 @@ class SuratMasukController extends Controller
 
                 // simpan file baru
                 $file = $request->file('file_surat');
-                $filename = time().'_'.$file->getClientOriginalName();
+                $filename = date('Y-m-d').'_'.$file->getClientOriginalName();
                 $file->storeAs('SuratMasuk', $filename, 'public');
 
                 // update nama file di data

@@ -6,8 +6,6 @@
     <title>App Main</title>
 </head>
 <body>
-
-
       <!--begin::App Main-->
       <main class="app-main pt-4">
         <!--begin::App Content-->

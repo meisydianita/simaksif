@@ -3,15 +3,43 @@
 namespace App\Http\Controllers;
 
 use App\Models\Sertifikat;
+use GuzzleHttp\Psr7\Query;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 
 class SertifikatController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $allsertifikat = Sertifikat::all();
-        return view ('sekum.sertifikat.sertifikat', compact('allsertifikat'));
+        $peran_penerima = [
+            'Pemateri' => 'Pemateri',
+            'Peserta' => 'Peserta',
+            'Panitia' => 'Panitia'
+
+        ];
+
+        $query = Sertifikat::query();
+
+        if ($request->filled('search')){
+            $query->where(function ($q) use ($request){
+            $q->where('nomor_sertifikat', 'like', '%'.$request->search . '%')
+                ->orwhere('nama_penerima', 'like', '%'.$request->search . '%')
+                ->orwhere('nama_kegiatan', 'like', '%'.$request->search . '%');
+            }
+        );
+            
+        }
+         // Filter Jenis Surat
+        if ($request->filled('peran_penerima')) {
+            $query->where(function ($q) use ($request){
+                $q->where('peran_penerima', $request->peran_penerima);
+            }
+        );
+            
+        }
+
+        $allsertifikat = $query->paginate(10)->appends($request->query());
+        return view ('sekum.sertifikat.sertifikat', compact('allsertifikat', 'peran_penerima'));
     }
     public function create()
     {
@@ -33,7 +61,7 @@ class SertifikatController extends Controller
 
         //simpan file ke dalam storage
         $file = $request->file('file');
-        $filename = time().'_'.$file->getClientOriginalName();
+        $filename = date('Y-m-d').'_'.$file->getClientOriginalName();
         $file->storeAs('Sertifikat', $filename, 'public');
 
         //simpan nama file ke database
@@ -78,7 +106,7 @@ class SertifikatController extends Controller
         
             // simpan ke file baru
             $file =$request->file('file');
-            $filename = time().'_'.$file->getClientOriginalName();
+            $filename = date('Y-m-d').'_'.$file->getClientOriginalName();
             $file->storeAs('Sertifikat', $filename, 'public');
 
             // update nama file di database

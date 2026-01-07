@@ -84,6 +84,9 @@
     <!--begin::Required Plugin(AdminLTE)-->
     <link rel="stylesheet" href="{{ asset('AdminLTE/dist/css/adminlte.css') }}" />
     <!--end::Required Plugin(AdminLTE)-->
+
+    <!-- tailwind -->
+      <!-- @vite(['resources/css/app.css', 'resources/js/app.js']) -->
   </head>
   <!--end::Head-->
 <body>

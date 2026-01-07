@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Collection;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -19,6 +21,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+         Paginator::useBootstrapFive();
+         Collection::macro('padArray', function ($size, $default = 0) {
+         return $this->pad($size, $default)->values()->all();
+    });
+        // Paginator::useTailwind();
     }
 }

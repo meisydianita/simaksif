@@ -24,9 +24,24 @@ $lte-sidebar-transition:          min-width $lte-transition-speed $lte-transitio
   margin-left $lte-transition-speed $lte-transition-fn,
   margin-right $lte-transition-speed $lte-transition-fn !default;
 
-// SIDEBAR SKINS
+// SIDEBAR SKINS Template
 // --------------------------------------------------------
 
+// $lte-sidebar-hover-bg:              rgba($black, .1) !default;
+// $lte-sidebar-color:                 $gray-800 !default;
+// $lte-sidebar-hover-color:           $gray-900 !default;
+// $lte-sidebar-active-color:          $black !default;
+// $lte-sidebar-menu-active-bg:        rgba($black, .1) !default;
+// $lte-sidebar-menu-active-color:     $black !default;
+// $lte-sidebar-submenu-bg:            transparent !default;
+// $lte-sidebar-submenu-color:         #777 !default;
+// $lte-sidebar-submenu-hover-color:   $black !default;
+// $lte-sidebar-submenu-hover-bg:      rgba($black, .1) !default;
+// $lte-sidebar-submenu-active-color:  $gray-900 !default;
+// $lte-sidebar-submenu-active-bg:     rgba($black, .1) !default;
+// $lte-sidebar-header-color:          shade-color($gray-800, 5%) !default;
+
+// Sidebar skins
 $lte-sidebar-hover-bg:              rgba($black, .1) !default;
 $lte-sidebar-color:                 $gray-800 !default;
 $lte-sidebar-hover-color:           $gray-900 !default;

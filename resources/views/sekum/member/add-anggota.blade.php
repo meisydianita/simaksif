@@ -7,8 +7,7 @@
     <div class="app-wrapper">
       @include('layout.header')
       @include ('layout.sidebar')
-      
-    <!--begin::App Main-->
+      <!--begin::App Main-->
       <main class="app-main pt-4">
         <!--begin::App Content-->
         <div class="app-content">
@@ -176,7 +175,6 @@
         <!--end::App Content-->
       </main>
       <!--end::App Main-->
-
       @include('layout.footer')
     </div>
     <!--end::App Wrapper-->

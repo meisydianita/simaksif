@@ -20,28 +20,38 @@
             <div class="card">
               <div class="card-header">
                 <div class="d-flex align-items-center gap-2 w-100">
-                  <div class="input-group input-group-sm" style="width: 280px;">
-                    <input type="text" name="table_search" class="form-control form-control-sm float-left" placeholder="Pencarian">
-                    <div class="input-group-append">
-                      <button type="submit" class="btn btn-sm btn-default">
-                        <i class="fas fa-search"></i>
-                      </button>
-                    </div>
-                  </div>
+                  <form action="{{ route('suratmasuk.index') }}" method="GET">
+                      <div class="input-group input-group-sm" style="width: 250px;">
+                        <input 
+                        type="text"
+                        name="search" 
+                        id="searchInput"
+                        class="form-control form-control-sm float-left" 
+                        placeholder="Pencarian"
+                        value="{{ request('search') }}"
+                        autocomplete="off">                        
+                      </div>                      
+                  </form>
+                  <!-- Clear Filter Button -->
+                  @if(request('search') || request(''))
+                      <a href="{{ route('suratmasuk.index') }}" class="btn btn-lg btn-sm btn-default">                          
+                          <i class="fa-solid fa-xmark"></i>
+                      </a>
+                  @endif
                   <div class="ms-auto">
                           <a href="{{ route('suratmasuk.create') }}"
                             class="btn btn-sm btn-dark">
                             Tambah
                           </a>
                   </div>
-              </div>
+                </div>
               </div> 
               <!-- /.card-header -->
               <div class="card-body table-responsive p-0">
                 <table class="table table-hover text-nowrap">
                   <thead>
                         <tr>
-                          <th class="fw-normal">Id</th>
+                          <th class="fw-normal">No.</th>
                           <th class="fw-normal">Nomor Surat</th>
                           <th class="fw-normal">Tanggal Surat</th>
                           <th class="fw-normal">Asal Surat</th>
@@ -51,7 +61,7 @@
                         </tr>
                       </thead>
                       <tbody>
-                        @foreach ($allsuratmasuk as $key => $r)
+                        @forelse ($allsuratmasuk as $key => $r)
                           <tr>
                               <td>{{ $key + 1 }}</td>
                               <td>{{ $r->nomor_surat }}</td>
@@ -79,29 +89,21 @@
                                 </form>
                               </td>
                           </tr>
-                        @endforeach
+                          @empty
+                          <tr>
+                              <td colspan="7" class="text-center py-4">
+                                  <div class="text-muted">Tidak Terdapat Data Surat Masuk</div>
+                              </td>
+                          </tr>                          
+                        @endforelse
                   </tbody>
                 </table>
               </div>
               <!-- /.card-body -->
               <!-- begin pagination -->
-                <nav aria-label="Page navigation example" class="mt-3">
-                  <ul class="pagination justify-content-center">
-                    <li class="page-item">
-                      <a class="page-link" href="#" aria-label="Previous">
-                        <span aria-hidden="true">&laquo;</span>
-                      </a>
-                    </li>
-                    <li class="page-item"><a class="page-link" href="#">1</a></li>
-                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                    <li class="page-item">
-                      <a class="page-link" href="#" aria-label="Next">
-                        <span aria-hidden="true">&raquo;</span>
-                      </a>
-                    </li>
-                  </ul>
-                </nav>
+              <div class="my-3 mx-3">
+                {{ $allsuratmasuk->links() }}
+              </div>              
               <!-- end pagination -->
             </div>
             <!-- /.card -->
@@ -112,6 +114,30 @@
         </div>
         <!--end::App Content-->
 
+      <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('searchInput');
+            
+            // Enter = submit
+            searchInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    this.form.submit();
+                }
+            });
+            
+            // Ketik 2+ huruf = delay 500ms lalu submit (debounce)
+            let timeout;
+            searchInput.addEventListener('input', function() {
+                clearTimeout(timeout);
+                timeout = setTimeout(() => {
+                    if (this.value.length >= 0) {
+                        this.form.submit();
+                    }
+                }, 1);
+            });
+        });
+      </script>
+      
       </main>
       <!--end::App Main-->
       @include('layout.footer')

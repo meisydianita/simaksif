@@ -19,7 +19,6 @@
               </a>
             </li>
             <li class="nav-item d-none d-md-block">
-              <!-- Ubah span menjadi a dengan class nav-link yang sama -->
               <a href="{{ route('home') }}" class="nav-link d-flex align-items-center p-0">
                 <span class="text-primary">Home</span>
                 <span class="mx-1 text-muted">/</span>
@@ -33,13 +32,6 @@
           
           <!--begin::End Navbar Links-->
           <ul class="navbar-nav ms-auto">
-            <!--begin::Navbar Search-->
-            <li class="nav-item">
-              <a class="nav-link" data-widget="navbar-search" href="#" role="button">
-                <i class="bi bi-search"></i>
-              </a>
-            </li>
-            <!--end::Navbar Search-->
             <!--begin::Messages Dropdown Menu-->
             <!--begin::Fullscreen Toggle-->
             <li class="nav-item">
@@ -117,7 +109,7 @@
               </a>
               <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-end">
                 <!--begin::User Image-->
-                <li class="user-header text-bg-primary">
+                <li class="user-header" style="background-color: #003580; color: white;">
                   <img
                     src="{{asset('AdminLTE/dist/assets/img/mee.png')}}"
                     class="rounded-circle shadow"
@@ -128,7 +120,18 @@
                           ? Auth::guard('user')->user()->name
                           : Auth::guard('anggota')->user()->name
                       }}
-                    <small>Member since Nov. 2023</small>
+                      @php
+                          $authUser = null;
+
+                          if (Auth::guard('user')->check()) {
+                              $authUser = Auth::guard('user')->user();
+                          } elseif (Auth::guard('anggota')->check()) {
+                              $authUser = Auth::guard('anggota')->user();
+                          }
+                      @endphp
+                      @if ($authUser)
+                           <small>Bergabung Sejak {{ $authUser->created_at->format('M Y') }}</small>
+                      @endif                   
                   </p>
                 </li>
                 <!--end::User Image-->

@@ -3,15 +3,43 @@
 namespace App\Http\Controllers;
 
 use App\Models\Suratkeluar;
+use GuzzleHttp\Psr7\Query;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
 class SuratKeluarController extends Controller
 {
-    public function index()
+    public function index(Request $request, Suratkeluar $suratkeluar, Query $query)
     {
-         $allsuratkeluar = Suratkeluar::all();
-         return view ('sekum.suratkeluar.surat-keluar', compact('allsuratkeluar'));
+        
+        $jenis_surat = [
+        'sk_pengangkatan' => 'Surat Kerja Pengangkatan',
+        'peminjaman_tempat_barang' => 'Peminjaman Barang/Tempat',
+        'izin_kegiatan' => 'Izin Kegiatan',
+        'undangan' => 'Undangan',
+        'permohonan_dana' => 'Permohonan Dana',
+        'aktif_organisasi' => 'Aktif Organisasi',
+        'peringatan' => 'Peringatan'
+        ];
+        $query = Suratkeluar::query();
+
+        // search di field text
+        if ($request->filled('search')){
+            $searchTerm = $request->search;
+            $query->where(function($q) use ($searchTerm) { 
+                    $q->where('nomor_surat', 'like', '%'.$searchTerm . '%')
+                    ->orWhere('tujuan_surat', 'like', '%'.$searchTerm . '%')
+                    ->orWhere('perihal', 'like', '%' . $searchTerm . '%');
+            });
+        }
+
+        // Filter Jenis Surat
+        if ($request->filled('jenis_surat')) {
+            $query->where('jenis_surat', $request->jenis_surat);
+        }
+
+        $allsuratkeluar = $query->paginate(10)->appends($request->query());
+        return view ('sekum.suratkeluar.surat-keluar', compact('allsuratkeluar', 'jenis_surat'));
     }
     public function create()
     {
@@ -34,7 +62,7 @@ class SuratKeluarController extends Controller
 
         //simpan file ke dalam storage
         $file =$request->file('file_surat');
-        $filename = time().'_'. $file->getClientOriginalName();
+        $filename = date('Y-m-d').'_'. $file->getClientOriginalName();
         $file->storeAs('SuratKeluar', $filename, 'public');
 
         // simpan nama file ke database
@@ -81,7 +109,7 @@ class SuratKeluarController extends Controller
             
             //simpan ke file baru
             $file =$request->file('file_surat');
-            $filename = time().'_'. $file->getClientOriginalName();
+            $filename = date('Y-m-d').'_'. $file->getClientOriginalName();
             $file->storeAs('SuratKeluar', $filename, 'public');
 
             //update nama file di database

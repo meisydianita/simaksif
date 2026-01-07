@@ -8,66 +8,62 @@
   <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 </head>
 <body>
+  <div class="login">
+    <div class="group">
+      <div class="frame">
+        <div class="div">
+          <div class="group-2">
+            <div class="text-wrapper">Selamat Datang</div>
+            <p class="p">
+              Langkah kecil hari ini, perubahan besar esok hari. Yuk masuk!
+            </p>
+            <form action="{{ route('postlogin') }}" method="post">
+              @csrf
+                <div class="frame-wrapper">
+                  <div class="group-wrapper">
+                    <div class="group-3">
+                      <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" name="email" placeholder="Masukkan email">
+                      </div>
 
-<div class="login">
+                      <div class="form-group">
+                        <label>Kata Sandi</label>
+                        <input type="password" name="password" placeholder="Masukkan kata sandi">
+                      </div>
 
-  <!-- PANEL KANAN -->
-  <div class="group">
-    <div class="frame">
-      <div class="div">
-        <div class="group-2">
-          <div class="text-wrapper">Selamat Datang</div>
-          <p class="p">
-            Langkah kecil hari ini, perubahan besar esok hari. Yuk masuk!
-          </p>
-          <form action="{{ route('postlogin') }}" method="post">
-            @csrf
-              <div class="frame-wrapper">
-                <div class="group-wrapper">
-                  <div class="group-3">
-                    <div class="form-group">
-                      <label>Email</label>
-                      <input type="email" name="email" placeholder="Masukkan email">
+                      <button class="login-button" type="submit">Masuk</button>
+
                     </div>
-
-                    <div class="form-group">
-                      <label>Kata Sandi</label>
-                      <input type="password" name="password" placeholder="Masukkan kata sandi">
-                    </div>
-
-                    <button class="login-button" type="submit">Masuk</button>
-
                   </div>
                 </div>
-              </div>
-          </form>
+            </form>
+          </div>
+
+          <p class="belum-memiliki-akun">
+            Belum memiliki akun? <span class="text-wrapper-6">Daftar</span>
+          </p>
+
         </div>
-
-        <p class="belum-memiliki-akun">
-          Belum memiliki akun? <span class="text-wrapper-6">Daftar</span>
-        </p>
-
       </div>
     </div>
+
+    <!-- ROBOT -->
+    <img class="robot" src="{{ asset('img/robot.png') }}" alt="Robot HIMASIF">
+
+    <!-- TEKS KIRI (POSISI ASLI) -->
+    <h2 class="text-wrapper-8">
+      Berproses,<br>
+      Berorganisasi,<br>
+      Berinovasi Bersama<br>
+      HIMASIF.
+    </h2>
+
+    <p class="text-wrapper-9">
+      Akses semua kebutuhan administrasi dan kegiatan HIMASIF secara cepat,
+      praktis, dan terpusat.
+    </p>
+
   </div>
-
-  <!-- ROBOT -->
-  <img class="robot" src="{{ asset('img/robot.png') }}" alt="Robot HIMASIF">
-
-  <!-- TEKS KIRI (POSISI ASLI) -->
-  <h2 class="text-wrapper-8">
-    Berproses,<br>
-    Berorganisasi,<br>
-    Berinovasi Bersama<br>
-    HIMASIF.
-  </h2>
-
-  <p class="text-wrapper-9">
-    Akses semua kebutuhan administrasi dan kegiatan HIMASIF secara cepat,
-    praktis, dan terpusat.
-  </p>
-
-</div>
-
 </body>
 </html>
