@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="en">
-  <title>Surat Masuk</title>
+  <title>Sertifikat</title>
 @include('layout.head')
   <!--begin::Body-->
   <body class="fixed-header sidebar-expand-lg sidebar-open bg-body-tertiary">
@@ -20,25 +20,42 @@
             <div class="card">
               <div class="card-header">
                 <div class="d-flex align-items-center gap-2 w-100">
-                  <div class="input-group input-group-sm" style="width: 280px;">
-                    <input type="text" name="table_search" class="form-control form-control-sm float-left" placeholder="Search">
-                    <div class="input-group-append">
-                      <button type="submit" class="btn btn-sm btn-default">
-                        <i class="fas fa-search"></i>
-                      </button>
+                  <form action="{{ route('anggotasertifikat.index') }}" method="GET" class="d-flex align-items-center gap-2 flex-grow-1">
+                    <!-- Search -->
+                    <div class="input-group input-group-sm" style="width: 280px;">
+                      <input 
+                      type="text" 
+                      name="search" 
+                      id="searchInput"
+                      class="form-control form-control-sm float-left" 
+                      placeholder="Pencarian"
+                      value="{{ request('search') }}"
+                      autocomplete="off">
                     </div>
-                  </div>
-                  <div class="input-group input-group-sm" style="width: 280px;">
-                    <select class="form-select form-select-sm" aria-label="Small select example" style="width: 280px";>
-                              <option selected>Pilih Divisi</option>
-                              <option value="Kaderisasi">Kaderisasi</option>
-                              <option value="Kesekretariatan">Kesekretariatan</option>
-                              <option value="Mebiskraf">Media Bisnis dan Kreatif</option>
-                              <option value="PSDM">Peningkatan Sumber Daya Mahasiswa</option>
-                              <option value="PM">Pengabdian Masyarakat</option>
-                              <option value="Kerohanian">Kerohanian</option>
-                            </select>  
-                  </div>
+                  
+                  <!-- Peran Penerima -->
+                    <div class="input-group input-group-sm" style="width: 280px;">
+                      <select class="form-select form-select-sm" aria-label="Small select example" style="width: 280px"; name="peran_penerima" onchange="this.form.submit()">
+                        <option selected value="">
+                             <!-- Clear Filter Button -->
+                            @if(request('search') || request(''))
+                                <a href="{{ route('anggotasertifikat.index') }}" class="btn btn-lg btn-sm btn-default">    
+                                </a>
+                            @endif
+                            Pilih Peran Penerima
+                        </option>
+                        @foreach ($peran_penerima as $key=> $label)
+                          <option value="{{$key}}" {{ request('peran_penerima') == $key ? 'selected' : '' }}>{{$label}}</option>
+                        @endforeach
+                      </select>  
+                    </div>
+                    <!-- Clear Filter Button -->
+                    @if(request('search') || request('peran_penerima'))
+                        <a href="{{ route('anggotasertifikat.index') }}" class="btn btn-lg btn-sm btn-default">                          
+                            <i class="fa-solid fa-xmark"></i>
+                        </a>
+                    @endif
+                  </form>
               </div>
               </div> 
               <!-- /.card-header -->
@@ -46,30 +63,48 @@
                 <table class="table table-hover text-nowrap">
                   <thead>
                     <tr>
-                      <th class="fw-normal" >Id</th>
+                      <th class="fw-normal" >No.</th>
                       <th class="fw-normal" >Nomor Sertifikat</th>
                       <th class="fw-normal" >Nama Penerima</th>
                       <th class="fw-normal" >Peran Penerima</th>
                       <th class="fw-normal" >Nama Kegiatan</th>
                       <th class="fw-normal" >Tanggal Sertifikat</th>
                       <th class="fw-normal" >File Surat</th>
-                    </tr>
                   </thead>
                   <tbody>
-                    <tr>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                    </tr>
-                    
+                    @forelse ($allsertifikat as $key => $r)
+                      <tr>
+                        <td>{{ $key + 1 }}</td>
+                        <td>{{ $r->nomor_sertifikat }}</td>
+                        <td>{{ $r->nama_penerima }}</td>
+                        <td>{{ $r->peran_penerima }}</td>
+                        <td>{{ $r->nama_kegiatan }}</td>
+                        <td>{{ $r->tanggal_sertifikat }}</td>
+                        <td>
+                          <a href="{{ Storage::url('Sertifikat/'.$r->file) }}" target="_blank" style="color:inherit;text-decoration:none;">
+                            <i class="far fa-eye"></i>
+                          </a> |
+                          <a href="{{ Storage::url('Sertifikat/'.$r->file) }}" download style="color:inherit;text-decoration:none;">
+                            <i class="fas fa-download"></i>
+                          </a>
+                        </td>
+                      </tr>
+                      @empty
+                        <tr>
+                            <td colspan="7" class="text-center py-4">
+                                <div class="text-muted">Tidak Terdapat Data Sertifikat</div>
+                            </td>
+                        </tr>   
+                    @endforelse                                       
                   </tbody>
                 </table>
               </div>
               <!-- /.card-body -->
+              <!-- begin pagination -->
+                <div class="my-3 mx-3">
+                  {{ $allsertifikat->links() }}
+                </div>
+              <!-- end pagination -->
             </div>
             <!-- /.card -->
           </div>
@@ -77,6 +112,29 @@
         <!-- /.row -->
         </div>
         <!--end::App Content-->
+        <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('searchInput');
+            
+            // Enter = submit
+            searchInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    this.form.submit();
+                }
+            });
+            
+            // Ketik 2+ huruf = delay 1ms lalu submit (debounce)
+            let timeout;
+            searchInput.addEventListener('input', function() {
+                clearTimeout(timeout);
+                timeout = setTimeout(() => {
+                    if (this.value.length >= 0) {
+                        this.form.submit();
+                    }
+                }, 1);
+            });
+        });
+      </script>
       </main>
       <!--end::App Main-->
       @include('layout.footer')

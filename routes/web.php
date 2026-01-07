@@ -1,5 +1,9 @@
 <?php
 
+use App\Http\Controllers\AnggotaDokumenKegiatanController;
+use App\Http\Controllers\AnggotaSertifikatController;
+use App\Http\Controllers\AnggotaSuratKeluarController;
+use App\Http\Controllers\AnggotaSuratMasukController;
 use App\Http\Controllers\DokumenKegiatanController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
@@ -14,6 +18,7 @@ use App\Http\Controllers\SuratKeluarController;
 use App\Http\Controllers\SertifikatController;
 use App\Http\Middleware\Authenticate;
 use App\Http\Middleware\CekLevel;
+use App\Models\AnggotaSertifikat;
 
 Route::get('/', function () {
     return view('welcome');
@@ -47,8 +52,8 @@ Route::middleware(['auth:user', 'ceklevel:Bendahara Umum'])->group(function () {
 
 Route::middleware(['auth:anggota', 'ceklevel:Anggota'])->group(function () {
     Route::get('/home-anggota', [HomeController::class, 'anggota'])->name('home-anggota');
-    Route::get('/anggota-suratmasuk', [HomeController::class, 'anggotasuratmasuk'])->name('anggota-suratmasuk');
-    Route::get('/anggota-suratkeluar', [HomeController::class, 'anggotasuratkeluar'])->name('anggota-suratkeluar');
-    Route::get('/anggota-sertifikat', [HomeController::class, 'anggotasertifikat'])->name('anggota-sertifikat');
-    Route::get('/anggota-dokumenkegiatan', [HomeController::class, 'anggotadokumenkegiatan'])->name('anggota-dokumenkegiatan');
+    Route::resource('anggotasuratmasuk', AnggotaSuratMasukController::class);
+    Route::resource('anggotasuratkeluar', AnggotaSuratKeluarController::class);
+    Route::resource('anggotasertifikat', AnggotaSertifikatController::class);
+    Route::resource('anggotadokumenkegiatan', AnggotaDokumenKegiatanController::class);
     });

@@ -161,13 +161,13 @@
                 </a>
                 <ul class="nav nav-treeview">
                   <li class="nav-item">
-                    <a href="{{ route('anggota-suratmasuk') }}" class="nav-link">
+                    <a href="{{ route('anggotasuratmasuk.index') }}" class="nav-link">
                       <i class="nav-icon bi bi-circle" style="color: #003580;"></i>
                       <p style="color: #003580;">Surat Masuk</p>
                     </a>
                   </li>
                   <li class="nav-item">
-                    <a href="{{ route('anggota-suratkeluar') }}" class="nav-link">
+                    <a href="{{ route('anggotasuratkeluar.index') }}" class="nav-link">
                       <i class="nav-icon bi bi-circle" style="color: #003580;"></i>
                       <p style="color: #003580;">Surat Keluar</p>
                     </a>
@@ -175,14 +175,14 @@
                 </ul>
               </li>
               <li class="nav-item">
-                <a href="{{ route('anggota-sertifikat') }}" class="nav-link">
+                <a href="{{ route('anggotasertifikat.index') }}" class="nav-link">
                   <i class="nav-icon fa-solid fa-file" style="color: #003580;"></i> 
                   <p style="color: #003580;">Sertifikat</p>
                 </a>
               </li>
 
               <li class="nav-item">
-                <a href="{{ route('anggota-dokumenkegiatan') }}" class="nav-link">
+                <a href="{{ route('anggotadokumenkegiatan.index') }}" class="nav-link">
                   <i class="nav-icon fa-solid fa-file-fragment" style="color: #003580;"></i>
                   <i class=""></i>
                   <p style="color: #003580;">Dokumen Kegiatan</p>

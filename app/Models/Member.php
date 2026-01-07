@@ -13,4 +13,8 @@ class Member extends Model
     {
         return $this->hasMany(DokumenKegiatan::class, 'member_id');
     }
+    public function anggotadokumenKegiatan()
+    {
+        return $this->hasMany(DokumenKegiatan::class, 'member_id');
+    }
 }
