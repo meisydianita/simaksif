@@ -29,7 +29,7 @@
                     </div>
                   @endif
                   <!--begin::Form-->
-                  <form class="needs-validation" action="{{ route('suratmasuk.store') }}" method="post" enctype="multipart/form-data">
+                  <form class="needs-validation" action="{{ route('surat-masuk.store') }}" method="post" enctype="multipart/form-data">
                     @csrf
                     <!--begin::Body-->
                     <div class="card-body">
@@ -92,7 +92,7 @@
                         </div>
 
                         <div class="d-flex justify-content-center gap-2">
-                            <a href="{{ route('suratmasuk.index') }}" class="btn btn-sm btn-outline-secondary">Batal</a>
+                            <a href="{{ route('surat-masuk.index') }}" class="btn btn-sm btn-outline-secondary">Batal</a>
                             <button class="btn btn-sm btn-dark" type="submit" >Kirim</button> 
                         </div>
 

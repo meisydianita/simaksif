@@ -39,7 +39,7 @@ class DokumenKegiatanController extends Controller
 
     public function create()
     {
-        $penanggungjawab = Member::all();
+        $penanggungjawab = Member::where('status', 'aktif')->get();
         return view ('sekum.dokumenkegiatan.add-dokumenkegiatan', compact('penanggungjawab'));
     }
 
@@ -79,20 +79,20 @@ class DokumenKegiatanController extends Controller
         Dokumenkegiatan::create($validatedData);
 
         //redirect to index ketika berhasil disimpan
-        return redirect()->route('dokumenkegiatan.index');
+        return redirect()->route('dokumen-kegiatan.index');
     }
-    public function show(DokumenKegiatan $dokumenkegiatan)
+    public function show(DokumenKegiatan $dokumen_kegiatan)
     {
-        return view ('sekum.dokumenkegiatan.dokumen-kegiatan', compact ('dokumenkegiatan'));
+        return view ('sekum.dokumenkegiatan.dokumen-kegiatan', compact ('dokumen_kegiatan'));
     }
 
-    public function edit(DokumenKegiatan $dokumenkegiatan)
+    public function edit(DokumenKegiatan $dokumen_kegiatan)
     {
-        $penanggungjawab = Member::all();
-        return view ('sekum.dokumenkegiatan.edit-dokumenkegiatan', compact('dokumenkegiatan', 'penanggungjawab'));
+        $penanggungjawab = Member::where('status', 'aktif')->get();
+        return view ('sekum.dokumenkegiatan.edit-dokumenkegiatan', compact('dokumen_kegiatan', 'penanggungjawab'));
     }
 
-    public function update(Request $request, DokumenKegiatan $dokumenkegiatan)
+    public function update(Request $request, DokumenKegiatan $dokumen_kegiatan)
     {
         // data akan diproses di sini saat disubmit
 
@@ -112,8 +112,8 @@ class DokumenKegiatanController extends Controller
         if($request->hasFile('proposal')){
            
            // hapus file ketika sudah ada
-           if($dokumenkegiatan->proposal){
-            Storage::disk('public')->delete('DokumenKegiatan/Proposal'.$dokumenkegiatan->proposal);
+           if($dokumen_kegiatan->proposal){
+            Storage::disk('public')->delete('DokumenKegiatan/Proposal'.$dokumen_kegiatan->proposal);
            }
            // simpan ke file baru
            $proposal = $request->file('proposal');
@@ -128,8 +128,8 @@ class DokumenKegiatanController extends Controller
         if($request->hasFile('laporan_pertanggungjawaban')){
            
            // hapus file ketika sudah ada
-           if($dokumenkegiatan->laporan_pertanggungjawaban){
-            Storage::disk('public')->delete('DokumenKegiatan/Lpj'.$dokumenkegiatan->laporan_pertanggungjawaban);
+           if($dokumen_kegiatan->laporan_pertanggungjawaban){
+            Storage::disk('public')->delete('DokumenKegiatan/Lpj'.$dokumen_kegiatan->laporan_pertanggungjawaban);
            }
            // simpan ke file baru
           $lpj = $request->file('laporan_pertanggungjawaban');
@@ -141,15 +141,15 @@ class DokumenKegiatanController extends Controller
         }
 
         // update data
-        $dokumenkegiatan->update($validatedData);
+        $dokumen_kegiatan->update($validatedData);
 
         //redirect to index ketika berhasil disimpan
-        return redirect()->route('dokumenkegiatan.index');
+        return redirect()->route('dokumen-kegiatan.index');
     }
 
-    public function destroy(DokumenKegiatan $dokumenkegiatan)
+    public function destroy(DokumenKegiatan $dokumen_kegiatan)
     {
-        $dokumenkegiatan->delete();
-        return redirect()->route('dokumenkegiatan.index');
+        $dokumen_kegiatan->delete();
+        return redirect()->route('dokumen-kegiatan.index');
     }
 }

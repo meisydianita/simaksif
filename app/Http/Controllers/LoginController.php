@@ -32,9 +32,9 @@ class LoginController extends Controller
                 
                 $user = Auth::guard('user')->user();
                 if ($user->level == 'Sekretaris Umum') {
-                    return redirect('/home');
+                    return redirect('/beranda-sekum');
                 } else {
-                    return redirect('/home-bendum');
+                    return redirect(to: '/beranda-bendum');
                 }
             }
         }
@@ -53,7 +53,7 @@ class LoginController extends Controller
                 // Set session untuk anggota
                 session(['active_guard' => 'anggota']);
                 
-                return redirect('/home-anggota');
+                return redirect('/beranda-anggota');
             }
         }
         

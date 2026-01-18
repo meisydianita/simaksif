@@ -29,7 +29,7 @@
                 <div class="card">
                   <div class="card-header">
                     <!--begin::Form-->
-                  <form class="needs-validation" action="{{ route('dokumenkegiatan.update', $dokumenkegiatan->id) }}" method="post" enctype="multipart/form-data">
+                  <form class="needs-validation" action="{{ route('dokumen-kegiatan.update', $dokumen_kegiatan->id) }}" method="post" enctype="multipart/form-data">
                   @csrf
                   @method('PUT')  
                   <!--begin::Body-->
@@ -42,7 +42,7 @@
                             <input
                             class="form-control form-control-sm"
                             type="text"
-                            value="{{ $dokumenkegiatan->nama_kegiatan }}"
+                            value="{{ $dokumen_kegiatan->nama_kegiatan }}"
                             aria-label=".form-control-sm example"
                             name="nama_kegiatan"
                             required
@@ -56,7 +56,7 @@
                             type="date"
                             class="form-control form-control-sm"
                             name="tanggal_mulai"
-                            value="{{ $dokumenkegiatan->tanggal_mulai }}"
+                            value="{{ $dokumen_kegiatan->tanggal_mulai }}"
                             required
                           />
                         </div>
@@ -68,7 +68,7 @@
                             type="date"
                             class="form-control form-control-sm"
                             name="tanggal_selesai"
-                            value="{{ $dokumenkegiatan->tanggal_selesai }}"
+                            value="{{ $dokumen_kegiatan->tanggal_selesai }}"
                             required
                           />
                         </div>
@@ -81,7 +81,7 @@
                               @foreach ($penanggungjawab as $p)
                                   <option 
                                     value="{{ $p->id }}"
-                                    {{ old('member_id', $dokumenkegiatan->member_id) == $p->id ? 'selected' : '' }}>
+                                    {{ old('member_id', $dokumen_kegiatan->member_id) == $p->id ? 'selected' : '' }}>
                                     {{ $p->nama_lengkap }}
                                   </option>
                               @endforeach
@@ -95,7 +95,7 @@
                             type="year"
                             class="form-control form-control-sm"
                             name="tahun"
-                            value="{{ $dokumenkegiatan->tahun }}"
+                            value="{{ $dokumen_kegiatan->tahun }}"
                             required
                           />
                         </div>
@@ -105,7 +105,7 @@
                             type="text"
                             class="form-control form-control-sm"
                             name="deskripsi_kegiatan"
-                            value="{{ $dokumenkegiatan->deskripsi_kegiatan }}"
+                            value="{{ $dokumen_kegiatan->deskripsi_kegiatan }}"
                             required
                           />
                         </div>
@@ -121,7 +121,7 @@
                         </div>
 
                         <div class="d-flex justify-content-center gap-2">                            
-                            <a href="{{ route('dokumenkegiatan.index') }}" class="btn btn-sm btn-outline-secondary">Batal</a>
+                            <a href="{{ route('dokumen-kegiatan.index') }}" class="btn btn-sm btn-outline-secondary">Batal</a>
                             <button class="btn btn-sm btn-dark" type="submit">Kirim</button> 
                         </div>
 

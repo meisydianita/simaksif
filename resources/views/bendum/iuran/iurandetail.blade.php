@@ -73,8 +73,18 @@
                         <td>{{ $bulan[$r->bulan] }}</td>
                         <td>{{ $r->tahun }}</td>
                         <td>Rp. {{ number_format($r->jumlah, 0, ',', '.') }}</td>
-                        <td>{{ $r->tanggal_bayar }}</td>
-                        <td>{{ $r->bukti }}</td>
+                        <td>{{ $r->tanggal_bayar ?? '-'}}</td>
+                        <td>
+                          @if($r->bukti)
+                          <a href="{{ Storage::url('Iuran/'.$r->bukti) }}" target="_blank" style="color:inherit;text-decoration:none;">
+                            <i class="far fa-eye"></i>
+                          </a> |
+                          <a href="{{ Storage::url('Iuran/'.$r->bukti) }}" download style="color:inherit;text-decoration:none;">
+                            <i class="fas fa-download"></i>
+                          </a>
+                          @else
+                            <span class="text-muted">-</span>
+                          @endif
                         <td> 
                           @if ($r->status == 'lunas')
                               <span class="badge bg-success">Lunas</span>
@@ -101,7 +111,7 @@
                                 <div class="text-muted">Tidak Terdapat Data Iuran</div>
                             </td>
                         </tr> 
-                    @endforelse                                     
+                    @endforelse                                    
                   </tbody>
                 </table>
               </div>

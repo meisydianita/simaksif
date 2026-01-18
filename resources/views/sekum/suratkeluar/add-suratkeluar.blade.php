@@ -30,7 +30,7 @@
                     </div>
                   @endif
                     <!--begin::Form-->
-                  <form class="needs-validation" action="{{ route('suratkeluar.store') }}" method="post" enctype="multipart/form-data">
+                  <form class="needs-validation" action="{{ route('surat-keluar.store') }}" method="post" enctype="multipart/form-data">
                     @csrf
                     <!--begin::Body-->
                     <div class="card-body">
@@ -118,7 +118,7 @@
                         <!--begin::Col-->
 
                         <div class="d-flex justify-content-center gap-2">
-                            <a href="{{ route('suratkeluar.index') }}" class="btn btn-sm btn-outline-secondary">Batal</a>
+                            <a href="{{ route('surat-keluar.index') }}" class="btn btn-sm btn-outline-secondary">Batal</a>
                             <button class="btn btn-sm btn-dark" type="submit" >Kirim</button> 
                         </div>
 

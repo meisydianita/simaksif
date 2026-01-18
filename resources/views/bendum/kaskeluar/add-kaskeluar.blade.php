@@ -29,7 +29,7 @@
                     </div>
                     @endif
                     <!--begin::Form-->
-                  <form class="needs-validation" action="{{ route('kaskeluar.store') }}" method="post" enctype="multipart/form-data">
+                  <form class="needs-validation" action="{{ route('kas-keluar.store') }}" method="post" enctype="multipart/form-data">
                   @csrf  
                   <!--begin::Body-->
                     <div class="card-body">
@@ -127,7 +127,7 @@
 
                         <!--begin::Col-->
                         <div class="d-flex justify-content-center gap-2">                        
-                            <a href="{{ route('kaskeluar.index') }}" class="btn btn-sm btn-outline-secondary">Batal</a>
+                            <a href="{{ route('kas-keluar.index') }}" class="btn btn-sm btn-outline-secondary">Batal</a>
                             <button class="btn btn-sm btn-dark" type="submit">Kirim</button> 
                         </div>
                         <!--end::Col-->

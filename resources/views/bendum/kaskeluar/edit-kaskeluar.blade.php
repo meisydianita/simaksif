@@ -29,7 +29,7 @@
                     </div>
                     @endif
                     <!--begin::Form-->
-                  <form class="needs-validation" action="{{ route('kaskeluar.update', $kaskeluar->id) }}" method="post" enctype="multipart/form-data">
+                  <form class="needs-validation" action="{{ route('kas-keluar.update', $kas_keluar->id) }}" method="post" enctype="multipart/form-data">
                   @csrf  
                   @method('PUT')
                   <!--begin::Body-->
@@ -41,7 +41,7 @@
                             <input
                             class="form-control form-control-sm"
                             type="text"
-                            value="{{ $kaskeluar->nomor_pengeluaran }}"
+                            value="{{ $kas_keluar->nomor_pengeluaran }}"
                             aria-label=".form-control-sm example"
                             name="nomor_pengeluaran"
                             required
@@ -53,7 +53,7 @@
                             <input
                             class="form-control form-control-sm"
                             type="text"
-                            value="{{ $kaskeluar->nama_pengeluaran }}"
+                            value="{{ $kas_keluar->nama_pengeluaran }}"
                             aria-label=".form-control-sm example"
                             name="nama_pengeluaran"
                             required
@@ -67,7 +67,7 @@
                             type="date"
                             class="form-control form-control-sm"
                             name="tanggal_pengeluaran"
-                            value="{{ $kaskeluar->tanggal_pengeluaran }}"
+                            value="{{ $kas_keluar->tanggal_pengeluaran }}"
                             required
                           />
                         </div>
@@ -79,7 +79,7 @@
                             <input
                             class="form-control form-control-sm"
                             type="text"
-                            value="{{ $kaskeluar->penerima }}"
+                            value="{{ $kas_keluar->penerima }}"
                             aria-label=".form-control-sm example"
                             name="penerima"
                             required
@@ -90,7 +90,7 @@
                             <input
                             class="form-control form-control-sm"
                             type="number"
-                            value="{{ $kaskeluar->jumlah }}"
+                            value="{{ $kas_keluar->jumlah }}"
                             aria-label=".form-control-sm example"
                             max="99999999999999.99"
                             name="jumlah"
@@ -102,9 +102,9 @@
                           <label for="validationCustom02" class="form-label">Kategori</label>
                         <select class="form-select form-select-sm" aria-label="Small select example" name="kategori">
                           <option disabled selected value="">Pilih Kategori</option>
-                          <option @if($kaskeluar->kategori == 'proker_skala_kecil') selected @endif value="proker_skala_kecil">Kegiatan Berskala Kecil</option>
-                          <option @if($kaskeluar->kategori == 'proker_skala_besar') selected @endif value="proker_skala_besar">Kegiatan Berskala Besar</option>
-                          <option @if($kaskeluar->kategori == 'dana_lain') selected @endif value="dana_lain">Pendanaan Lain-lain</option>
+                          <option @if($kas_keluar->kategori == 'proker_skala_kecil') selected @endif value="proker_skala_kecil">Kegiatan Berskala Kecil</option>
+                          <option @if($kas_keluar->kategori == 'proker_skala_besar') selected @endif value="proker_skala_besar">Kegiatan Berskala Besar</option>
+                          <option @if($kas_keluar->kategori == 'dana_lain') selected @endif value="dana_lain">Pendanaan Lain-lain</option>
                         </select>
                         </div>
                         <!--end::Col -->
@@ -114,7 +114,7 @@
                             <input
                             class="form-control form-control-sm"
                             type="text"
-                            value="{{ $kaskeluar->keterangan }}"
+                            value="{{ $kas_keluar->keterangan }}"
                             aria-label=".form-control-sm example"
                             name="keterangan"
                             />
@@ -129,7 +129,7 @@
 
                         <!--begin::Col-->
                         <div class="d-flex justify-content-center gap-2">                        
-                            <a href="{{ route('kaskeluar.index') }}" class="btn btn-sm btn-outline-secondary">Batal</a>
+                            <a href="{{ route('kas-keluar.index') }}" class="btn btn-sm btn-outline-secondary">Batal</a>
                             <button class="btn btn-sm btn-dark" type="submit">Kirim</button> 
                         </div>
                         <!--end::Col-->

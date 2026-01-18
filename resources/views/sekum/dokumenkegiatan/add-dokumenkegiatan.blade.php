@@ -29,7 +29,7 @@
                 <div class="card">
                   <div class="card-header">
                     <!--begin::Form-->
-                  <form class="needs-validation" action="{{ route('dokumenkegiatan.store') }}" method="post" enctype="multipart/form-data">
+                  <form class="needs-validation" action="{{ route('dokumen-kegiatan.store') }}" method="post" enctype="multipart/form-data">
                   @csrf  
                   <!--begin::Body-->
                     <div class="card-body">
@@ -88,6 +88,7 @@
                             type="year"
                             class="form-control form-control-sm"
                             name="tahun"
+                            placeholder="Masukkan Tahun"
                             required
                           />
                         </div>
@@ -97,6 +98,7 @@
                             type="text"
                             class="form-control form-control-sm"
                             name="deskripsi_kegiatan"
+                            placeholder="Masukkan Deskripsi Kegiatan"
                             required
                           />
                         </div>
@@ -112,7 +114,7 @@
                         </div>
 
                         <div class="d-flex justify-content-center gap-2">                            
-                            <a href="{{ route('dokumenkegiatan.index') }}" class="btn btn-sm btn-outline-secondary">Batal</a>
+                            <a href="{{ route('dokumen-kegiatan.index') }}" class="btn btn-sm btn-outline-secondary">Batal</a>
                             <button class="btn btn-sm btn-dark" type="submit">Kirim</button> 
                         </div>
 

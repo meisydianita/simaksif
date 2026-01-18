@@ -71,25 +71,25 @@ class KasKeluarController extends Controller
         KasKeluar::create($validatedData);
 
         // redirect ke index ketika berhasil disimpan
-        return redirect()->route('kaskeluar.index');
+        return redirect()->route('kas-keluar.index');
         
     }
 
-    public function show(KasKeluar $kaskeluar)
+    public function show(KasKeluar $kas_keluar)
     {
-        return view ('bendum.kaskeluar.kas-keluar', compact('kaskeluar'));
+        return view ('bendum.kaskeluar.kas-keluar', compact('kas_keluar'));
     }
 
-    public function edit(KasKeluar $kaskeluar)
+    public function edit(KasKeluar $kas_keluar)
     {
-        return view ('bendum.kaskeluar.edit-kaskeluar', compact('kaskeluar'));
+        return view ('bendum.kaskeluar.edit-kaskeluar', compact('kas_keluar'));
     }
 
-    public function update(Request $request, KasKeluar $kaskeluar)
+    public function update(Request $request, KasKeluar $kas_keluar)
     {
         // make validation
         $validatedData = $request->validate([
-            'nomor_pengeluaran'=>'nullable|unique:kas_keluars,nomor_pengeluaran,'. $kaskeluar->id,
+            'nomor_pengeluaran'=>'nullable|unique:kas_keluars,nomor_pengeluaran,'. $kas_keluar->id,
             'nama_pengeluaran' => 'required|string|max:255',
             'tanggal_pengeluaran' => 'required|date',
             'kategori' => 'required',
@@ -106,8 +106,8 @@ class KasKeluarController extends Controller
         if($request->hasFile('bukti')){
 
             // hapus file ketika sudah ada
-            if($kaskeluar->bukti){
-                Storage::disk('public')->delete('KasKeluar/'.$kaskeluar->bukti);
+            if($kas_keluar->bukti){
+                Storage::disk('public')->delete('KasKeluar/'.$kas_keluar->bukti);
             }
 
             // simpan ke file baru
@@ -120,15 +120,15 @@ class KasKeluarController extends Controller
         }
 
         // update data
-        $kaskeluar->update($validatedData);
+        $kas_keluar->update($validatedData);
 
         // redirect to index ketika berhasil diupdate
-        return redirect()->route('kaskeluar.index');
+        return redirect()->route('kas-keluar.index');
     }
 
-    public function destroy(KasKeluar $kaskeluar)
+    public function destroy(KasKeluar $kas_keluar)
     {
-        $kaskeluar->delete();
-        return redirect()->route('kaskeluar.index');
+        $kas_keluar->delete();
+        return redirect()->route('kas-keluar.index');
     }
 }

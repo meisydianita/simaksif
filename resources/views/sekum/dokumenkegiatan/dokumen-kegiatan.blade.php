@@ -20,7 +20,7 @@
             <div class="card">
               <div class="card-header">
                 <div class="d-flex align-items-center gap-2 w-100">
-                  <form action="{{ route('dokumenkegiatan.index') }}" method="GET" class="d-flex align-items-center gap-2 flex-grow-1">
+                  <form action="{{ route('dokumen-kegiatan.index') }}" method="GET" class="d-flex align-items-center gap-2 flex-grow-1">
                   <!-- search -->
                     <div class="input-group input-group-sm" style="width: 280px;">
                       <input 
@@ -38,7 +38,7 @@
                       <option selected value="">
                          <!-- Clear Filter Button -->
                             @if(request('search') || request('tahun'))
-                                <a href="{{ route('dokumenkegiatan.index') }}" class="btn btn-lg btn-sm btn-default">    
+                                <a href="{{ route('dokumen-kegiatan.index') }}" class="btn btn-lg btn-sm btn-default">    
                                 </a>
                             @endif
                         Pilih Tahun
@@ -52,7 +52,7 @@
                     </div>
                     <!-- Clear Filter Button -->
                       @if(request('search') || request('tahun'))
-                          <a href="{{ route('dokumenkegiatan.index') }}" class="btn btn-lg btn-sm btn-default">                          
+                          <a href="{{ route('dokumen-kegiatan.index') }}" class="btn btn-lg btn-sm btn-default">                          
                               <i class="fa-solid fa-xmark"></i>
                           </a>
                       @endif
@@ -60,7 +60,7 @@
                   </form>
 
                   <div class="ms-auto">
-                      <a href="{{ route('dokumenkegiatan.create') }}"
+                      <a href="{{ route('dokumen-kegiatan.create') }}"
                             class="btn btn-sm btn-dark">
                             Tambah
                       </a>
@@ -111,8 +111,8 @@
                           </a>
                         </td>
                         <td>
-                          <form action="{{ route('dokumenkegiatan.destroy', $r->id) }}" method="POST">
-                            <a href="{{ route('dokumenkegiatan.edit', $r->id) }}" style="color:inherit;text-decoration:none;">
+                          <form action="{{ route('dokumen-kegiatan.destroy', $r->id) }}" method="POST">
+                            <a href="{{ route('dokumen-kegiatan.edit', $r->id) }}" style="color:inherit;text-decoration:none;">
                               <i class="fas fa-pen"></i>
                             </a>
                             @csrf

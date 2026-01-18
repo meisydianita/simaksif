@@ -71,11 +71,11 @@
                         <!--end::Col-->
                         <!--begin::Col-->
 
-                        <div class="d-flex justify-content-center gap-2">
-                            <a href="{{ route('iuran.index', $iuran->id) }}" class="btn btn-sm btn-outline-secondary">Batal</a>                            
-                            <button class="btn btn-sm btn-dark" type="submit" >Kirim</button> 
+                        <div class="d-flex justify-content-center gap-2">                            
+                            <a href="{{ route('iurandetail.show', $iuran->member_id) }}" 
+                              class="btn btn-sm btn-outline-secondary">Batal</a>
+                            <button class="btn btn-sm btn-dark" type="submit">Kirim</button> 
                         </div>
-
                         <!--end::Col-->
 
                         <!--end::Col-->

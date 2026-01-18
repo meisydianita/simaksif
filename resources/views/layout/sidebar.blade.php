@@ -53,7 +53,7 @@
             @if (Str::length(Auth::guard('user')->user()) > 0)
             @if (Auth::guard('user')->user()->level=="Sekretaris Umum")
               <li class="nav-item">
-                <a href="{{ route('home') }}" class="nav-link">
+                <a href="{{ route('beranda-sekum') }}" class="nav-link">
                   <i class="nav-icon fa-solid fa-house" style="color: #003580;"></i>
                   <p style="color: #003580;">Beranda</p>
                 </a>
@@ -68,13 +68,13 @@
                 </a>
                 <ul class="nav nav-treeview">
                   <li class="nav-item">
-                    <a href="{{ route('suratmasuk.index')}}" class="nav-link">
+                    <a href="{{ route('surat-masuk.index')}}" class="nav-link">
                       <i class="nav-icon bi bi-circle" style="color: #003580;"></i>
                       <p style="color: #003580;">Surat Masuk</p>
                     </a>
                   </li>
                   <li class="nav-item">
-                    <a href="{{ route('suratkeluar.index') }}" class="nav-link">
+                    <a href="{{ route('surat-keluar.index') }}" class="nav-link">
                       <i class="nav-icon bi bi-circle" style="color: #003580;"></i>
                       <p style="color: #003580;">Surat Keluar</p>
                     </a>
@@ -89,7 +89,7 @@
               </li>
 
               <li class="nav-item">
-                <a href="{{ route('dokumenkegiatan.index') }}" class="nav-link">
+                <a href="{{ route('dokumen-kegiatan.index') }}" class="nav-link">
                   <i class="nav-icon fa-solid fa-file-fragment" style="color: #003580;"></i>
                   <p style="color: #003580;">Dokumen Kegiatan</p>
                 </a>
@@ -108,7 +108,7 @@
             @if (Str::length(Auth::guard('user')->user()) > 0)
             @if (Auth::guard('user')->user()->level=="Bendahara Umum")
               <li class="nav-item">
-                <a href="{{ route('home-bendum') }}" class="nav-link">
+                <a href="{{ route('beranda-bendum') }}" class="nav-link">
                   <i class="nav-icon fa-solid fa-house" style="color: #003580;"></i>
                   <p style="color: #003580;">Beranda</p>
                 </a>
@@ -137,14 +137,14 @@
                 </ul>
               </li>
               <li class="nav-item">
-                <a href="{{ route('kaskeluar.index') }}" class="nav-link">
+                <a href="{{ route('kas-keluar.index') }}" class="nav-link">
                   <i class="nav-icon fa-solid fa-file" style="color: #003580;"></i> 
                   <p style="color: #003580;">Kas Keluar</p>
                 </a>
               </li>
 
               <li class="nav-item">
-                <a href="{{ route('laporankas.index') }}" class="nav-link">
+                <a href="{{ route('laporan-kas.index') }}" class="nav-link">
                   <i class="nav-icon fa-solid fa-file-fragment" style="color: #003580;"></i>
                   <i class=""></i>
                   <p style="color: #003580;">Laporan Kas</p>
@@ -157,7 +157,7 @@
             @if (Str::length(Auth::guard('anggota')->user()) > 0)
             @if (Auth::guard('anggota')->user()->level=="Anggota")
               <li class="nav-item">
-                <a href="{{ route('home-anggota') }}" class="nav-link">
+                <a href="{{ route('beranda-anggota') }}" class="nav-link">
                   <i class="nav-icon fa-solid fa-house" style="color: #003580;"></i>
                   <p style="color: #003580;">Beranda</p>
                 </a>
@@ -172,13 +172,13 @@
                 </a>
                 <ul class="nav nav-treeview">
                   <li class="nav-item">
-                    <a href="{{ route('anggotasuratmasuk.index') }}" class="nav-link">
+                    <a href="{{ route('surat-masuk-anggota.index') }}" class="nav-link">
                       <i class="nav-icon bi bi-circle" style="color: #003580;"></i>
                       <p style="color: #003580;">Surat Masuk</p>
                     </a>
                   </li>
                   <li class="nav-item">
-                    <a href="{{ route('anggotasuratkeluar.index') }}" class="nav-link">
+                    <a href="{{ route('surat-keluar-anggota.index') }}" class="nav-link">
                       <i class="nav-icon bi bi-circle" style="color: #003580;"></i>
                       <p style="color: #003580;">Surat Keluar</p>
                     </a>
@@ -186,14 +186,14 @@
                 </ul>
               </li>
               <li class="nav-item">
-                <a href="{{ route('anggotasertifikat.index') }}" class="nav-link">
+                <a href="{{ route('sertifikat-anggota.index') }}" class="nav-link">
                   <i class="nav-icon fa-solid fa-file" style="color: #003580;"></i> 
                   <p style="color: #003580;">Sertifikat</p>
                 </a>
               </li>
 
               <li class="nav-item">
-                <a href="{{ route('anggotadokumenkegiatan.index') }}" class="nav-link">
+                <a href="{{ route('dokumen-kegiatan-anggota.index') }}" class="nav-link">
                   <i class="nav-icon fa-solid fa-file-fragment" style="color: #003580;"></i>
                   <i class=""></i>
                   <p style="color: #003580;">Dokumen Kegiatan</p>

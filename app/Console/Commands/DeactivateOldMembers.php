@@ -32,6 +32,6 @@ class DeactivateOldMembers extends Command
         $updated = Member::where('tahun_masuk', '<', $threeYearsAgo->year)
                         ->where('status', 'aktif')
                         ->update(['status' => 'tidak_aktif']);
-         $this->info("{$updated} anggota di-deactivate!");
+        $this->info("{$updated} anggota di-deactivate!");
     }
 }

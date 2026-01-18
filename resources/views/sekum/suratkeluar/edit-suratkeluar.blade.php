@@ -30,7 +30,7 @@
                     </div>
                   @endif
                     <!--begin::Form-->
-                  <form class="needs-validation" action="{{ route('suratkeluar.update', $suratkeluar->id) }}" method="post" enctype="multipart/form-data">
+                  <form class="needs-validation" action="{{ route('surat-keluar.update', $surat_keluar->id) }}" method="post" enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
                     <!--begin::Body-->
@@ -44,15 +44,15 @@
                         class="form-select form-select-sm" 
                         aria-label="Small select example" 
                         name="jenis_surat"
-                        value="{{ $suratkeluar->jenis_surat }}"
+                        value="{{ $surat_keluar->jenis_surat }}"
                         required>
-                          <option @if($suratkeluar->jenis_surat == 'sk_pengangkatan') selected @endif value="sk_pengangkatan">Surat Kerja Pengangkatan</option>
-                          <option @if($suratkeluar->jenis_surat == 'peminjaman_tempat_barang') selected @endif value="peminjaman_tempat_barang">Peminjaman Barang/Tempat</option>
-                          <option @if($suratkeluar->jenis_surat == 'izin_kegiatan') selected @endif value="izin_kegiatan">Izin Kegiatan</option>
-                          <option @if($suratkeluar->jenis_surat == 'undangan') selected @endif value="undangan">Undangan</option>
-                          <option @if($suratkeluar->jenis_surat == 'permohonan_dana') selected @endif value="permohonan_dana">Permohonan Dana</option>
-                          <option @if($suratkeluar->jenis_surat == 'aktif_organisasi') selected @endif value="aktif_organisasi">Aktif Organisasi</option>
-                          <option @if($suratkeluar->jenis_surat == 'peringatan') selected @endif value="peringatan">Peringatan</option>
+                          <option @if($surat_keluar->jenis_surat == 'sk_pengangkatan') selected @endif value="sk_pengangkatan">Surat Kerja Pengangkatan</option>
+                          <option @if($surat_keluar->jenis_surat == 'peminjaman_tempat_barang') selected @endif value="peminjaman_tempat_barang">Peminjaman Barang/Tempat</option>
+                          <option @if($surat_keluar->jenis_surat == 'izin_kegiatan') selected @endif value="izin_kegiatan">Izin Kegiatan</option>
+                          <option @if($surat_keluar->jenis_surat == 'undangan') selected @endif value="undangan">Undangan</option>
+                          <option @if($surat_keluar->jenis_surat == 'permohonan_dana') selected @endif value="permohonan_dana">Permohonan Dana</option>
+                          <option @if($surat_keluar->jenis_surat == 'aktif_organisasi') selected @endif value="aktif_organisasi">Aktif Organisasi</option>
+                          <option @if($surat_keluar->jenis_surat == 'peringatan') selected @endif value="peringatan">Peringatan</option>
                         </select>
                         </div>
                         <!--end::Col -->
@@ -62,7 +62,7 @@
                             <input
                             class="form-control form-control-sm"
                             type="text"
-                            value="{{ $suratkeluar->nomor_surat }}"
+                            value="{{ $surat_keluar->nomor_surat }}"
                             aria-label=".form-control-sm example"
                             name="nomor_surat"
                             required
@@ -76,7 +76,7 @@
                             type="date"
                             class="form-control form-control-sm"
                             name="tanggal_surat"
-                            value="{{ $suratkeluar->tanggal_surat }}"
+                            value="{{ $surat_keluar->tanggal_surat }}"
                             required                            
                           />
                         </div>
@@ -88,7 +88,7 @@
                             <input
                             class="form-control form-control-sm"
                             type="text"
-                            value="{{ $suratkeluar->tujuan_surat }}"
+                            value="{{ $surat_keluar->tujuan_surat }}"
                             aria-label=".form-control-sm example"
                             name="tujuan_surat"
                             required
@@ -101,7 +101,7 @@
                             <input
                             class="form-control form-control-sm"
                             type="text"
-                            value="{{ $suratkeluar->perihal }}"
+                            value="{{ $surat_keluar->perihal }}"
                             aria-label=".form-control-sm example"
                             name="perihal"
                             required
@@ -116,7 +116,7 @@
                         <!--begin::Col-->
 
                         <div class="d-flex justify-content-center gap-2">
-                            <a href="{{ route('suratkeluar.index') }}" class="btn btn-sm btn-outline-secondary">Batal</a>
+                            <a href="{{ route('surat-keluar.index') }}" class="btn btn-sm btn-outline-secondary">Batal</a>
                             <button class="btn btn-sm btn-dark" type="submit" >Kirim</button> 
                         </div>
 

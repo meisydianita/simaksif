@@ -33,29 +33,29 @@ Route::post('/postlogin', [LoginController::class, 'postlogin'])->name('postlogi
 Route::post('/postlogout', [LoginController::class, 'postlogout'])->name('logout');
 
 Route::middleware(['auth:user', 'ceklevel:Sekretaris Umum'])->group(function () {
-    Route::get('/home', [HomeController::class, 'index'])->name('home');
+    Route::get('/beranda-sekum', [HomeController::class, 'index'])->name('beranda-sekum');
     // Route::get('/home', [HomeController::class, 'grafiksekum'])->name('home');
-    Route::resource('suratmasuk', SuratMasukController::class);
+    Route::resource('surat-masuk', SuratMasukController::class);
     Route::post('/download(suratmasuk)', [SuratMasukController::class, 'download'])->name('downloadsuratmasuk');
-    Route::resource('suratkeluar', SuratKeluarController::class);
+    Route::resource('surat-keluar', SuratKeluarController::class);
     Route::resource('sertifikat', SertifikatController::class);
-    Route::resource('dokumenkegiatan', DokumenKegiatanController::class);
+    Route::resource('dokumen-kegiatan', DokumenKegiatanController::class);
     Route::resource('member', MemberController::class);
     });
 
 Route::middleware(['auth:user', 'ceklevel:Bendahara Umum'])->group(function () {
-    Route::get('/home-bendum', [HomeController::class, 'bendum'])->name('home-bendum');
+    Route::get('/beranda-bendum', [HomeController::class, 'bendum'])->name('beranda-bendum');
     Route::resource('iuran', IuranController::class);
     Route::resource('iurandetail', IuranDetailController::class);
     Route::resource('pemasukan', PemasukanController::class);
-    Route::resource('kaskeluar', KasKeluarController::class);
-    Route::resource('laporankas', LaporanKasController::class);
+    Route::resource('kas-keluar', KasKeluarController::class);
+    Route::resource('laporan-kas', LaporanKasController::class);
     });
 
 Route::middleware(['auth:anggota', 'ceklevel:Anggota'])->group(function () {
-    Route::get('/home-anggota', [HomeController::class, 'anggota'])->name('home-anggota');
-    Route::resource('anggotasuratmasuk', AnggotaSuratMasukController::class);
-    Route::resource('anggotasuratkeluar', AnggotaSuratKeluarController::class);
-    Route::resource('anggotasertifikat', AnggotaSertifikatController::class);
-    Route::resource('anggotadokumenkegiatan', AnggotaDokumenKegiatanController::class);
+    Route::get('/beranda-anggota', [HomeController::class, 'anggota'])->name('beranda-anggota');
+    Route::resource('surat-masuk-anggota', AnggotaSuratMasukController::class);
+    Route::resource('surat-keluar-anggota', AnggotaSuratKeluarController::class);
+    Route::resource('sertifikat-anggota', AnggotaSertifikatController::class);
+    Route::resource('dokumen-kegiatan-anggota', AnggotaDokumenKegiatanController::class);
     });

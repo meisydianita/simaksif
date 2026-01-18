@@ -19,7 +19,7 @@
               </a>
             </li>
             <li class="nav-item d-none d-md-block">
-              <a href="{{ route('home') }}" class="nav-link d-flex align-items-center p-0">
+              <a href="{{ route('beranda-sekum') }}" class="nav-link d-flex align-items-center p-0">
                 <span class="text-primary">Home</span>
                 <span class="mx-1 text-muted">/</span>
                 <span class="text-muted">

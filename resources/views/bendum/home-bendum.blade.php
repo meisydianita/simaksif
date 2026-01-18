@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="en">
-<title>Bendahara Umum</title>
+<title>Laporan Kas</title>
 @include('layout.head')
 
   <!--begin::Body-->

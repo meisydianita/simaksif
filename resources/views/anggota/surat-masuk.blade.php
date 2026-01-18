@@ -20,7 +20,7 @@
             <div class="card">
               <div class="card-header">
                 <div class="d-flex align-items-center gap-2 w-100">
-                  <form action="{{ route('anggotasuratmasuk.index') }}" method="GET">
+                  <form action="{{ route('surat-masuk-anggota.index') }}" method="GET">
                       <div class="input-group input-group-sm" style="width: 250px;">
                         <input 
                         type="text"
@@ -34,7 +34,7 @@
                   </form>
                   <!-- Clear Filter Button -->
                   @if(request('search') || request(''))
-                      <a href="{{ route('anggotasuratmasuk.index') }}" class="btn btn-lg btn-sm btn-default">                          
+                      <a href="{{ route('surat-masuk-anggota.index') }}" class="btn btn-lg btn-sm btn-default">                          
                           <i class="fa-solid fa-xmark"></i>
                       </a>
                   @endif

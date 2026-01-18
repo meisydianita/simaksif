@@ -20,7 +20,7 @@
             <div class="card">
               <div class="card-header">
                 <div class="d-flex align-items-center gap-2 w-100">
-                  <form action="{{ route('suratmasuk.index') }}" method="GET">
+                  <form action="{{ route('surat-masuk.index') }}" method="GET">
                       <div class="input-group input-group-sm" style="width: 280px;">
                         <input 
                         type="text"
@@ -34,12 +34,12 @@
                   </form>
                   <!-- Clear Filter Button -->
                   @if(request('search') || request(''))
-                      <a href="{{ route('suratmasuk.index') }}" class="btn btn-lg btn-sm btn-default">                          
+                      <a href="{{ route('surat-masuk.index') }}" class="btn btn-lg btn-sm btn-default">                          
                           <i class="fa-solid fa-xmark"></i>
                       </a>
                   @endif
                   <div class="ms-auto">
-                          <a href="{{ route('suratmasuk.create') }}"
+                          <a href="{{ route('surat-masuk.create') }}"
                             class="btn btn-sm btn-dark">
                             Tambah
                           </a>
@@ -77,8 +77,8 @@
                                </a>
                               </td>
                               <td>
-                                <form action="{{ route('suratmasuk.destroy', $r->id) }}" method="POST">
-                                  <a href="{{ route('suratmasuk.edit', $r->id) }}" style="color:inherit;text-decoration:none;">
+                                <form action="{{ route('surat-masuk.destroy', $r->id) }}" method="POST">
+                                  <a href="{{ route('surat-masuk.edit', $r->id) }}" style="color:inherit;text-decoration:none;">
                                     <i class="fas fa-pen"></i>
                                   </a>
                                   @csrf

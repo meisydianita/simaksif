@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Storage;
 class SuratMasukController extends Controller
 {
 
-    public function index(Request $request, Suratmasuk $suratmasuk, Query $query)
+    public function index(Request $request, Suratmasuk $surat_masuk, Query $query)
     {    
         $query = Suratmasuk::query();
 
@@ -57,26 +57,26 @@ class SuratMasukController extends Controller
         Suratmasuk::create($validatedData);
 
         // redirect ke index ketika berhasil disimpan
-        return redirect()->route('suratmasuk.index');
+        return redirect()->route('surat-masuk.index');
     }
 
-    public function show(SuratMasuk $suratmasuk)
+    public function show(SuratMasuk $surat_masuk)
     {
         // menampilkan detail data
-        return view ('sekum.suratmasuk.surat-masuk', compact ('suratmasuk'));
+        return view ('sekum.suratmasuk.surat-masuk', compact ('surat_masuk'));
     }
 
-    public function edit(SuratMasuk $suratmasuk)
+    public function edit(SuratMasuk $surat_masuk)
     {
-        return view ('sekum.suratmasuk.edit-suratmasuk', compact('suratmasuk'));
+        return view ('sekum.suratmasuk.edit-suratmasuk', compact('surat_masuk'));
     }
 
-    public function update(Request $request, SuratMasuk $suratmasuk)
+    public function update(Request $request, SuratMasuk $surat_masuk)
     {
         //function yang akan memproses saat update disubmit
         //buat validasi
         $validatedData = $request->validate([            
-            'nomor_surat'=>'required|unique:surat_masuks,nomor_surat,'. $suratmasuk->id,
+            'nomor_surat'=>'required|unique:surat_masuks,nomor_surat,'. $surat_masuk->id,
             'tanggal_surat' => 'required|date',
             'asal_surat' => 'required|string|max:255',
             'perihal' => 'required|string|max:255',
@@ -88,8 +88,8 @@ class SuratMasukController extends Controller
          if ($request->hasFile('file_surat')) {
 
             // hapus file lama (kalau ada)
-            if ($suratmasuk->file_surat) {
-                Storage::disk('public')->delete('SuratMasuk/'.$suratmasuk->file_surat);
+            if ($surat_masuk->file_surat) {
+                Storage::disk('public')->delete('SuratMasuk/'.$surat_masuk->file_surat);
             }
 
                 // simpan file baru
@@ -102,21 +102,21 @@ class SuratMasukController extends Controller
         }
 
         //update data
-        $suratmasuk->update($validatedData);
+        $surat_masuk->update($validatedData);
 
         // redirect ke index ketika berhasil diupdate
-        return redirect()->route('suratmasuk.index');
+        return redirect()->route('surat-masuk.index');
     }
 
-    public function destroy(SuratMasuk $suratmasuk)
+    public function destroy(SuratMasuk $surat_masuk)
     {
-        $suratmasuk->delete();
+        $surat_masuk->delete();
         // redirect ke indext kategori
-        return redirect()->route('suratmasuk.index');
+        return redirect()->route('surat-masuk.index');
     }
 
-    public function download (Request $request, SuratMasuk $suratmasuk){
-        return response()->download(public_path('assets/'.$suratmasuk));
+    public function download (Request $request, SuratMasuk $surat_masuk){
+        return response()->download(public_path('assets/'.$surat_masuk));
     }
 
 }

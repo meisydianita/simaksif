@@ -21,7 +21,7 @@
             <div class="card">
               <div class="card-header">
                 <div class="d-flex align-items-center gap-2 w-100">
-                  <form action="{{ route('kaskeluar.index') }}" method="GET" class="d-flex align-items-center gap-2 flex-grow-1">
+                  <form action="{{ route('kas-keluar.index') }}" method="GET" class="d-flex align-items-center gap-2 flex-grow-1">
                     
                     <!-- Search -->
                     <div class="input-group input-group-sm" style="width: 280px;">
@@ -48,14 +48,14 @@
                     </div>
                       <!-- Clear Button - DALAM FORM -->
                       @if(request('search') || request('kategori'))
-                        <a href="{{ route('kaskeluar.index') }}" class="btn btn-lg btn-sm btn-default">
+                        <a href="{{ route('kas-keluar.index') }}" class="btn btn-lg btn-sm btn-default">
                             <i class="fa-solid fa-xmark"></i>
                         </a>
                       @endif
                   </form>
                   
                   <div class="ms-auto">
-                          <a href="{{ route('kaskeluar.create') }}"
+                          <a href="{{ route('kas-keluar.create') }}"
                             class="btn btn-sm btn-dark">
                             Tambah
                           </a>
@@ -99,8 +99,8 @@
                           </a>
                         </td>
                         <td>
-                          <form action="{{ route('kaskeluar.destroy', $r->id) }}" method="POST">
-                              <a href="{{ route('kaskeluar.edit', $r->id) }}" style="color:inherit;text-decoration:none;">
+                          <form action="{{ route('kas-keluar.destroy', $r->id) }}" method="POST">
+                              <a href="{{ route('kas-keluar.edit', $r->id) }}" style="color:inherit;text-decoration:none;">
                                 <i class="fas fa-pen"></i>
                               </a>
                               @csrf

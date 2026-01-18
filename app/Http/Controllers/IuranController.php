@@ -138,10 +138,10 @@ class IuranController extends Controller
     {
         // update validation
         $validatedData = $request->validate([
-        'member_id' => 'required',      
-        'bulan'=>'required',
-        'tahun' => 'required|digits:4',
-        'jumlah' => 'required|numeric|min:0|max:99999999999999.99',
+        'member_id' => 'nullable',      
+        'bulan'=>'nullable',
+        'tahun' => 'nullable|digits:4',
+        'jumlah' => 'nullable|numeric|min:0|max:99999999999999.99',
         'tanggal_bayar' =>'nullable|date',
         'metode_bayar' => 'nullable',
         'bukti'=>'nullable|image|max:2048',
@@ -159,7 +159,7 @@ class IuranController extends Controller
             // simpan ke file baru
             $foto = $request->file('bukti');
             $fotoname = date('Y-m-d').'_'.$foto->getClientOriginalName();
-            $foto->storeAs('KasKeluar', $fotoname, 'public');
+            $foto->storeAs('Iuran', $fotoname, 'public');
 
             // simpan nama ke dalam database
             $validatedData['bukti']=$fotoname;
@@ -169,7 +169,7 @@ class IuranController extends Controller
         $iuran->update($validatedData);
 
         // return redirect
-        return redirect()->route('iuran.index');
+        return redirect()->route('iurandetail.show', $iuran->member_id);
     }
 
     public function destroy(Iuran $iuran)

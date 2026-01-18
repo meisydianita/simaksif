@@ -53,7 +53,6 @@
         <!--end::App Content-->
       </main>
       <!--end::App Main-->
-    </div>
     <!--end::App Wrapper-->
 
 

@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Storage;
 
 class SuratKeluarController extends Controller
 {
-    public function index(Request $request, Suratkeluar $suratkeluar, Query $query)
+    public function index(Request $request, Suratkeluar $surat_keluar, Query $query)
     {
         
         $jenis_surat = [
@@ -72,27 +72,27 @@ class SuratKeluarController extends Controller
         Suratkeluar::create($validatedData);
 
         //redirect to index ketika berhasil disimpan
-        return redirect()->route('suratkeluar.index');
+        return redirect()->route('surat-keluar.index');
     }
 
-    public function show(SuratKeluar $suratkeluar)
+    public function show(SuratKeluar $surat_keluar)
     {
         // menampilkan detail data
-        return view ('sekum.suratkeluar.surat-keluar', compact('suratkeluar'));
+        return view ('sekum.suratkeluar.surat-keluar', compact('surat_keluar'));
     }
 
-    public function edit(SuratKeluar $suratkeluar)
+    public function edit(SuratKeluar $surat_keluar)
     {
-        return view ('sekum.suratkeluar.edit-suratkeluar', compact('suratkeluar'));
+        return view ('sekum.suratkeluar.edit-suratkeluar', compact('surat_keluar'));
     }
 
-    public function update(Request $request, SuratKeluar $suratkeluar)
+    public function update(Request $request, SuratKeluar $surat_keluar)
     {
         //function yang memproses saat update disubmit
         //validate data
         $validatedData=$request->validate([
             'jenis_surat'=>'required',
-            'nomor_surat'=>'required|unique:surat_masuks,nomor_surat,'. $suratkeluar->id,
+            'nomor_surat'=>'required|unique:surat_masuks,nomor_surat,'. $surat_keluar->id,
             'tanggal_surat' => 'required|date',
             'tujuan_surat' => 'required|string|max:255',
             'perihal' => 'required|string|max:255',
@@ -103,8 +103,8 @@ class SuratKeluarController extends Controller
         if ($request->hasFile('file_surat')){
 
             //hapus file ketika sudah ada
-            if ($suratkeluar->file_surat){
-                Storage::disk('public')->delete('SuratKeluar/'.$suratkeluar->file_surat);
+            if ($surat_keluar->file_surat){
+                Storage::disk('public')->delete('SuratKeluar/'.$surat_keluar->file_surat);
             }
             
             //simpan ke file baru
@@ -117,17 +117,17 @@ class SuratKeluarController extends Controller
         }
 
         //update data
-        $suratkeluar->update($validatedData);
+        $surat_keluar->update($validatedData);
 
         //redirect to index ketika berhasil disimpan
-        return redirect()->route('suratkeluar.index');
+        return redirect()->route('surat-keluar.index');
 
     }
 
-    public function destroy(SuratKeluar $suratkeluar)
+    public function destroy(SuratKeluar $surat_keluar)
     {
-        $suratkeluar->delete();
-        return redirect()->route('suratkeluar.index');
+        $surat_keluar->delete();
+        return redirect()->route('surat-keluar.index');
 
     }
 }

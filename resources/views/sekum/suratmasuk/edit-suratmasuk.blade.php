@@ -20,7 +20,7 @@
                 <div class="card">
                   <div class="card-header">
                   <!--begin::Form-->
-                  <form class="needs-validation" action="{{ route('suratmasuk.update', $suratmasuk->id) }}" method="post" enctype="multipart/form-data">
+                  <form class="needs-validation" action="{{ route('surat-masuk.update', $surat_masuk->id) }}" method="post" enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
                     <!--begin::Body-->
@@ -33,7 +33,7 @@
                             <input
                             class="form-control form-control-sm"
                             type="text"
-                            value="{{ $suratmasuk->nomor_surat }}"
+                            value="{{ $surat_masuk->nomor_surat }}"
                             aria-label=".form-control-sm example"
                             name="nomor_surat"
                             required
@@ -48,7 +48,7 @@
                             class="form-control form-control-sm"
                             name="tanggal_surat"
                             required
-                            value="{{ $suratmasuk->tanggal_surat }}"
+                            value="{{ $surat_masuk->tanggal_surat }}"
                           />
                         </div>
                         <!--end::Col-->
@@ -58,7 +58,7 @@
                             <input
                             class="form-control form-control-sm"
                             type="text"
-                            value="{{ $suratmasuk->asal_surat }}"
+                            value="{{ $surat_masuk->asal_surat }}"
                             aria-label=".form-control-sm example"
                             name="asal_surat"
                             required
@@ -71,7 +71,7 @@
                             <input
                             class="form-control form-control-sm"
                             type="text"
-                            value="{{ $suratmasuk->perihal }}"
+                            value="{{ $surat_masuk->perihal }}"
                             aria-label=".form-control-sm example"
                             name="perihal"
                             required
@@ -86,7 +86,7 @@
                         </div>
 
                         <div class="d-flex justify-content-center gap-2">
-                            <a href="{{ route('suratmasuk.index') }}" class="btn btn-sm btn-outline-secondary">Batal</a>
+                            <a href="{{ route('surat-masuk.index') }}" class="btn btn-sm btn-outline-secondary">Batal</a>
                             <button class="btn btn-sm btn-dark" type="submit" >Simpan</button> 
                         </div>
 
