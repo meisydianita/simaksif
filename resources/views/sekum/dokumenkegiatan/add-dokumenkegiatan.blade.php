@@ -94,7 +94,7 @@
                         <div class="col-md-6">
                           <label for="validationCustom02" class="form-label">Deskripsi Kegiatan</label>
                           <input
-                            type="year"
+                            type="text"
                             class="form-control form-control-sm"
                             name="deskripsi_kegiatan"
                             required

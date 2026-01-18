@@ -21,7 +21,7 @@
               <div class="card-header">
                 <div class="d-flex align-items-center gap-2 w-100">
                   <form action="{{ route('suratmasuk.index') }}" method="GET">
-                      <div class="input-group input-group-sm" style="width: 250px;">
+                      <div class="input-group input-group-sm" style="width: 280px;">
                         <input 
                         type="text"
                         name="search" 
@@ -115,27 +115,7 @@
         <!--end::App Content-->
 
       <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const searchInput = document.getElementById('searchInput');
-            
-            // Enter = submit
-            searchInput.addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') {
-                    this.form.submit();
-                }
-            });
-            
-            // Ketik 2+ huruf = delay 500ms lalu submit (debounce)
-            let timeout;
-            searchInput.addEventListener('input', function() {
-                clearTimeout(timeout);
-                timeout = setTimeout(() => {
-                    if (this.value.length >= 0) {
-                        this.form.submit();
-                    }
-                }, 1);
-            });
-        });
+        
       </script>
       
       </main>

@@ -36,7 +36,6 @@
                       <div class="input-group input-group-sm" style="width: 280px;">
                         <select class="form-select form-select-sm" aria-label="Small select example" style="width: 280px"; name="jenis_surat" onchange="this.form.submit()">
                               <option selected value="">
-                                <!-- Clear Filter Button -->
                                 @if(request('search') || request(''))
                                     <a href="{{ route('suratkeluar.index') }}" class="btn btn-lg btn-sm btn-default">    
                                     </a>
@@ -72,8 +71,8 @@
                       <thead>
                             <tr>
                               <th class="fw-normal">No.</th>
-                              <th class="fw-normal">Jenis Surat</th>
                               <th class="fw-normal">Nomor Surat</th>
+                              <th class="fw-normal">Jenis Surat</th>
                               <th class="fw-normal">Tanggal Surat</th>
                               <th class="fw-normal">Tujuan Surat</th>
                               <th class="fw-normal">Perihal</th>
@@ -85,8 +84,8 @@
                             @forelse ($allsuratkeluar as $key => $r)
                               <tr>
                                 <td>{{ $key + 1 }}</td>
-                                <td>{{ $jenis_surat[$r->jenis_surat] ?? $r->jenis_surat }}</td>
                                 <td>{{ $r->nomor_surat }}</td>
+                                <td>{{ $jenis_surat[$r->jenis_surat] ?? $r->jenis_surat }}</td>
                                 <td>{{ $r->tanggal_surat }}</td>
                                 <td>{{ $r->tujuan_surat }}</td>
                                 <td>{{ $r->perihal }}</td>
@@ -134,29 +133,7 @@
             <!-- /.row -->
             </div>
         <!--end::App Content-->
-      <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const searchInput = document.getElementById('searchInput');
-            
-            // Enter = submit
-            searchInput.addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') {
-                    this.form.submit();
-                }
-            });
-            
-            // Ketik 2+ huruf = delay 1ms lalu submit (debounce)
-            let timeout;
-            searchInput.addEventListener('input', function() {
-                clearTimeout(timeout);
-                timeout = setTimeout(() => {
-                    if (this.value.length >= 0) {
-                        this.form.submit();
-                    }
-                }, 1);
-            });
-        });
-      </script>
+      
       </main>
       <!--end::App Main-->
       @include('layout.footer')

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-
+use App\Models\Iuran;
 use App\Models\Member;
 use GuzzleHttp\Psr7\Query;
 use Illuminate\Support\Facades\Storage;
@@ -68,7 +68,7 @@ class MemberController extends Controller
         }
 
 
-        $allmember = $query->paginate(10)->appends(request()->query());
+        $allmember = $query->paginate(5)->appends(request()->query());
         return view ('sekum.member.anggota', compact('allmember', 'jabatan', 'status', 'tahun_masuk', 'divisi'));
     }
     public function create()
@@ -103,7 +103,30 @@ class MemberController extends Controller
         $validatedData['foto']=$fotoname;
 
         // simpan data
-        Member::create(($validatedData));
+        $member = Member::create($validatedData);
+
+        if ($member->status == 'aktif') {
+            $tahun = now()->year;
+
+            for ($bulan = 1; $bulan <= 12; $bulan++) {
+
+                $jumlah = ($bulan == 1) ? 10000 : 5000;
+
+                Iuran::firstOrCreate(
+                    [
+                        'member_id' => $member->id,
+                        'bulan' => $bulan,
+                        'tahun' => $tahun,
+                    ],
+                    [
+                        'jumlah' => $jumlah,
+                        'status' => 'belum_lunas'
+                    ]
+                );
+            }
+        }
+
+
 
         // redirect to index ketika berhasil disimpan
         return redirect()->route('member.index');
@@ -156,6 +179,28 @@ class MemberController extends Controller
 
         // update data
         $member->update($validatedData);
+
+        if ($validatedData['status'] == 'aktif') {
+            $tahun = now()->year;
+
+            for ($bulan = 1; $bulan <= 12; $bulan++) {
+
+                $jumlah = ($bulan == 1) ? 10000 : 5000;
+
+                Iuran::firstOrCreate(
+                    [
+                        'member_id' => $member->id,
+                        'bulan' => $bulan,
+                        'tahun' => $tahun,
+                    ],
+                    [
+                        'jumlah' => $jumlah,
+                        'status' => 'belum_lunas'
+                    ]
+                );
+            }
+        }
+
 
         // redirect to index ketika berhasil diupdate
         return redirect()->route('member.index');

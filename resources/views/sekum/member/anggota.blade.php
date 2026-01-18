@@ -30,7 +30,13 @@
                               <!-- Tahun Masuk -->
                               <div class="input-group input-group-sm" style="width: 200px;">
                                   <select class="form-select form-select-sm" name="tahun_masuk" onchange="this.form.submit()" style="width: 200px">
-                                      <option value="">Pilih Tahun Masuk</option>
+                                      <option value="">
+                                        @if(request('search') || request(''))
+                                            <a href="{{ route('member.index') }}" class="btn btn-lg btn-sm btn-default">    
+                                            </a>
+                                        @endif
+                                        Pilih Tahun Masuk
+                                      </option>
                                       @foreach($tahun_masuk as $thn)
                                           <option value="{{ $thn }}" {{ request('tahun_masuk') == $thn ? 'selected' : '' }}>{{ $thn }}</option>
                                       @endforeach
@@ -40,7 +46,13 @@
                               <!-- Divisi -->
                               <div class="input-group input-group-sm" style="width: 200px;">
                                   <select class="form-select form-select-sm" name="divisi" onchange="this.form.submit()" style="width: 200px">
-                                      <option value="">Pilih Divisi</option>
+                                      <option value="">
+                                        @if(request('search') || request(''))
+                                            <a href="{{ route('member.index') }}" class="btn btn-lg btn-sm btn-default">    
+                                            </a>
+                                        @endif
+                                        Pilih Divisi
+                                      </option>
                                       @foreach($divisi as $dvs => $d)
                                           <option value="{{ $dvs }}" {{ request('divisi') == $dvs ? 'selected' : '' }}>{{ $d }}</option>
                                       @endforeach
@@ -50,7 +62,13 @@
                               <!-- Status -->
                               <div class="input-group input-group-sm" style="width: 200px;">
                                   <select class="form-select form-select-sm" name="status" onchange="this.form.submit()" style="width: 200px">
-                                      <option value="">Pilih Status</option>
+                                      <option value="">
+                                        @if(request('search') || request(''))
+                                            <a href="{{ route('member.index') }}" class="btn btn-lg btn-sm btn-default">    
+                                            </a>
+                                        @endif
+                                        Pilih Status
+                                      </option>
                                       @foreach($status as $sts => $s)
                                           <option value="{{ $sts }}" {{ request('status') == $sts ? 'selected' : '' }}>{{ $s }}</option>
                                       @endforeach
@@ -59,7 +77,7 @@
                               
                               <!-- Clear Button - DALAM FORM -->
                               @if(request('search') || request('tahun_masuk') || request('divisi') || request('status'))
-                                  <a href="{{ route('member.index') }}" class="btn btn-sm btn-outline-secondary">
+                                  <a href="{{ route('member.index') }}" class="btn btn-lg btn-sm btn-default">
                                       <i class="fa-solid fa-xmark"></i>
                                   </a>
                               @endif
@@ -99,7 +117,15 @@
                                 <td>{{ $r->tahun_masuk }}</td>
                                 <td>{{ $jabatan[$r->jabatan] ?? $r->jabatan }}</td>
                                 <td>{{ $r->divisi }}</td>
-                                <td>{{ $status[$r->status] ?? $r->status }}</td>
+                                <td>
+                                  @php
+                                      $threeYearsAgo = now()->subYears(3)->year;
+                                      $isActive = $r->tahun_masuk >= $threeYearsAgo && $r->status == 'aktif';
+                                  @endphp
+                                  <span class="badge {{ $isActive ? 'bg-success' : 'bg-danger' }}">
+                                      {{ $isActive ? 'Aktif' : 'Tidak Aktif' }}
+                                  </span>
+                                </td>
                                 <td>{{ $r->email }}</td>
                                 <td>{{ $r->no_hp }}</td>
                                 <td>{{ $r->alamat }}</td>
@@ -146,30 +172,6 @@
             <!-- /.row -->
         </div>
         <!--end::App Content-->
-      <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const searchInput = document.getElementById('searchInput');
-            
-            // Enter = submit
-            searchInput.addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') {
-                    this.form.submit();
-                }
-            });
-            
-            // Ketik 2+ huruf = delay 1ms lalu submit (debounce)
-            let timeout;
-            searchInput.addEventListener('input', function() {
-                clearTimeout(timeout);
-                timeout = setTimeout(() => {
-                    if (this.value.length >= 0) {
-                        this.form.submit();
-                    }
-                }, 1);
-            });
-        });
-      </script>
-
       </main>
       <!--end::App Main-->
       @include('layout.footer')

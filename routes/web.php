@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\IuranController;
+use App\Http\Controllers\IuranDetailController;
 use App\Http\Controllers\KasKeluarController;
 use App\Http\Controllers\LaporanKasController;
 use App\Http\Controllers\MemberController;
@@ -45,6 +46,7 @@ Route::middleware(['auth:user', 'ceklevel:Sekretaris Umum'])->group(function () 
 Route::middleware(['auth:user', 'ceklevel:Bendahara Umum'])->group(function () {
     Route::get('/home-bendum', [HomeController::class, 'bendum'])->name('home-bendum');
     Route::resource('iuran', IuranController::class);
+    Route::resource('iurandetail', IuranDetailController::class);
     Route::resource('pemasukan', PemasukanController::class);
     Route::resource('kaskeluar', KasKeluarController::class);
     Route::resource('laporankas', LaporanKasController::class);

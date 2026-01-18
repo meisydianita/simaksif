@@ -27,7 +27,7 @@
                         @endforeach
                       </ul>
                     </div>
-                  @endif
+                    @endif
                     <!--begin::Form-->
                   <form class="needs-validation" action="{{ route('member.store') }}" method="post" enctype="multipart/form-data">
                   @csrf  
@@ -156,7 +156,6 @@
                             <a href="{{ route('member.index') }}" class="btn btn-sm btn-outline-secondary">Batal</a>
                             <button class="btn btn-sm btn-dark" type="submit">Kirim</button> 
                         </div>
-                        <!--end::Col-->
                         <!--end::Col-->
                       </div>
                       <!--end::Row-->

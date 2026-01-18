@@ -53,7 +53,7 @@ class SuratKeluarController extends Controller
         //validate data
         $validatedData=$request->validate([
             'jenis_surat'=>'required',
-            'nomor_surat' => 'required|string|max:255',
+            'nomor_surat'=>'required|unique:surat_keluars,nomor_surat',
             'tanggal_surat' => 'required|date',
             'tujuan_surat' => 'required|string|max:255',
             'perihal' => 'required|string|max:255',
@@ -92,7 +92,7 @@ class SuratKeluarController extends Controller
         //validate data
         $validatedData=$request->validate([
             'jenis_surat'=>'required',
-            'nomor_surat' => 'required|string|max:255',
+            'nomor_surat'=>'required|unique:surat_masuks,nomor_surat,'. $suratkeluar->id,
             'tanggal_surat' => 'required|date',
             'tujuan_surat' => 'required|string|max:255',
             'perihal' => 'required|string|max:255',

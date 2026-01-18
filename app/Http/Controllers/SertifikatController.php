@@ -51,12 +51,12 @@ class SertifikatController extends Controller
 
         // validate data
         $validatedData=$request->validate([
-            'nomor_sertifikat'=>'required',
+            'nomor_sertifikat'=>'required|unique:sertifikats,nomor_sertifikat',
             'nama_penerima'=>'required|string|max:100',
             'peran_penerima'=>'required',
             'nama_kegiatan'=>'required|string|max:100',
             'tanggal_sertifikat'=>'required|date',
-            'file'=>'required|file|mimes:pdf,doc,docx|max:10240'
+            'file'=>'required|file|mimes:pdf,doc,docx,jpg,jpeg,png|max:10240'
         ]);
 
         //simpan file ke dalam storage
@@ -88,12 +88,12 @@ class SertifikatController extends Controller
         //function yang memproses saat update disubmit
         // validate data
         $validatedData=$request->validate([
-            'nomor_sertifikat'=>'required',
+            'nomor_sertifikat'=>'required|unique:sertifikats,nomor_sertifikat,'. $sertifikat->id,
             'nama_penerima'=>'required|string|max:100',
             'peran_penerima'=>'required',
             'nama_kegiatan'=>'required|string|max:100',
             'tanggal_sertifikat'=>'required|date',
-            'file'=>'nullable|file|mimes:pdf,doc,docx|max:10240'
+            'file'=>'nullable|file|mimes:pdf,doc,docx,jpg,jpeg,png|max:10240'
         ]);
         
         //cek apakah user upload file baru

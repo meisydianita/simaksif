@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+  <title>Kas Keluar</title>
+@include('layout.head')
+  <!--begin::Body-->
+  <body class="fixed-header sidebar-expand-lg sidebar-open bg-body-tertiary">
+    <!--begin::App Wrapper-->
+    <div class="app-wrapper">
+      @include('layout.header')
+      @include ('layout.sidebar')
+       <!--begin::App Main-->
+      <main class="app-main pt-4">
+
+        <!--begin::App Content-->
+        <div class="app-content">
+          <!--begin::Container-->
+          <div class="container-fluid">
+        <!-- /.row -->
+        <div class="row">
+          <div class="col-12">
+            <div class="card">
+              <div class="card-header">
+                <div class="d-flex align-items-center gap-2 w-100">
+                  <form action="{{ route('kaskeluar.index') }}" method="GET" class="d-flex align-items-center gap-2 flex-grow-1">
+                    
+                    <!-- Search -->
+                    <div class="input-group input-group-sm" style="width: 280px;">
+                    <input type="text" name="search" class="form-control form-control-sm float-left" 
+                    placeholder="Pencarian" id="searchInput" value="{{ request('search') }}" autocomplete="off">
+                    </div>
+                    <!-- Divisi -->
+                    <div class="input-group input-group-sm" style="width: 280px;">
+                      <select class="form-select form-select-sm" aria-label="Small select example" style="width: 280px"; onchange="this.form.submit()" name="kategori">
+                      <option selected value="">
+                          @if(request('search') || request(''))
+                              <a href="{{ route('pemasukan.index') }}" class="btn btn-lg btn-sm btn-default">
+                                  <i class="fa-solid fa-xmark"></i>
+                              </a>
+                          @endif
+                        Pilih Kategori
+                      </option>
+                      @foreach($kategori as $key => $label)                              
+                          <option value="{{ $key }}" {{ request('kategori') == $key ? 'selected' : '' }}>
+                              {{ $label }}
+                          </option>
+                      @endforeach
+                      </select>  
+                    </div>
+                      <!-- Clear Button - DALAM FORM -->
+                      @if(request('search') || request('kategori'))
+                        <a href="{{ route('kaskeluar.index') }}" class="btn btn-lg btn-sm btn-default">
+                            <i class="fa-solid fa-xmark"></i>
+                        </a>
+                      @endif
+                  </form>
+                  
+                  <div class="ms-auto">
+                          <a href="{{ route('kaskeluar.create') }}"
+                            class="btn btn-sm btn-dark">
+                            Tambah
+                          </a>
+                  </div>
+              </div>
+              </div> 
+              <!-- /.card-header -->
+              <div class="card-body table-responsive p-0">
+                <table class="table table-hover text-nowrap">
+                  <thead>
+                    <tr>
+                      <th class="fw-normal" >No.</th>
+                      <th class="fw-normal" >Nomor Pengeluaran</th>
+                      <th class="fw-normal" >Nama Pengeluaran</th>
+                      <th class="fw-normal" >Tanggal Pengeluaran</th>
+                      <th class="fw-normal" >Kategori</th>
+                      <th class="fw-normal" >Jumlah</th>
+                      <th class="fw-normal" >Penerima Dana</th>
+                      <th class="fw-normal" >Keterangan</th>
+                      <th class="fw-normal" >Bukti</th>
+                      <th class="fw-normal" >Kelola</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @forelse ($allkaskeluar as $key => $r)
+                      <tr>
+                        <td>{{ $key + 1 }}</td>
+                        <td>{{ $r->nomor_pengeluaran }}</td>
+                        <td>{{ $r->nama_pengeluaran }}</td>
+                        <td>{{ $r->tanggal_pengeluaran }}</td>
+                        <td>{{ $kategori[$r->kategori] ?? $r->kategori }}</td>
+                        <td>Rp. {{ number_format($r->jumlah, 0, ',', '.') }}</td>
+                        <td>{{ $r->penerima }}</td>
+                        <td>{{ $r->keterangan }}</td>
+                        <td>
+                          <a href="{{ Storage::url('KasKeluar/'.$r->bukti) }}" target="_blank" style="color:inherit;text-decoration:none;">
+                            <i class="far fa-eye"></i>
+                          </a> |
+                          <a href="{{ Storage::url('KasKeluar/'.$r->bukti) }}" download style="color:inherit;text-decoration:none;">
+                            <i class="fas fa-download"></i>
+                          </a>
+                        </td>
+                        <td>
+                          <form action="{{ route('kaskeluar.destroy', $r->id) }}" method="POST">
+                              <a href="{{ route('kaskeluar.edit', $r->id) }}" style="color:inherit;text-decoration:none;">
+                                <i class="fas fa-pen"></i>
+                              </a>
+                              @csrf
+                              @method('DELETE')
+                              <button type="submit" style="background:none;border:none;">
+                                <i class="fas fa-trash"></i>
+                              </button>
+                          </form>
+                        </td>
+                      </tr>
+                      @empty
+                        <tr>
+                            <td colspan="10" class="text-center py-4">
+                                <div class="text-muted">Tidak Terdapat Data Kas Keluar</div>
+                            </td>
+                        </tr>
+                    @endforelse
+                  </tbody>
+                </table>
+              </div>
+              <!-- /.card-body -->
+               <!-- begin pagination -->
+                  <div class="my-3 mx-3">
+                    {{ $allkaskeluar->links() }}
+                  </div>    
+                  <!-- end pagination -->
+            </div>
+            <!-- /.card -->
+          </div>
+        </div>
+        <!-- /.row -->
+        </div>
+        <!--end::App Content-->
+      </main>
+      <!--end::App Main-->
+      @include('layout.footer')
+    </div>
+    <!--end::App Wrapper-->
+    @include('layout.script')
+  </body>
+  <!--end::Body-->
+</html>

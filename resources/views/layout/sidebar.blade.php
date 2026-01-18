@@ -7,7 +7,18 @@
 </head>
 <body>
     <!--begin::Sidebar-->
-      <aside class="app-sidebar bg-white shadow" data-bs-theme="light">
+      <aside class="app-sidebar shadow" style="background-color: #ffffff;" data-bs-theme="light">
+        <style>
+          /* Inline style untuk quick fix */
+          .app-sidebar[style*="background-color: #ffffff"] .nav-link:hover {
+              background-color: rgba(0, 53, 128, 0.1) !important;
+              border-left: 3px solid #003580 !important;
+          }
+          .app-sidebar[style*="background-color: #ffffff"] .nav-link.active {
+              background-color: rgba(0, 53, 128, 0.15) !important;
+          }
+          /*# sourceMappingURL=adminlte.css.map */
+        </style>
         <!--begin::Sidebar Brand-->
         <div class="sidebar-brand">
           <!--begin::Brand Link-->

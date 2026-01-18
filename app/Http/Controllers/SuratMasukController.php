@@ -38,7 +38,7 @@ class SuratMasukController extends Controller
 
         //buat validasi
         $validatedData = $request->validate([
-            'nomor_surat' => 'required|string|max:255',
+            'nomor_surat'=>'required|unique:surat_masuks,nomor_surat',
             'tanggal_surat' => 'required|date',
             'asal_surat' => 'required|string|max:255',
             'perihal' => 'required|string|max:255',
@@ -75,8 +75,8 @@ class SuratMasukController extends Controller
     {
         //function yang akan memproses saat update disubmit
         //buat validasi
-        $validatedData = $request->validate([
-            'nomor_surat' => 'required|string|max:255',
+        $validatedData = $request->validate([            
+            'nomor_surat'=>'required|unique:surat_masuks,nomor_surat,'. $suratmasuk->id,
             'tanggal_surat' => 'required|date',
             'asal_surat' => 'required|string|max:255',
             'perihal' => 'required|string|max:255',

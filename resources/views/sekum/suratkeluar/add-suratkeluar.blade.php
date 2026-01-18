@@ -36,6 +36,21 @@
                     <div class="card-body">
                       <!--begin::Row-->
                       <div class="row g-3">
+                        
+                        <!--begin::Col-->
+                        <div class="col-md-6">
+                          <label for="validationCustom01" class="form-label">Nomor Surat</label>
+                            <input
+                            class="form-control form-control-sm"
+                            type="text"
+                            placeholder="Masukkan Nomor Surat"
+                            aria-label=".form-control-sm example"
+                            name="nomor_surat"
+                            required
+                            />
+                        </div>
+                        <!--end::Col-->
+
                         <!--begin::Col -->
                         <div class="col-md-6">
                           <label for="validationCustom02" class="form-label">Jenis</label>
@@ -55,19 +70,8 @@
                         </select>
                         </div>
                         <!--end::Col -->
-                        <!--begin::Col-->
-                        <div class="col-md-6">
-                          <label for="validationCustom01" class="form-label">Nomor Surat</label>
-                            <input
-                            class="form-control form-control-sm"
-                            type="text"
-                            placeholder="Masukkan Nomor Surat"
-                            aria-label=".form-control-sm example"
-                            name="nomor_surat"
-                            required
-                            />
-                        </div>
-                        <!--end::Col-->
+
+
                         <!--begin::Col-->
                         <div class="col-md-6">
                           <label for="validationCustom02" class="form-label">Tanggal Surat</label>

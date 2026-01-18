@@ -27,7 +27,7 @@
                         @endforeach
                       </ul>
                     </div>
-                  @endif
+                    @endif
                     <!--begin::Form-->
                   <form class="needs-validation" action="{{ route('member.update', $member->id) }}" method="post" enctype="multipart/form-data">
                   @csrf 
@@ -115,8 +115,8 @@
                         aria-label="Small select example" 
                         name="status" required>
                           <option disabled selected value="">Pilih Status</option>
-                          <option @if($member->status == 'aktif') selected @endif value="Aktif">Aktif</option>
-                          <option @if($member->status == 'tidak_aktif') selected @endif value="Tidak Aktif">Tidak Aktif</option>
+                          <option value="aktif" {{ old('status', $member->status ?? '') == 'aktif' ? 'selected' : '' }}>Aktif</option>
+                          <option value="tidak_aktif" {{ old('status', $member->status ?? '') == 'tidak_aktif' ? 'selected' : '' }}>Tidak Aktif</option>
                         </select>
                         </div>
                         <!--end::Col -->
