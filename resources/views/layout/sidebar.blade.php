@@ -115,7 +115,7 @@
               </li>
                 <li class="nav-item">
                 <a href="#" class="nav-link">
-                  <i class="nav-icon fa-solid fa-envelope" style="color: #003580;"></i>
+                  <i class="nav-icon fa-solid fa-wallet" style="color: #003580;"></i>
                   <p style="color: #003580;">
                     Kas Masuk
                     <i class="nav-arrow bi bi-chevron-right" style="color: #003580;"></i>
@@ -138,15 +138,14 @@
               </li>
               <li class="nav-item">
                 <a href="{{ route('kas-keluar.index') }}" class="nav-link">
-                  <i class="nav-icon fa-solid fa-file" style="color: #003580;"></i> 
+                  <i class="nav-icon fa-solid fa-credit-card" style="color: #003580;"></i> 
                   <p style="color: #003580;">Kas Keluar</p>
                 </a>
               </li>
 
               <li class="nav-item">
                 <a href="{{ route('laporan-kas.index') }}" class="nav-link">
-                  <i class="nav-icon fa-solid fa-file-fragment" style="color: #003580;"></i>
-                  <i class=""></i>
+                  <i class="nav-icon fa-solid fa-folder" style="color: #003580;"></i>
                   <p style="color: #003580;">Laporan Kas</p>
                 </a>
               </li>

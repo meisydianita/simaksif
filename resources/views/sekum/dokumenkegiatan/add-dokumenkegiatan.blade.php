@@ -8,7 +8,7 @@
       @include('layout.header')
       @include ('layout.sidebar')      
       <!--begin::App Main-->
-      <main class="app-main">
+      <main class="app-main pt-4">
         <!--begin::App Content-->
         <div class="app-content">
           <!--begin::Container-->
@@ -73,7 +73,7 @@
 
                         <!--begin::Col-->
                         <div class="col-md-6">
-                          <label for="validationCustom01" class="form-label">Penanggungjawab</label>
+                          <label for="validationCustom01" class="form-label">Penanggungjawab</label>                           
                             <select name="member_id" id="" class="form-select form-select-sm">
                               @foreach ($penanggungjawab as $p)
                               <option value="{{ $p->id }}">{{ $p->nama_lengkap }}</option>                              
@@ -106,11 +106,11 @@
                         <!--begin::Col-->
                         <div class="col-md-6">
                             <label for="formFile" class="form-label">Unggah Proposal</label>
-                            <input class="form-control form-control-sm" type="file" id="formFile" name="proposal">
+                            <input class="form-control form-control-sm" type="file" id="formFile" name="proposal" accept=".pdf,.doc,.docx">
                         </div>
                         <div class="col-md-6">
                             <label for="formFile" class="form-label">Unggah Laporan Pertanggungjawaban</label>
-                            <input class="form-control form-control-sm" type="file" id="formFile" name="laporan_pertanggungjawaban">
+                            <input class="form-control form-control-sm" type="file" id="formFile" name="laporan_pertanggungjawaban" accept=".pdf,.doc,.docx">
                         </div>
 
                         <div class="d-flex justify-content-center gap-2">                            

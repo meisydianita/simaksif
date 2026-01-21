@@ -20,7 +20,7 @@
             <div class="card">
               <div class="card-header">
                 <div class="d-flex align-items-center gap-2 w-100">
-                  <form action="{{ route('surat-masuk.index') }}" method="GET">
+                  <form action="{{ route('surat-masuk.index') }}" method="GET" class="d-flex align-items-center gap-2 flex-grow-1">
                       <div class="input-group input-group-sm" style="width: 280px;">
                         <input 
                         type="text"
@@ -30,14 +30,16 @@
                         placeholder="Pencarian"
                         value="{{ request('search') }}"
                         autocomplete="off">                        
-                      </div>                      
+                      </div>
+                      
+                      <!-- Clear Filter Button -->
+                      @if(request('search') || request(''))
+                          <a href="{{ route('surat-masuk.index') }}" class="btn btn-lg btn-sm btn-default">                          
+                              <i class="fa-solid fa-xmark"></i>
+                          </a>
+                      @endif                      
                   </form>
-                  <!-- Clear Filter Button -->
-                  @if(request('search') || request(''))
-                      <a href="{{ route('surat-masuk.index') }}" class="btn btn-lg btn-sm btn-default">                          
-                          <i class="fa-solid fa-xmark"></i>
-                      </a>
-                  @endif
+                  
                   <div class="ms-auto">
                           <a href="{{ route('surat-masuk.create') }}"
                             class="btn btn-sm btn-dark">

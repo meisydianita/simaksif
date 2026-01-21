@@ -135,7 +135,7 @@
                     <!-- Default box -->
                     <div class="card">
                       <div class="card-header">
-                        <h3 class="card-title">Grafik Tren Pengelolaan Data Administrasi Bulanan</h3>
+                        <h3 class="card-title">Grafik Tren Pengelolaan Data Administrasi Bulanan {{ $tahunSekarang }}</h3>
                         <div class="card-tools">
                           <button
                             type="button"
@@ -194,19 +194,23 @@
               series: [
                   {
                       name: 'Surat Masuk',
-                      data: grafiktotalsuratmasuk
+                      data: grafiktotalsuratmasuk,
+                      color : '#399918'
                   },
                   {
                       name: 'Surat Keluar',
-                      data: grafiktotalsuratkeluar
+                      data: grafiktotalsuratkeluar,
+                      color: '#980404'
                   },
                   {
                       name: 'Dokumen Kegiatan',
-                      data: grafiktotaldokumenkegiatan
+                      data: grafiktotaldokumenkegiatan,
+                      color: '#0D1164'
                   },
                   {
                       name: 'Sertifikat',
-                      data: grafiktotalsertifikat
+                      data: grafiktotalsertifikat,
+                      color: '#F87B1B'
                   }
               ]
           }); 

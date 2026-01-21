@@ -9,7 +9,7 @@
       @include ('layout.sidebar')
       
     <!--begin::App Main-->
-      <main class="app-main">
+      <main class="app-main pt-4">
         <!--begin::App Content-->
         <div class="app-content">
           <!--begin::Container-->
@@ -94,7 +94,7 @@
                         </div>
                         <div class="col-md-6">
                             <label for="formFile" class="form-label">Unggah Dokumen</label>
-                            <input class="form-control form-control-sm" type="file" id="formFile" name="file">
+                            <input class="form-control form-control-sm" type="file" id="formFile" name="file" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png">
                         </div>
                         <!--end::Col-->                     
 

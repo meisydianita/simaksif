@@ -66,7 +66,7 @@
 
                         <div class="col-md-12">
                             <label for="formFile" class="form-label">Unggah Bukti</label>
-                            <input class="form-control form-control-sm" type="file" id="formFile" name="bukti">
+                            <input class="form-control form-control-sm" type="file" id="formFile" name="bukti" accept="image/*">
                         </div>
                         <!--end::Col-->
                         <!--begin::Col-->

@@ -38,7 +38,7 @@ class SuratKeluarController extends Controller
             $query->where('jenis_surat', $request->jenis_surat);
         }
 
-        $allsuratkeluar = $query->paginate(10)->appends($request->query());
+        $allsuratkeluar = $query->latest()->paginate(10)->appends($request->query());
         return view ('sekum.suratkeluar.surat-keluar', compact('allsuratkeluar', 'jenis_surat'));
     }
     public function create()
