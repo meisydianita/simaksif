@@ -20,19 +20,19 @@
                 <div class="card">
                   <div class="card-header">
                       <div class="d-flex align-items-center gap-2 w-100">
-                          <form action="{{ route('member.index') }}" method="GET" class="d-flex align-items-center gap-2 flex-grow-1">
+                          <form action="{{ route('member-anggota.index') }}" method="GET" class="d-flex align-items-center gap-2 flex-grow-1">
                               <!-- Search -->
-                              <div class="input-group input-group-sm" style="width: 200px;">
+                              <div class="input-group input-group-sm" style="width: 215px;">
                                   <input type="text" name="search" class="form-control form-control-sm" 
                                         placeholder="Pencarian" id="searchInput" value="{{ request('search') }}">
                               </div>
                               
                               <!-- Tahun Masuk -->
-                              <div class="input-group input-group-sm" style="width: 200px;">
+                              <div class="input-group input-group-sm" style="width: 215px;">
                                   <select class="form-select form-select-sm" name="tahun_masuk" onchange="this.form.submit()" style="width: 200px">
                                       <option value="">
                                         @if(request('search') || request(''))
-                                            <a href="{{ route('member.index') }}" class="btn btn-lg btn-sm btn-default">    
+                                            <a href="{{ route('member-anggota.index') }}" class="btn btn-lg btn-sm btn-default">    
                                             </a>
                                         @endif
                                         Pilih Tahun Masuk
@@ -44,11 +44,11 @@
                               </div>
                               
                               <!-- Divisi -->
-                              <div class="input-group input-group-sm" style="width: 200px;">
+                              <div class="input-group input-group-sm" style="width: 215px;">
                                   <select class="form-select form-select-sm" name="divisi" onchange="this.form.submit()" style="width: 200px">
                                       <option value="">
                                         @if(request('search') || request(''))
-                                            <a href="{{ route('member.index') }}" class="btn btn-lg btn-sm btn-default">    
+                                            <a href="{{ route('member-anggota.index') }}" class="btn btn-lg btn-sm btn-default">    
                                             </a>
                                         @endif
                                         Pilih Divisi
@@ -60,11 +60,11 @@
                               </div>
                               
                               <!-- Status -->
-                              <div class="input-group input-group-sm" style="width: 200px;">
+                              <div class="input-group input-group-sm" style="width: 215px;">
                                   <select class="form-select form-select-sm" name="status" onchange="this.form.submit()" style="width: 200px">
                                       <option value="">
                                         @if(request('search') || request(''))
-                                            <a href="{{ route('member.index') }}" class="btn btn-lg btn-sm btn-default">    
+                                            <a href="{{ route('member-anggota.index') }}" class="btn btn-lg btn-sm btn-default">    
                                             </a>
                                         @endif
                                         Pilih Status
@@ -77,16 +77,11 @@
                               
                               <!-- Clear Button - DALAM FORM -->
                               @if(request('search') || request('tahun_masuk') || request('divisi') || request('status'))
-                                  <a href="{{ route('member.index') }}" class="btn btn-lg btn-sm btn-default">
+                                  <a href="{{ route('member-anggota.index') }}" class="btn btn-lg btn-sm btn-default">
                                       <i class="fa-solid fa-xmark"></i>
                                   </a>
                               @endif
                           </form>
-
-                          <!-- Tambah Button - DI SAMPING FORM -->
-                          <div class="ms-auto">
-                              <a href="{{ route('member.create') }}" class="btn btn-sm btn-dark">Tambah</a>
-                          </div>
                       </div>
                   </div>
 
@@ -105,7 +100,6 @@
                               <th class="fw-normal">No. Telepon</th>
                               <th class="fw-normal">Alamat</th>
                               <th class="fw-normal">Foto</th>
-                              <th class="fw-normal">Kelola</th>
                             </tr>
                           </thead>
                           <tbody>
@@ -134,18 +128,6 @@
                                     <img src="{{ Storage::url('Member/'.$r->foto) }}"                               
                                   style="width: 50px; height: 50px;">
                                   </a>
-                                </td>
-                                <td>
-                                  <form action="{{ route('member.destroy', $r->id) }}" method="POST">
-                                      <a href="{{ route('member.edit', $r->id) }}" style="color:inherit;text-decoration:none;">
-                                        <i class="fas fa-pen"></i>
-                                      </a>
-                                      @csrf
-                                      @method('DELETE')
-                                      <button type="submit" style="background:none;border:none;">
-                                        <i class="fas fa-trash"></i>
-                                      </button>
-                                  </form>
                                 </td>
                                 </td>
                               </tr>

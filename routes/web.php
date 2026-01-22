@@ -1,6 +1,12 @@
 <?php
 
 use App\Http\Controllers\AnggotaDokumenKegiatanController;
+use App\Http\Controllers\AnggotaIuranController;
+use App\Http\Controllers\AnggotaIuranDetailController;
+use App\Http\Controllers\AnggotaKasKeluarController;
+use App\Http\Controllers\AnggotaLaporanKasController;
+use App\Http\Controllers\AnggotaMemberController;
+use App\Http\Controllers\AnggotaPemasukanController;
 use App\Http\Controllers\AnggotaSertifikatController;
 use App\Http\Controllers\AnggotaSuratKeluarController;
 use App\Http\Controllers\AnggotaSuratMasukController;
@@ -59,4 +65,11 @@ Route::middleware(['auth:anggota', 'ceklevel:Anggota'])->group(function () {
     Route::resource('surat-keluar-anggota', AnggotaSuratKeluarController::class);
     Route::resource('sertifikat-anggota', AnggotaSertifikatController::class);
     Route::resource('dokumen-kegiatan-anggota', AnggotaDokumenKegiatanController::class);
+    Route::resource('iuran-anggota', AnggotaIuranController::class);
+    Route::resource('iurandetail-anggota', AnggotaIuranDetailController::class);
+    Route::resource('pemasukan-anggota', AnggotaPemasukanController::class);
+    Route::resource('kas-keluar-anggota', AnggotaKasKeluarController::class);
+    Route::resource('laporan-kas-anggota', AnggotaLaporanKasController::class);
+    Route::get(  '/cetak-laporan-kas/{tanggal_awal}/{tanggal_akhir}',  [AnggotaLaporanKasController::class, 'cetak'])->name('laporan-kas-anggota.cetak');
+    Route::resource('member-anggota', AnggotaMemberController::class);
     });

@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 
 class AnggotaSuratMasukController extends Controller
 {
-    public function index(Request $request, AnggotaSuratMasuk $anggotasuratmasuk, Query $query)
+    public function index(Request $request, AnggotaSuratMasuk $surat_masuk, Query $query)
     {    
         $query = AnggotaSuratMasuk::query();
 

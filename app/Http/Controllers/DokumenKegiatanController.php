@@ -57,6 +57,7 @@ class DokumenKegiatanController extends Controller
             'deskripsi_kegiatan'=>'required|string',
             'proposal'=>'required|file|mimes:pdf,doc,docx|max:10240',
             'laporan_pertanggungjawaban' => 'required|file|mimes:pdf,doc,docx|max:10240'
+            
         ]);
 
         //simpan proposal ke dalam storage
@@ -68,7 +69,7 @@ class DokumenKegiatanController extends Controller
         $lpj = $request->file('laporan_pertanggungjawaban');
         $lpjname = date('Y-m-d').'_'.$lpj->getClientOriginalName();
         $lpj->storeAs('DokumenKegiatan/Lpj', $lpjname, 'public');
-
+ 
         //simpan nama proposal ke database
         $validatedData['proposal'] = $proposalname;
 

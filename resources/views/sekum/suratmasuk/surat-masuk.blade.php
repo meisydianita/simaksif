@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="id">
   <title>Surat Masuk</title>
 @include('layout.head')
   <!--begin::Body-->
@@ -67,7 +67,7 @@
                           <tr>
                               <td>{{ $key + 1 }}</td>
                               <td>{{ $r->nomor_surat }}</td>
-                              <td>{{ $r->tanggal_surat }}</td>
+                              <td>{{ \Carbon\Carbon::parse($r->tanggal_surat)->format('d-m-Y') }}</td>
                               <td>{{ $r->asal_surat }}</td>
                               <td>{{ $r->perihal }}</td>
                               <td>
@@ -85,7 +85,7 @@
                                   </a>
                                   @csrf
                                   @method('DELETE')
-                                  <button type="submit" style="background:none;border:none;" class="justify-content-center">
+                                  <button type="submit" style="background:none;border:none;" class="justify-content-center show_confirm">
                                     <i class="fas fa-trash"></i>
                                   </button>
                                 </form>
@@ -122,6 +122,7 @@
       
       </main>
       <!--end::App Main-->
+      
       @include('layout.footer')
     </div>
     <!--end::App Wrapper-->

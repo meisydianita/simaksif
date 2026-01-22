@@ -7,6 +7,8 @@ use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Collection;
 use App\Observers\MemberObserver;
 use App\Models\Member;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Pluralizer;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -26,7 +28,10 @@ class AppServiceProvider extends ServiceProvider
          Paginator::useBootstrapFive();
          Collection::macro('padArray', function ($size, $default = 0) {
          return $this->pad($size, $default)->values()->all();
+         config(['app.locale' => 'id']);
+         Carbon::setLocale('id');
          Member::observe(MemberObserver::class);
+         Pluralizer::useLanguage('indonesian');
 
     });
         // Paginator::useTailwind();

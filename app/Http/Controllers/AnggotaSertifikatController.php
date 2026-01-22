@@ -18,25 +18,26 @@ class AnggotaSertifikatController extends Controller
 
         $query = AnggotaSertifikat::query();
 
-        if ($request->filled('search')){
-            $query->where(function ($q) use ($request){
-            $q->where('nomor_sertifikat', 'like', '%'.$request->search . '%')
-                ->orwhere('nama_penerima', 'like', '%'.$request->search . '%')
-                ->orwhere('nama_kegiatan', 'like', '%'.$request->search . '%');
-            }
-        );
+        if ($request->filled('search')) {
+            // Escape special chars + trim
+            $searchTerm = '%' . trim($request->search) . '%';
             
+            $query->where(function ($q) use ($searchTerm) {
+                $q->whereRaw('nomor_sertifikat LIKE ?', [$searchTerm])
+                ->orWhereRaw('nama_penerima LIKE ?', [$searchTerm])
+                ->orWhereRaw('nama_kegiatan LIKE ?', [$searchTerm]);
+            });
         }
-         // Filter Jenis Surat
+
+            
+        // Filter Peran Penerima
         if ($request->filled('peran_penerima')) {
             $query->where(function ($q) use ($request){
                 $q->where('peran_penerima', $request->peran_penerima);
-            }
-        );
-            
+            });            
         }
 
-        $allsertifikat = $query->paginate(10)->appends($request->query());
+        $allsertifikat = $query->latest()->paginate(10)->appends($request->query());
         return view ('anggota.sertifikat', compact('allsertifikat', 'peran_penerima'));
     }
 }

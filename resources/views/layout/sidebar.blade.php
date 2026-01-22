@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -100,7 +100,7 @@
                   <i class="nav-icon fa-solid fa-users" style="color: #003580;"></i>
                   <p style="color: #003580;">Anggota</p>
                 </a>
-                </li>
+              </li>
             @endif
             @endif
             
@@ -200,8 +200,15 @@
               </li>
 
               <li class="nav-item">
+                <a href="{{ route('member-anggota.index') }}" class="nav-link">
+                  <i class="nav-icon fa-solid fa-users" style="color: #003580;"></i>
+                  <p style="color: #003580;">Anggota</p>
+                </a>
+              </li>
+
+              <li class="nav-item">
                 <a href="#" class="nav-link">
-                  <i class="nav-icon fa-solid fa-envelope" style="color: #003580;"></i>
+                  <i class="nav-icon fa-solid fa-wallet" style="color: #003580;"></i>
                   <p style="color: #003580;">
                     Kas Masuk
                     <i class="nav-arrow bi bi-chevron-right" style="color: #003580;"></i>
@@ -209,13 +216,13 @@
                 </a>
                 <ul class="nav nav-treeview">
                   <li class="nav-item">
-                    <a href="#" class="nav-link">
+                    <a href="{{ route('iuran-anggota.index') }}" class="nav-link">
                       <i class="nav-icon bi bi-circle" style="color: #003580;"></i>
                       <p style="color: #003580;">Iuran</p>
                     </a>
                   </li>
                   <li class="nav-item">
-                    <a href="#" class="nav-link">
+                    <a href="{{ route('pemasukan-anggota.index') }}" class="nav-link">
                       <i class="nav-icon bi bi-circle" style="color: #003580;"></i>
                       <p style="color: #003580;">Pemasukan</p>
                     </a>
@@ -223,15 +230,15 @@
                 </ul>
               </li>
               <li class="nav-item">
-                <a href="#" class="nav-link">
-                  <i class="nav-icon fa-solid fa-file" style="color: #003580;"></i> 
+                <a href="{{ route('kas-keluar-anggota.index') }}" class="nav-link">
+                  <i class="nav-icon fa-solid fa-credit-card" style="color: #003580;"></i> 
                   <p style="color: #003580;">Kas Keluar</p>
                 </a>
               </li>
 
               <li class="nav-item">
-                <a href="#" class="nav-link">
-                  <i class="nav-icon fa-solid fa-file-fragment" style="color: #003580;"></i>
+                <a href="{{ route('laporan-kas-anggota.index') }}" class="nav-link">
+                  <i class="nav-icon fa-solid fa-folder" style="color: #003580;"></i>
                   <p style="color: #003580;">Laporan Kas</p>
                 </a>
               </li>

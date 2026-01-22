@@ -1,6 +1,6 @@
 <!doctype html>
-<html lang="en">
-  <title>Dokumen Kegiatan</title>
+<html lang="id">
+  <title>Anggota Dokumen Kegiatan</title>
 @include('layout.head')
   <!--begin::Body-->
   <body class="fixed-header sidebar-expand-lg sidebar-open bg-body-tertiary">
@@ -81,8 +81,8 @@
                       <tr>
                         <td>{{ $key +1 }}</td>
                         <td>{{ $r->nama_kegiatan }}</td>
-                        <td>{{ $r->tanggal_mulai }}</td>
-                        <td>{{ $r->tanggal_selesai }}</td>
+                        <td>{{ \Carbon\Carbon::parse($r->tanggal_mulai)->format('d-m-Y') }}</td>                        
+                        <td>{{ \Carbon\Carbon::parse($r->tanggal_selesai)->format('d-m-Y') }}</td>
                         <td>{{ $r->penanggungjawab->nama_lengkap }}</td>
                         <td>{{ $r->tahun }}</td>
                         <td>{{ $r->deskripsi_kegiatan }}</td>
@@ -105,7 +105,7 @@
                       </tr>   
                       @empty
                         <tr>
-                            <td colspan="9" class="text-center py-4">
+                            <td colspan="10" class="text-center py-4">
                                 <div class="text-muted">Tidak Terdapat Data Dokumen Kegiatan</div>
                             </td>
                         </tr>                  
@@ -126,30 +126,6 @@
         <!-- /.row -->
         </div>
         <!--end::App Content-->
-      <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const searchInput = document.getElementById('searchInput');
-            
-            // Enter = submit
-            searchInput.addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') {
-                    this.form.submit();
-                }
-            });
-            
-            // Ketik 2+ huruf = delay 1ms lalu submit (debounce)
-            let timeout;
-            searchInput.addEventListener('input', function() {
-                clearTimeout(timeout);
-                timeout = setTimeout(() => {
-                    if (this.value.length >= 0) {
-                        this.form.submit();
-                    }
-                }, 1);
-            });
-        });
-      </script>
-
       </main>
       <!--end::App Main-->
       @include('layout.footer')

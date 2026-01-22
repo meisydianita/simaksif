@@ -1,6 +1,6 @@
 <!doctype html>
-<html lang="en">
-  <title>Surat Keluar</title>
+<html lang="id">
+  <title>Anggota Surat Keluar</title>
 @include('layout.head')
   <!--begin::Body-->
   <body class="fixed-header sidebar-expand-lg sidebar-open bg-body-tertiary">
@@ -36,9 +36,8 @@
                       <div class="input-group input-group-sm" style="width: 280px;">
                         <select class="form-select form-select-sm" aria-label="Small select example" style="width: 280px"; name="jenis_surat" onchange="this.form.submit()">
                               <option selected value="">
-                                <!-- Clear Filter Button -->
                                 @if(request('search') || request(''))
-                                    <a href="{{ route(name: 'surat-keluar-anggota.index') }}" class="btn btn-lg btn-sm btn-default">    
+                                    <a href="{{ route('surat-keluar.index') }}" class="btn btn-lg btn-sm btn-default">    
                                     </a>
                                 @endif
                                 Pilih Jenis Surat
@@ -65,8 +64,8 @@
                       <thead>
                             <tr>
                               <th class="fw-normal">No.</th>
-                              <th class="fw-normal">Jenis Surat</th>
                               <th class="fw-normal">Nomor Surat</th>
+                              <th class="fw-normal">Jenis Surat</th>
                               <th class="fw-normal">Tanggal Surat</th>
                               <th class="fw-normal">Tujuan Surat</th>
                               <th class="fw-normal">Perihal</th>
@@ -77,8 +76,8 @@
                             @forelse ($allsuratkeluar as $key => $r)
                               <tr>
                                 <td>{{ $key + 1 }}</td>
-                                <td>{{ $jenis_surat[$r->jenis_surat] ?? $r->jenis_surat }}</td>
                                 <td>{{ $r->nomor_surat }}</td>
+                                <td>{{ $jenis_surat[$r->jenis_surat] ?? $r->jenis_surat }}</td>
                                 <td>{{ $r->tanggal_surat }}</td>
                                 <td>{{ $r->tujuan_surat }}</td>
                                 <td>{{ $r->perihal }}</td>
@@ -90,6 +89,7 @@
                                       <i class="fas fa-download"></i>
                                   </a>
                                 </td>
+                              </tr>
                               @empty
                               <tr>
                                   <td colspan="7" class="text-center py-4">
@@ -113,29 +113,7 @@
             <!-- /.row -->
             </div>
         <!--end::App Content-->
-      <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const searchInput = document.getElementById('searchInput');
-            
-            // Enter = submit
-            searchInput.addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') {
-                    this.form.submit();
-                }
-            });
-            
-            // Ketik 2+ huruf = delay 1ms lalu submit (debounce)
-            let timeout;
-            searchInput.addEventListener('input', function() {
-                clearTimeout(timeout);
-                timeout = setTimeout(() => {
-                    if (this.value.length >= 0) {
-                        this.form.submit();
-                    }
-                }, 1);
-            });
-        });
-      </script>
+      
       </main>
       <!--end::App Main-->
       @include('layout.footer')

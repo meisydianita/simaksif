@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="id">
-<title>Iuran Detail</title>
+<title>Anggota Iuran Detail</title>
 @include('layout.head')
 
   <!--begin::Body-->
@@ -43,7 +43,7 @@
                       >
                         <i class="bi bi-x-lg"></i>
                       </button>
-                       <a href="{{ route('iuran.index') }}" 
+                       <a href="{{ route('iuran-anggota.index') }}" 
                         class="btn btn-tool" title="Kembali">
                           <i class="bi bi-arrow-left"></i>
                       </a>
@@ -62,8 +62,7 @@
                       <th class="fw-normal" >Jumlah</th>
                       <th class="fw-normal" >Tanggal Bayar</th>
                       <th class="fw-normal" >Bukti</th>
-                      <th class="fw-normal" >Status</th> 
-                      <th class="fw-normal" >Kelola</th>                      
+                      <th class="fw-normal" >Status</th>                    
                     </tr>
                   </thead>
                   <tbody>
@@ -85,29 +84,18 @@
                           @else
                             <span class="text-muted">-</span>
                           @endif
+                        </td>
                         <td> 
                           @if ($r->status == 'lunas')
                               <span class="badge bg-success">Lunas</span>
                           @else
                               <span class="badge bg-danger">Belum Lunas</span>
                           @endif                    
-                        </td>
-                        <td>
-                            <form action="{{ route('iuran.destroy', $r->id) }}" method="POST">
-                                <a href="{{ route('iuran.edit', $r->id) }}" style="color:inherit;text-decoration:none;">
-                                  <i class="fas fa-pen"></i>
-                                </a>
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" style="background:none;border:none;">
-                                  <i class="fas fa-trash"></i>
-                                </button>
-                            </form>
-                          </td>                          
+                        </td>            
                       </tr>  
                       @empty
                         <tr>
-                            <td colspan="8" class="text-center py-4">
+                            <td colspan="7" class="text-center py-4">
                                 <div class="text-muted">Tidak Terdapat Data Iuran</div>
                             </td>
                         </tr> 

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -130,7 +130,7 @@
                           }
                       @endphp
                       @if ($authUser)
-                           <small>Bergabung Sejak {{ $authUser->created_at->format('M Y') }}</small>
+                           <small>Bergabung Sejak {{ $authUser->created_at->translatedFormat('M Y') }}</small>
                       @endif                   
                   </p>
                 </li>

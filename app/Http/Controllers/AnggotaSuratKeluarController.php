@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 
 class AnggotaSuratKeluarController extends Controller
 {
-    public function index(Request $request, AnggotaSuratKeluar $suratkeluar, Query $query)
+    public function index(Request $request, AnggotaSuratKeluar $surat_keluar, Query $query)
     {
         
         $jenis_surat = [
@@ -37,7 +37,7 @@ class AnggotaSuratKeluarController extends Controller
             $query->where('jenis_surat', $request->jenis_surat);
         }
 
-        $allsuratkeluar = $query->paginate(10)->appends($request->query());
+        $allsuratkeluar = $query->latest()->paginate(10)->appends($request->query());
         return view ('anggota.surat-keluar', compact('allsuratkeluar', 'jenis_surat'));
     }
 }

@@ -86,13 +86,13 @@
                     <td style="border:1px solid black; text-align: center;">
                         {{ \Carbon\Carbon::parse($item['tanggal'])->format('d-m-Y') }}
                     </td>
-                    <td style="border:1px solid black; text-align:right;">
+                    <td style="border:1px solid black; text-align:left;">
                         Rp {{ number_format($item['masuk'], 0, ',', '.') }}
                     </td>
-                    <td style="border:1px solid black; text-align:right;">
+                    <td style="border:1px solid black; text-align:left;">
                         Rp {{ number_format($item['keluar'], 0, ',', '.') }}
                     </td>
-                    <td style="border:1px solid black; text-align:right;">
+                    <td style="border:1px solid black; text-align:left;">
                         Rp {{ number_format($saldo, 0, ',', '.') }}
                     </td>
                     <td style="border:1px solid black; text-align:left;">{{ $item['nama'] }}</td>                    
@@ -100,18 +100,18 @@
             @endforeach
            <tr class="fw-bold bg-light">
                 
-                <td colspan="2" style="border:1px solid black; text-align:center; font-weight: bold;">
+                <td colspan="2" style="border:1px solid black; text-align:left; font-weight: bold;">
                     TOTAL
                 </td>
-                <td style="border:1px solid black; text-align:right; font-weight: bold;">
+                <td style="border:1px solid black; text-align:left; font-weight: bold;">
                     Rp {{ number_format($totalMasuk, 0, ',', '.') }}
                 </td>
                 
-                <td style="border:1px solid black; text-align:right; font-weight: bold;">
+                <td style="border:1px solid black; text-align:left; font-weight: bold;">
                     Rp {{ number_format($totalKeluar, 0, ',', '.') }}
                 </td>
                 
-                <td colspan="2" style="border:1px solid black; text-align:right; font-weight: bold;">
+                <td colspan="2" style="border:1px solid black; text-align:left; font-weight: bold;">
                     SISA SALDO : Rp {{ number_format($sisaSaldo, 0, ',', '.') }}
                 </td>
            </tr>

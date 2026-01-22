@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
   <!--begin::Head-->
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -87,6 +87,7 @@
 
     <!-- tailwind -->
       <!-- @vite(['resources/css/app.css', 'resources/js/app.js']) -->
+
   </head>
   <!--end::Head-->
 <body>

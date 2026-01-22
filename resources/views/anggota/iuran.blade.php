@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="id">
-  <title>Iuran</title>
+  <title>Anggota Iuran</title>
 @include('layout.head')
   <!--begin::Body-->
   <body class="fixed-header sidebar-expand-lg sidebar-open bg-body-tertiary">
@@ -21,7 +21,7 @@
             <div class="card">
               <div class="card-header">
                 <div class="d-flex align-items-center gap-2 w-100">
-                  <form action="{{ route('iuran.index') }}" method="GET" class="d-flex align-items-center gap-2 flex-grow-1">
+                  <form action="{{ route('iuran-anggota.index') }}" method="GET" class="d-flex align-items-center gap-2 flex-grow-1">
                     
                     <!-- Search -->
                     <div class="input-group input-group-sm" style="width: 280px;">
@@ -34,7 +34,7 @@
                         <select class="form-select form-select-sm" name="status" onchange="this.form.submit()" style="width: 200px">
                             <option value="">
                                @if(request('search') || request(''))
-                                    <a href="{{ route('iuran.index') }}" class="btn btn-lg btn-sm btn-default">    
+                                    <a href="{{ route('iuran-anggota.index') }}" class="btn btn-lg btn-sm btn-default">    
                                     </a>
                                 @endif
                               Pilih Status
@@ -47,7 +47,7 @@
                               
                     <!-- Clear Button - DALAM FORM -->
                     @if(request('search') || request('status'))
-                        <a href="{{ route('iuran.index') }}" class="btn btn-lg btn-sm btn-default">
+                        <a href="{{ route('iuran-anggota.index') }}" class="btn btn-lg btn-sm btn-default">
                             <i class="fa-solid fa-xmark"></i>
                         </a>
                     @endif                    
@@ -91,7 +91,7 @@
                             @endif
                         </td>
                         <td>
-                           <a href="{{ route('iurandetail.show', $r->id) }}" style="color: inherit;text-decoration:none;">
+                           <a href="{{ route('iurandetail-anggota.show', $r->id) }}" style="color: inherit;text-decoration:none;">
                             <i class="far fa-eye"></i>                            
                            </a>
                         </td>                        

@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="id">
-  <title>Pemasukan</title>
+  <title>Anggota Pemasukan</title>
 @include('layout.head')
   <!--begin::Body-->
   <body class="fixed-header sidebar-expand-lg sidebar-open bg-body-tertiary">
@@ -20,7 +20,7 @@
               <div class="card">
                 <div class="card-header">
                   <div class="d-flex align-items-center gap-2 w-100">
-                    <form action="{{ route('pemasukan.index') }}" method="GET" class="d-flex align-items-center gap-2 flex-grow-1">
+                    <form action="{{ route('pemasukan-anggota.index') }}" method="GET" class="d-flex align-items-center gap-2 flex-grow-1">
                       <!-- Search -->
                       <div class="input-group input-group-sm" style="width: 280px;">
                       <input type="text" name="search" class="form-control form-control-sm float-left" 
@@ -32,7 +32,7 @@
                         <select class="form-select form-select-sm" aria-label="Small select example" style="width: 280px"; onchange="this.form.submit()" name="kategori">
                           <option selected value="">
                               @if(request('search') || request(''))
-                                  <a href="{{ route('pemasukan.index') }}" class="btn btn-lg btn-sm btn-default">
+                                  <a href="{{ route('pemasukan-anggota.index') }}" class="btn btn-lg btn-sm btn-default">
                                       <i class="fa-solid fa-xmark"></i>
                                   </a>
                               @endif
@@ -48,19 +48,11 @@
 
                       <!-- Clear Button - DALAM FORM -->
                        @if(request('search') || request('kategori'))
-                          <a href="{{ route('pemasukan.index') }}" class="btn btn-lg btn-sm btn-default">
+                          <a href="{{ route('pemasukan-anggota.index') }}" class="btn btn-lg btn-sm btn-default">
                               <i class="fa-solid fa-xmark"></i>
                           </a>
                        @endif
                     </form>
-
-                    <!-- Tambah Button -->
-                    <div class="ms-auto">
-                            <a href="{{ route('pemasukan.create') }}"
-                              class="btn btn-sm btn-dark">
-                              Tambah
-                            </a>
-                    </div>
                 </div>
                 </div> 
                 <!-- /.card-header -->
@@ -77,7 +69,6 @@
                         <th class="fw-normal" >Jumlah</th>
                         <th class="fw-normal" >Keterangan</th>
                         <th class="fw-normal" >Bukti</th>
-                        <th class="fw-normal" >Kelola</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -99,22 +90,10 @@
                               <i class="fas fa-download"></i>
                             </a>
                           </td>
-                          <td>
-                            <form action="{{ route('pemasukan.destroy', $r->id) }}" method="POST">
-                                <a href="{{ route('pemasukan.edit', $r->id) }}" style="color:inherit;text-decoration:none;">
-                                  <i class="fas fa-pen"></i>
-                                </a>
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" style="background:none;border:none;">
-                                  <i class="fas fa-trash"></i>
-                                </button>
-                            </form>
-                          </td>
                         </tr>
                         @empty
                         <tr>
-                            <td colspan="12" class="text-center py-4">
+                            <td colspan="11" class="text-center py-4">
                                 <div class="text-muted">Tidak Terdapat Data Pemasukan</div>
                             </td>
                         </tr>

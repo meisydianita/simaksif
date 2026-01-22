@@ -1,6 +1,6 @@
 <!doctype html>
-<html lang="en">
-  <title>Surat Masuk</title>
+<html lang="id">
+  <title>Anggota Surat Masuk</title>
 @include('layout.head')
   <!--begin::Body-->
   <body class="fixed-header sidebar-expand-lg sidebar-open bg-body-tertiary">
@@ -20,8 +20,8 @@
             <div class="card">
               <div class="card-header">
                 <div class="d-flex align-items-center gap-2 w-100">
-                  <form action="{{ route('surat-masuk-anggota.index') }}" method="GET">
-                      <div class="input-group input-group-sm" style="width: 250px;">
+                  <form action="{{ route('surat-masuk-anggota.index') }}" method="GET" class="d-flex align-items-center gap-2 flex-grow-1">
+                      <div class="input-group input-group-sm" style="width: 280px;">
                         <input 
                         type="text"
                         name="search" 
@@ -30,14 +30,15 @@
                         placeholder="Pencarian"
                         value="{{ request('search') }}"
                         autocomplete="off">                        
-                      </div>                      
+                      </div>
+                      
+                      <!-- Clear Filter Button -->
+                      @if(request('search') || request(''))
+                          <a href="{{ route('surat-masuk-anggota.index') }}" class="btn btn-lg btn-sm btn-default">                          
+                              <i class="fa-solid fa-xmark"></i>
+                          </a>
+                      @endif                      
                   </form>
-                  <!-- Clear Filter Button -->
-                  @if(request('search') || request(''))
-                      <a href="{{ route('surat-masuk-anggota.index') }}" class="btn btn-lg btn-sm btn-default">                          
-                          <i class="fa-solid fa-xmark"></i>
-                      </a>
-                  @endif
                 </div>
               </div> 
               <!-- /.card-header -->
@@ -72,7 +73,7 @@
                           </tr>
                           @empty
                           <tr>
-                              <td colspan="7" class="text-center py-4">
+                              <td colspan="6" class="text-center py-4">
                                   <div class="text-muted">Tidak Terdapat Data Surat Masuk</div>
                               </td>
                           </tr>                          
@@ -96,31 +97,12 @@
         <!--end::App Content-->
 
       <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const searchInput = document.getElementById('searchInput');
-            
-            // Enter = submit
-            searchInput.addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') {
-                    this.form.submit();
-                }
-            });
-            
-            // Ketik 2+ huruf = delay 500ms lalu submit (debounce)
-            let timeout;
-            searchInput.addEventListener('input', function() {
-                clearTimeout(timeout);
-                timeout = setTimeout(() => {
-                    if (this.value.length >= 0) {
-                        this.form.submit();
-                    }
-                }, 1);
-            });
-        });
+        
       </script>
       
       </main>
       <!--end::App Main-->
+      
       @include('layout.footer')
     </div>
     <!--end::App Wrapper-->

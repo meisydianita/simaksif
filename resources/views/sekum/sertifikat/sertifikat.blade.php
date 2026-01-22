@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="id">
   <title>Sertifikat</title>
 @include('layout.head')
   <!--begin::Body-->
@@ -72,10 +72,10 @@
                     <tr>
                       <th class="fw-normal" >No.</th>
                       <th class="fw-normal" >Nomor Sertifikat</th>
+                      <th class="fw-normal" >Tanggal Sertifikat</th>
                       <th class="fw-normal" >Nama Penerima</th>
                       <th class="fw-normal" >Peran Penerima</th>
                       <th class="fw-normal" >Nama Kegiatan</th>
-                      <th class="fw-normal" >Tanggal Sertifikat</th>
                       <th class="fw-normal" >File Surat</th>
                       <th class="fw-normal" >Kelola</th>
                     </tr>
@@ -85,10 +85,11 @@
                       <tr>
                         <td>{{ $key + 1 }}</td>
                         <td>{{ $r->nomor_sertifikat }}</td>
+                        <td>{{ \Carbon\Carbon::parse($r->tanggal_sertifikat)->format('d-m-Y') }}</td>
                         <td>{{ $r->nama_penerima }}</td>
                         <td>{{ $r->peran_penerima }}</td>
                         <td>{{ $r->nama_kegiatan }}</td>
-                        <td>{{ $r->tanggal_sertifikat }}</td>
+                        
                         <td>
                           <a href="{{ Storage::url('Sertifikat/'.$r->file) }}" target="_blank" style="color:inherit;text-decoration:none;">
                             <i class="far fa-eye"></i>

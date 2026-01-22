@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="id">
   <title>Dokumen Kegiatan</title>
 @include('layout.head')
   <!--begin::Body-->
@@ -89,8 +89,8 @@
                       <tr>
                         <td>{{ $key +1 }}</td>
                         <td>{{ $r->nama_kegiatan }}</td>
-                        <td>{{ $r->tanggal_mulai }}</td>
-                        <td>{{ $r->tanggal_selesai }}</td>
+                        <td>{{ \Carbon\Carbon::parse($r->tanggal_mulai)->format('d-m-Y') }}</td>                        
+                        <td>{{ \Carbon\Carbon::parse($r->tanggal_selesai)->format('d-m-Y') }}</td>
                         <td>{{ $r->penanggungjawab->nama_lengkap }}</td>
                         <td>{{ $r->tahun }}</td>
                         <td>{{ $r->deskripsi_kegiatan }}</td>
