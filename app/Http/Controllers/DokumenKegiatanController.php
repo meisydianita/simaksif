@@ -128,17 +128,17 @@ class DokumenKegiatanController extends Controller
         // cek apakah user upload file lpj baru
         if($request->hasFile('laporan_pertanggungjawaban')){
            
-           // hapus file ketika sudah ada
-           if($dokumen_kegiatan->laporan_pertanggungjawaban){
-            Storage::disk('public')->delete('DokumenKegiatan/Lpj'.$dokumen_kegiatan->laporan_pertanggungjawaban);
-           }
+          // hapus file ketika sudah ada
+          if($dokumen_kegiatan->laporan_pertanggungjawaban){
+           Storage::disk('public')->delete('DokumenKegiatan/Lpj'.$dokumen_kegiatan->laporan_pertanggungjawaban);
+          }
            // simpan ke file baru
           $lpj = $request->file('laporan_pertanggungjawaban');
           $lpjname = date('Y-m-d').'_'.$lpj->getClientOriginalName();
           $lpj->storeAs('DokumenKegiatan/Lpj', $lpjname, 'public');
 
-           // update nama file di database
-           $validatedData['laporan_pertanggungjawaban']=$lpjname;
+          // update nama file di database
+          $validatedData['laporan_pertanggungjawaban']=$lpjname;
         }
 
         // update data
@@ -148,9 +148,21 @@ class DokumenKegiatanController extends Controller
         return redirect()->route('dokumen-kegiatan.index');
     }
 
-    public function destroy(DokumenKegiatan $dokumen_kegiatan)
+    public function destroy($id)
     {
-        $dokumen_kegiatan->delete();
+        $hapusDokumenKegiatan = DokumenKegiatan::findOrFail($id);        
+        
+        // hapus file bukti kalau ada
+        if ($hapusDokumenKegiatan->proposal && Storage::disk('public')->exists('DokumenKegiatan/Proposal/'.$hapusDokumenKegiatan->proposal)) {
+            Storage::disk('public')->delete('DokumenKegiatan/Proposal/'.$hapusDokumenKegiatan->proposal);
+        }
+
+        // hapus file bukti kalau ada
+        if ($hapusDokumenKegiatan->laporan_pertanggungjawaban && Storage::disk('public')->exists('DokumenKegiatan/Lpj/'.$hapusDokumenKegiatan->laporan_pertanggungjawaban)) {
+            Storage::disk('public')->delete('DokumenKegiatan/Lpj/'.$hapusDokumenKegiatan->laporan_pertanggungjawaban);
+        }
+
+        $hapusDokumenKegiatan->delete();
         return redirect()->route('dokumen-kegiatan.index');
     }
 }

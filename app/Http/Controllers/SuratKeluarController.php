@@ -124,9 +124,16 @@ class SuratKeluarController extends Controller
 
     }
 
-    public function destroy(SuratKeluar $surat_keluar)
+    public function destroy($id)
     {
-        $surat_keluar->delete();
+        $hapusSuratKeluar = SuratKeluar::findOrFail($id);        
+        
+        // hapus file bukti kalau ada
+        if ($hapusSuratKeluar->file_surat && Storage::disk('public')->exists('SuratKeluar/'.$hapusSuratKeluar->file_surat)) {
+            Storage::disk('public')->delete('SuratKeluar/'.$hapusSuratKeluar->file_surat);
+        }
+
+        $hapusSuratKeluar->delete();
         return redirect()->route('surat-keluar.index');
 
     }

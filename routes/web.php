@@ -31,11 +31,10 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/login', function () {
-    return view('login');
-})->name('login');
-
+Route::get('/login', function () {return view('login');})->name('login');
 Route::post('/postlogin', [LoginController::class, 'postlogin'])->name('postlogin');
+Route::get('/daftar', function () {return view('daftar');})->name('daftar');
+Route::post('/postdaftar', [LoginController::class, 'postdaftar'])->name('postdaftar');
 Route::post('/postlogout', [LoginController::class, 'postlogout'])->name('logout');
 
 Route::middleware(['auth:user', 'ceklevel:Sekretaris Umum'])->group(function () {

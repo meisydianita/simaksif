@@ -141,7 +141,7 @@
                     if (this.value.length >= 0) {
                         this.form.submit();
                     }
-                }, 1);
+                }, 50);
             });
         });
      

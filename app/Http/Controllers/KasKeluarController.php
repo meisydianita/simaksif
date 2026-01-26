@@ -126,9 +126,17 @@ class KasKeluarController extends Controller
         return redirect()->route('kas-keluar.index');
     }
 
-    public function destroy(KasKeluar $kas_keluar)
+    public function destroy($id)
     {
-        $kas_keluar->delete();
+        $hapusKasKeluar = KasKeluar::findOrFail($id);        
+        
+        // hapus file bukti
+        if ($hapusKasKeluar->bukti && Storage::disk('public')->exists('KasKeluar/'.$hapusKasKeluar->bukti)) {
+            Storage::disk('public')->delete('KasKeluar/'.$hapusKasKeluar->bukti);
+        }
+
+        // hapus data
+        $hapusKasKeluar->delete();      
         return redirect()->route('kas-keluar.index');
     }
 }

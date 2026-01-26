@@ -126,10 +126,18 @@ class PemasukanController extends Controller
         return redirect()->route('pemasukan.index');
     }
 
-    public function destroy(Pemasukan $pemasukan)
+    public function destroy($id)
     {
-        $pemasukan->delete();
-        // redirect to index ketika berhasil dihapus
+        $hapusPemasukan = Pemasukan::findOrFail($id);        
+        
+        // hapus file bukti kalau ada
+        if ($hapusPemasukan->bukti && Storage::disk('public')->exists('Pemasukan/'.$hapusPemasukan->bukti)) {
+            Storage::disk('public')->delete('Pemasukan/'.$hapusPemasukan->bukti);
+        }
+
+        // hapus data
+        $hapusPemasukan->delete();
+
         return redirect()->route('pemasukan.index');
     }
 }

@@ -59,7 +59,7 @@
                           <tr>
                               <td>{{ $key + 1 }}</td>
                               <td>{{ $r->nomor_surat }}</td>
-                              <td>{{ $r->tanggal_surat }}</td>
+                              <td>{{ \Carbon\Carbon::parse($r->tanggal_surat)->Format('d-m-Y') }}</td>
                               <td>{{ $r->asal_surat }}</td>
                               <td>{{ $r->perihal }}</td>
                               <td>

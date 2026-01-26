@@ -122,9 +122,17 @@ class SertifikatController extends Controller
       
     }
 
-    public function destroy(Sertifikat $sertifikat)
+    public function destroy($id)
     {
-        $sertifikat->delete();
+        $hapusSertifikat = Sertifikat::findOrFail($id);        
+        
+        // hapus file bukti kalau ada
+        if ($hapusSertifikat->file && Storage::disk('public')->exists('Sertifikat/'.$hapusSertifikat->file)) {
+            Storage::disk('public')->delete('Sertifikat/'.$hapusSertifikat->file);
+        }
+
+        // hapus data
+        $hapusSertifikat->delete();
         return redirect()->route('sertifikat.index');
     }
 }

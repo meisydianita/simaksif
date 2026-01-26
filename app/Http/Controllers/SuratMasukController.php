@@ -108,9 +108,16 @@ class SuratMasukController extends Controller
         return redirect()->route('surat-masuk.index');
     }
 
-    public function destroy(SuratMasuk $surat_masuk)
+    public function destroy($id)
     {
-        $surat_masuk->delete();
+        $hapusSuratMasuk = SuratMasuk::findOrFail($id);        
+        
+        // hapus file bukti kalau ada
+        if ($hapusSuratMasuk->file_surat && Storage::disk('public')->exists('SuratMasuk/'.$hapusSuratMasuk->file_surat)) {
+            Storage::disk('public')->delete('SuratMasuk/'.$hapusSuratMasuk->file_surat);
+        }
+
+        $hapusSuratMasuk->delete();
         // redirect ke indext kategori
         return redirect()->route('surat-masuk.index');
     }

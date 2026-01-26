@@ -65,8 +65,8 @@
                             <tr>
                               <th class="fw-normal">No.</th>
                               <th class="fw-normal">Nomor Surat</th>
-                              <th class="fw-normal">Jenis Surat</th>
                               <th class="fw-normal">Tanggal Surat</th>
+                              <th class="fw-normal">Jenis Surat</th>
                               <th class="fw-normal">Tujuan Surat</th>
                               <th class="fw-normal">Perihal</th>
                               <th class="fw-normal">File Surat</th>
@@ -77,8 +77,8 @@
                               <tr>
                                 <td>{{ $key + 1 }}</td>
                                 <td>{{ $r->nomor_surat }}</td>
+                                <td>{{ \Carbon\Carbon::parse($r->tanggal_surat)->Format('d-m-Y') }}</td>
                                 <td>{{ $jenis_surat[$r->jenis_surat] ?? $r->jenis_surat }}</td>
-                                <td>{{ $r->tanggal_surat }}</td>
                                 <td>{{ $r->tujuan_surat }}</td>
                                 <td>{{ $r->perihal }}</td>
                                 <td>

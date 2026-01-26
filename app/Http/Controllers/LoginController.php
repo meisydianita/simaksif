@@ -14,9 +14,7 @@ class LoginController extends Controller
             'password' => 'required'
         ]);
         
-        // **TRIK: Cek di database dulu sebelum attempt**
-        
-        // 1. Cek apakah email ada di table users (Sekretaris/Bendahara)
+      
         $userExists = \App\Models\User::where('email', $request->email)->exists();
         
         if ($userExists) {
@@ -39,7 +37,7 @@ class LoginController extends Controller
             }
         }
         
-        // 2. Cek apakah email ada di table anggotas
+      
         $anggotaExists = \App\Models\Anggota::where('email', $request->email)->exists();
         
         if ($anggotaExists) {
