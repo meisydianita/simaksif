@@ -1,6 +1,10 @@
+/* register-style.css - KHUSUS HALAMAN DAFTAR */
+
 html, body {
   width: 100%;
   height: 100%;
+  margin: 0;
+  padding: 0;
   overflow: hidden;
 }
 
@@ -11,44 +15,46 @@ html, body {
   font-family: "Poppins", Helvetica;
 }
 
-/* CONTAINER */
-.login {
+/* CONTAINER REGISTER */
+.register-container {
   width: 100%;
-  height: 100vh;
+  min-height: 100vh; /* Bukan height fixed */
   min-width: 1280px;
   background-color: #003580;
   position: relative;
-  overflow: hidden;
+  overflow: visible; /* Bisa scroll */
 }
 
 /* PANEL KANAN */
-.group {
+.right-panel {
   position: absolute;
   top: 0;
   left: 640px;
   width: 640px;
-  height: 100vh;
+  min-height: 100vh; /* Bisa menyesuaikan konten */
   display: flex;
 }
 
-.frame {
+.white-background {
   width: 640px;
-  height: 100vh;
+  min-height: 100vh;
   background-color: #ffffff;
   display: flex;
   justify-content: center;
+  align-items: flex-start; /* Mulai dari atas */
 }
-
-.div {
-  margin-top: 106px;
+/* di atas register akun */
+.content-wrapper {
+  margin-top: 70px;
   width: 429px;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 40px;
+  padding-bottom: 100px; 
 }
 
-.group-2 {
+.form-header {
   width: 431px;
   display: flex;
   flex-direction: column;
@@ -57,7 +63,7 @@ html, body {
 }
 
 /* TEKS */
-.text-wrapper {
+.title {
   width: 417px;
   font-size: 50px;
   font-weight: 600;
@@ -66,7 +72,7 @@ html, body {
   text-align: center;
 }
 
-.p {
+.subtitle {
   width: 427px;
   font-size: 14px;
   color: #000000;
@@ -74,30 +80,31 @@ html, body {
 }
 
 /* FORM CARD */
-.frame-wrapper {
+.form-container {
   width: 427px;
   display: flex;
   justify-content: center;
 }
 
-.group-wrapper {
+.form-card {
   width: 427px;
-  height: 310px;
+  height: 350px; /* TINGGI UNTUK 3 INPUT */
   background-color: #ffffff;
   border-radius: 15px;
   box-shadow: inset 0 4px 4px #0000001a, 0 4px 4px #0000001a;
   display: flex;
+  flex-direction: column;
   justify-content: center;
+  align-items: center;
 }
 
-.group-3 {
-  margin-top: 40px;
-  width: 330px;
+.form-fields {
+  width: 330px; 
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 16px; 
+  margin-top: 0px;
 }
-
 
 /* FORM */
 .form-group {
@@ -113,6 +120,7 @@ html, body {
 
 .form-group input {
   height: 44px;
+  width: 100%;
   padding: 0 12px;
   border-radius: 5px;
   border: 1px solid #b9b9b980;
@@ -120,8 +128,8 @@ html, body {
 }
 
 /* BUTTON */
-.login-button {
-  width: 330px;
+.submit-btn {
+  width: 330px; 
   height: 44px;
   background-color: #003580;
   border-radius: 5px;
@@ -129,33 +137,36 @@ html, body {
   color: white;
   font-size: 14px;
   cursor: pointer;
-}
-
-.login-button:hover {
-  background-color: #002a66;
-}
-
-/* BAWAH */
-.belum-memiliki-akun {
-  font-size: 14px;
-}
-
-.text-wrapper-6 {
+  margin-top: 10px;
   font-weight: 600;
 }
 
-/* PANEL KIRI */
+.submit-btn:hover {
+  background-color: #002a66;
+}
+
+/* LINK BAWAH */
+.link-text {
+  font-size: 14px;
+  text-align: center;
+}
+
+.link {
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* ROBOT */
 .robot {
   position: absolute;
-  left: -95px;
-  top: 300px;
   left: 0;
+  top: 300px;
   width: 300px;
   height: 300px;
 }
 
 /* TEKS KIRI */
-.text-wrapper-8 {
+.left-title {
   position: absolute;
   top: 300px;
   left: 292px;
@@ -165,11 +176,12 @@ html, body {
   color: #ffffff;
 }
 
-.text-wrapper-9 {
+.left-subtitle {
   position: absolute;
-  top: 450px;
+ top: 450px;
   left: 292px;
   width: 341px;
   font-size: 16px;
   color: #ffffff;
 }
+

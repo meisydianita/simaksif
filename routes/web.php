@@ -10,6 +10,7 @@ use App\Http\Controllers\AnggotaPemasukanController;
 use App\Http\Controllers\AnggotaSertifikatController;
 use App\Http\Controllers\AnggotaSuratKeluarController;
 use App\Http\Controllers\AnggotaSuratMasukController;
+use App\Http\Controllers\DaftarController;
 use App\Http\Controllers\DokumenKegiatanController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
@@ -33,9 +34,9 @@ Route::get('/', function () {
 
 Route::get('/login', function () {return view('login');})->name('login');
 Route::post('/postlogin', [LoginController::class, 'postlogin'])->name('postlogin');
-Route::get('/daftar', function () {return view('daftar');})->name('daftar');
-Route::post('/postdaftar', [LoginController::class, 'postdaftar'])->name('postdaftar');
 Route::post('/postlogout', [LoginController::class, 'postlogout'])->name('logout');
+Route::get('/daftar', function () {return view('anggota.daftar');})->name('daftar');
+Route::post('/postdaftar', [DaftarController::class, 'postdaftar'])->name('postdaftar');
 
 Route::middleware(['auth:user', 'ceklevel:Sekretaris Umum'])->group(function () {
     Route::get('/beranda-sekum', [HomeController::class, 'index'])->name('beranda-sekum');

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -7,6 +8,7 @@
 
   <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 </head>
+
 <body>
   <div class="login">
     <div class="group">
@@ -19,29 +21,29 @@
             </p>
             <form action="{{ route('postlogin') }}" method="post">
               @csrf
-                <div class="frame-wrapper">
-                  <div class="group-wrapper">
-                    <div class="group-3">
-                      <div class="form-group">
-                        <label>Email</label>
-                        <input type="email" name="email" placeholder="Masukkan email">
-                      </div>
-
-                      <div class="form-group">
-                        <label>Kata Sandi</label>
-                        <input type="password" name="password" placeholder="Masukkan kata sandi">
-                      </div>
-
-                      <button class="login-button" type="submit">Masuk</button>
-
+              <div class="frame-wrapper">
+                <div class="group-wrapper">
+                  <div class="group-3">
+                    <div class="form-group">
+                      <label>Email</label>
+                      <input type="email" name="email" placeholder="Masukkan email">
                     </div>
+
+                    <div class="form-group">
+                      <label>Kata Sandi</label>
+                      <input type="password" name="password" placeholder="Masukkan kata sandi">
+                    </div>
+
+                    <button class="login-button" type="submit">Masuk</button>
+
                   </div>
                 </div>
+              </div>
             </form>
           </div>
 
           <p class="belum-memiliki-akun">
-            Belum memiliki akun? <span class="text-wrapper-6">Daftar</span>
+            Belum memiliki akun? <span class="text-wrapper-6"><a href="{{ route('daftar') }}" style="text-decoration:none; color:inherit;">Daftar</a></span>
           </p>
 
         </div>
@@ -66,4 +68,5 @@
 
   </div>
 </body>
+
 </html>

@@ -1,60 +1,61 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>App Main</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>App Main</title>
 </head>
+
 <body>
-      <!--begin::App Main-->
-      <main class="app-main pt-4">
-        <!--begin::App Content-->
-        <div class="app-content">
-          <!--begin::Container-->
-          <div class="container-fluid">
-            <!--begin::Row-->
-            <div class="row">
-              <div class="col-12">
-                <!-- Default box -->
-                <div class="card">
-                  <div class="card-header">
-                    <h3 class="card-title">Title</h3>
-                    <div class="card-tools">
-                      <button
-                        type="button"
-                        class="btn btn-tool"
-                        data-lte-toggle="card-collapse"
-                        title="Collapse"
-                      >
-                        <i data-lte-icon="expand" class="bi bi-plus-lg"></i>
-                        <i data-lte-icon="collapse" class="bi bi-dash-lg"></i>
-                      </button>
-                      <button
-                        type="button"
-                        class="btn btn-tool"
-                        data-lte-toggle="card-remove"
-                        title="Remove"
-                      >
-                        <i class="bi bi-x-lg"></i>
-                      </button>
-                    </div>
-                  </div>
-                  <div class="card-body">Start creating your amazing application!</div>
-                  <!-- /.card-body -->
-                  <div class="card-footer">Footer</div>
-                  <!-- /.card-footer-->
+  <!--begin::App Main-->
+  <main class="app-main pt-4">
+    <!--begin::App Content-->
+    <div class="app-content">
+      <!--begin::Container-->
+      <div class="container-fluid">
+        <!--begin::Row-->
+        <div class="row">
+          <div class="col-12">
+            <!-- Default box -->
+            <div class="card">
+              <div class="card-header">
+                <h3 class="card-title">Title</h3>
+                <div class="card-tools">
+                  <button
+                    type="button"
+                    class="btn btn-tool"
+                    data-lte-toggle="card-collapse"
+                    title="Collapse">
+                    <i data-lte-icon="expand" class="bi bi-plus-lg"></i>
+                    <i data-lte-icon="collapse" class="bi bi-dash-lg"></i>
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-tool"
+                    data-lte-toggle="card-remove"
+                    title="Remove">
+                    <i class="bi bi-x-lg"></i>
+                  </button>
                 </div>
-                <!-- /.card -->
               </div>
+              <div class="card-body">Start creating your amazing application!</div>
+              <!-- /.card-body -->
+              <div class="card-footer">Footer</div>
+              <!-- /.card-footer-->
             </div>
-            <!--end::Row-->
+            <!-- /.card -->
           </div>
         </div>
-        <!--end::App Content-->
-      </main>
-      <!--end::App Main-->
-    <!--end::App Wrapper-->
+        <!--end::Row-->
+      </div>
+    </div>
+    <!--end::App Content-->
+  </main>
+  <!--end::App Main-->
+  <!--end::App Wrapper-->
 
 
 </body>
+
 </html>

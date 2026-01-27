@@ -45,7 +45,7 @@
                         </select>
                     </div>
                               
-                    <!-- Clear Button - DALAM FORM -->
+                    <!-- Clear Button -->
                     @if(request('search') || request('status'))
                         <a href="{{ route('iuran-anggota.index') }}" class="btn btn-lg btn-sm btn-default">
                             <i class="fa-solid fa-xmark"></i>

@@ -1,95 +1,96 @@
 <!doctype html>
 <html lang="id">
-  <title>Dokumen Kegiatan</title>
+<title>Dokumen Kegiatan</title>
 @include('layout.head')
-  <!--begin::Body-->
-  <body class="fixed-header sidebar-expand-lg sidebar-open bg-body-tertiary">
-    <!--begin::App Wrapper-->
-    <div class="app-wrapper">
-      @include('layout.header')
-      @include ('layout.sidebar')
-       <!--begin::App Main-->
-      <main class="app-main pt-4">
-        <!--begin::App Content-->
-        <div class="app-content">
-          <!--begin::Container-->
-          <div class="container-fluid">
-        <!-- /.row -->
-        <div class="row">
-          <div class="col-12">
-            <div class="card">
-              <div class="card-header">
-                <div class="d-flex align-items-center gap-2 w-100">
-                  <form action="{{ route('dokumen-kegiatan.index') }}" method="GET" class="d-flex align-items-center gap-2 flex-grow-1">
-                  <!-- search -->
-                    <div class="input-group input-group-sm" style="width: 280px;">
-                      <input 
-                      type="text" 
-                      name="search" 
-                      id="searchInput"
-                      class="form-control form-control-sm float-left" 
-                      placeholder="Pencarian" 
-                      value="{{ request('search') }}"
-                      autocomplete="off">                  
-                    </div>
-                  <!-- Tahun -->
-                    <div class="input-group input-group-sm" style="width: 280px;">
-                    <select class="form-select form-select-sm" aria-label="Small select example" style="width: 280px"; name="tahun" onchange="this.form.submit()">
-                      <option selected value="">
-                         <!-- Clear Filter Button -->
-                            @if(request('search') || request('tahun'))
-                                <a href="{{ route('dokumen-kegiatan.index') }}" class="btn btn-lg btn-sm btn-default">    
-                                </a>
-                            @endif
-                        Pilih Tahun
-                      </option>
-                      @foreach($tahun as $thn)
-                          <option value="{{ $thn }}" {{ request('tahun') == $thn ? 'selected' : '' }}>
-                              {{ $thn }}
-                          </option>
-                      @endforeach
-                    </select>  
-                    </div>
-                    <!-- Clear Filter Button -->
-                      @if(request('search') || request('tahun'))
-                          <a href="{{ route('dokumen-kegiatan.index') }}" class="btn btn-lg btn-sm btn-default">                          
-                              <i class="fa-solid fa-xmark"></i>
-                          </a>
-                      @endif
-                    <!-- end clear filter button -->
-                  </form>
+<!--begin::Body-->
 
-                  <div class="ms-auto">
-                      <a href="{{ route('dokumen-kegiatan.create') }}"
-                            class="btn btn-sm btn-dark">
-                            Tambah
+<body class="fixed-header sidebar-expand-lg sidebar-open bg-body-tertiary">
+  <!--begin::App Wrapper-->
+  <div class="app-wrapper">
+    @include('layout.header')
+    @include ('layout.sidebar')
+    <!--begin::App Main-->
+    <main class="app-main pt-4">
+      <!--begin::App Content-->
+      <div class="app-content">
+        <!--begin::Container-->
+        <div class="container-fluid">
+          <!-- /.row -->
+          <div class="row">
+            <div class="col-12">
+              <div class="card">
+                <div class="card-header">
+                  <div class="d-flex align-items-center gap-2 w-100">
+                    <form action="{{ route('dokumen-kegiatan.index') }}" method="GET" class="d-flex align-items-center gap-2 flex-grow-1">
+                      <!-- search -->
+                      <div class="input-group input-group-sm" style="width: 280px;">
+                        <input
+                          type="text"
+                          name="search"
+                          id="searchInput"
+                          class="form-control form-control-sm float-left"
+                          placeholder="Pencarian"
+                          value="{{ request('search') }}"
+                          autocomplete="off">
+                      </div>
+                      <!-- Tahun -->
+                      <div class="input-group input-group-sm" style="width: 280px;">
+                        <select class="form-select form-select-sm" aria-label="Small select example" style="width: 280px" ; name="tahun" onchange="this.form.submit()">
+                          <option selected value="">
+                            <!-- Clear Filter Button -->
+                            @if(request('search') || request('tahun'))
+                            <a href="{{ route('dokumen-kegiatan.index') }}" class="btn btn-lg btn-sm btn-default">
+                            </a>
+                            @endif
+                            Pilih Tahun
+                          </option>
+                          @foreach($tahun as $thn)
+                          <option value="{{ $thn }}" {{ request('tahun') == $thn ? 'selected' : '' }}>
+                            {{ $thn }}
+                          </option>
+                          @endforeach
+                        </select>
+                      </div>
+                      <!-- Clear Filter Button -->
+                      @if(request('search') || request('tahun'))
+                      <a href="{{ route('dokumen-kegiatan.index') }}" class="btn btn-lg btn-sm btn-default">
+                        <i class="fa-solid fa-xmark"></i>
                       </a>
+                      @endif
+                      <!-- end clear filter button -->
+                    </form>
+
+                    <div class="ms-auto">
+                      <a href="{{ route('dokumen-kegiatan.create') }}"
+                        class="btn btn-sm btn-dark">
+                        Tambah
+                      </a>
+                    </div>
                   </div>
-              </div>
-              </div> 
-              <!-- /.card-header -->
-              <div class="card-body table-responsive p-0">
-                <table class="table table-hover text-nowrap">
-                  <thead>
-                    <tr>
-                      <th class="fw-normal">No.</th>
-                      <th class="fw-normal">Nama Kegiatan</th>
-                      <th class="fw-normal">Tanggal Mulai</th>
-                      <th class="fw-normal">Tanggal Selesai</th>
-                      <th class="fw-normal">Penanggungjawab</th>
-                      <th class="fw-normal">Tahun</th>
-                      <th class="fw-normal">Deskripsi Kegiatan</th>
-                      <th class="fw-normal">Proposal</th>
-                      <th class="fw-normal">LPJ</th>
-                      <th class="fw-normal">Kelola</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    @forelse ($alldokumenkegiatan as $key => $r)
+                </div>
+                <!-- /.card-header -->
+                <div class="card-body table-responsive p-0">
+                  <table class="table table-hover text-nowrap">
+                    <thead>
+                      <tr>
+                        <th class="fw-normal">No.</th>
+                        <th class="fw-normal">Nama Kegiatan</th>
+                        <th class="fw-normal">Tanggal Mulai</th>
+                        <th class="fw-normal">Tanggal Selesai</th>
+                        <th class="fw-normal">Penanggungjawab</th>
+                        <th class="fw-normal">Tahun</th>
+                        <th class="fw-normal">Deskripsi Kegiatan</th>
+                        <th class="fw-normal">Proposal</th>
+                        <th class="fw-normal">LPJ</th>
+                        <th class="fw-normal">Kelola</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      @forelse ($alldokumenkegiatan as $key => $r)
                       <tr>
                         <td>{{ $key +1 }}</td>
                         <td>{{ $r->nama_kegiatan }}</td>
-                        <td>{{ \Carbon\Carbon::parse($r->tanggal_mulai)->format('d-m-Y') }}</td>                        
+                        <td>{{ \Carbon\Carbon::parse($r->tanggal_mulai)->format('d-m-Y') }}</td>
                         <td>{{ \Carbon\Carbon::parse($r->tanggal_selesai)->format('d-m-Y') }}</td>
                         <td>{{ $r->penanggungjawab->nama_lengkap }}</td>
                         <td>{{ $r->tahun }}</td>
@@ -122,36 +123,37 @@
                             </button>
                           </form>
                         </td>
-                      </tr>   
+                      </tr>
                       @empty
-                        <tr>
-                            <td colspan="10" class="text-center py-4">
-                                <div class="text-muted">Tidak Terdapat Data Dokumen Kegiatan</div>
-                            </td>
-                        </tr>                  
-                    @endforelse                
-                  </tbody>
-                </table>
-              </div>
-              <!-- /.card-body -->
-              <!-- begin pagination -->
+                      <tr>
+                        <td colspan="10" class="text-center py-4">
+                          <div class="text-muted">Tidak Terdapat Data Dokumen Kegiatan</div>
+                        </td>
+                      </tr>
+                      @endforelse
+                    </tbody>
+                  </table>
+                </div>
+                <!-- /.card-body -->
+                <!-- begin pagination -->
                 <div class="my-3 mx-3">
                   {{ $alldokumenkegiatan->links() }}
                 </div>
-              <!-- end pagination -->
+                <!-- end pagination -->
+              </div>
+              <!-- /.card -->
             </div>
-            <!-- /.card -->
           </div>
-        </div>
-        <!-- /.row -->
+          <!-- /.row -->
         </div>
         <!--end::App Content-->
-      </main>
-      <!--end::App Main-->
-      @include('layout.footer')
-    </div>
-    <!--end::App Wrapper-->
-    @include('layout.script')
-  </body>
-  <!--end::Body-->
+    </main>
+    <!--end::App Main-->
+    @include('layout.footer')
+  </div>
+  <!--end::App Wrapper-->
+  @include('layout.script')
+</body>
+<!--end::Body-->
+
 </html>

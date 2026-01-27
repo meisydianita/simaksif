@@ -3,97 +3,96 @@
 <title>Iuran Detail</title>
 @include('layout.head')
 
-  <!--begin::Body-->
-  <body class="fixed-header sidebar-expand-lg sidebar-open bg-body-tertiary">
-    <!--begin::App Wrapper-->
-    <div class="app-wrapper">
-      @include('layout.header')
-      @include ('layout.sidebar')
-      <!--begin::App Main-->
-      <main class="app-main pt-4">    
-        <!--begin::App Content-->
-        <div class="app-content">
-          <!--begin::Container-->
-          <div class="container-fluid">
-        <!-- /.row -->
-        <div class="row">
-          <div class="col-12">
-            <div class="card">
-              <div class="card-header">
-                <div class="d-flex align-items-center gap-2 w-100">
-                  
-              </div> 
-              <div class="card-header">
+<!--begin::Body-->
+
+<body class="fixed-header sidebar-expand-lg sidebar-open bg-body-tertiary">
+  <!--begin::App Wrapper-->
+  <div class="app-wrapper">
+    @include('layout.header')
+    @include ('layout.sidebar')
+    <!--begin::App Main-->
+    <main class="app-main pt-4">
+      <!--begin::App Content-->
+      <div class="app-content">
+        <!--begin::Container-->
+        <div class="container-fluid">
+          <!-- /.row -->
+          <div class="row">
+            <div class="col-12">
+              <div class="card">
+                <div class="card-header">
+                  <div class="d-flex align-items-center gap-2 w-100">
+
+                  </div>
+                  <div class="card-header">
                     <h3 class="card-title">Iuran Kas {{ $member->nama_lengkap }}</h3>
                     <div class="card-tools">
                       <button
                         type="button"
                         class="btn btn-tool"
                         data-lte-toggle="card-collapse"
-                        title="Collapse"
-                      >
+                        title="Collapse">
                         <i data-lte-icon="expand" class="bi bi-plus-lg"></i>
-                        <i data-lte-icon="collapse" class="bi bi-dash-lg"></i>                        
+                        <i data-lte-icon="collapse" class="bi bi-dash-lg"></i>
                       </button>
                       <button
                         type="button"
                         class="btn btn-tool"
                         data-lte-toggle="card-remove"
-                        title="Remove"
-                      >
+                        title="Remove">
                         <i class="bi bi-x-lg"></i>
                       </button>
-                       <a href="{{ route('iuran.index') }}" 
+                      <a href="{{ route('iuran.index') }}"
                         class="btn btn-tool" title="Kembali">
-                          <i class="bi bi-arrow-left"></i>
+                        <i class="bi bi-arrow-left"></i>
                       </a>
                     </div>
                   </div>
-              <!-- /.card-header -->
-              <div class="card-body table-responsive p-0">
-              <div class="table-responsive">
+                  <!-- /.card-header -->
+                  <div class="card-body table-responsive p-0">
+                    <div class="table-responsive">
 
-                <table class="table table-hover text-nowrap">
-                  <thead>                    
-                    <tr>
-                      <th class="fw-normal" >No.</th>
-                      <th class="fw-normal" >Bulan</th>
-                      <th class="fw-normal" >Tahun</th>
-                      <th class="fw-normal" >Jumlah</th>
-                      <th class="fw-normal" >Tanggal Bayar</th>
-                      <th class="fw-normal" >Bukti</th>
-                      <th class="fw-normal" >Status</th> 
-                      <th class="fw-normal" >Kelola</th>                      
-                    </tr>
-                  </thead>
-                  <tbody>
-                    @forelse ($iurans as $key => $r)
-                      <tr>
-                        <td>{{ $key +1 }}</td>
-                        <td>{{ $bulan[$r->bulan] }}</td>
-                        <td>{{ $r->tahun }}</td>
-                        <td>Rp. {{ number_format($r->jumlah, 0, ',', '.') }}</td>
-                        <td>{{ $r->tanggal_bayar ?? '-'}}</td>
-                        <td>
-                          @if($r->bukti)
-                          <a href="{{ Storage::url('Iuran/'.$r->bukti) }}" target="_blank" style="color:inherit;text-decoration:none;">
-                            <i class="far fa-eye"></i>
-                          </a> |
-                          <a href="{{ Storage::url('Iuran/'.$r->bukti) }}" download style="color:inherit;text-decoration:none;">
-                            <i class="fas fa-download"></i>
-                          </a>
-                          @else
-                            <span class="text-muted">-</span>
-                          @endif
-                        <td> 
-                          @if ($r->status == 'lunas')
+                      <table class="table table-hover text-nowrap">
+                        <thead>
+                          <tr>
+                            <th class="fw-normal">No.</th>
+                            <th class="fw-normal">Bulan</th>
+                            <th class="fw-normal">Tahun</th>
+                            <th class="fw-normal">Jumlah</th>
+                            <th class="fw-normal">Tanggal Bayar</th>
+                            <th class="fw-normal">Bukti</th>
+                            <th class="fw-normal">Status</th>
+                            <th class="fw-normal">Kelola</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          @forelse ($iurans as $key => $r)
+                          <tr>
+                            <td>{{ $key +1 }}</td>
+                            <td>{{ $bulan[$r->bulan] }}</td>
+                            <td>{{ $r->tahun }}</td>
+                            <td>Rp. {{ number_format($r->jumlah, 0, ',', '.') }}</td>
+                            <td>{{ $r->tanggal_bayar ?? '-'}}</td>
+                            <td>
+                              @if($r->bukti)
+                              <a href="{{ Storage::url('Iuran/'.$r->bukti) }}" target="_blank" style="color:inherit;text-decoration:none;">
+                                <i class="far fa-eye"></i>
+                              </a> |
+                              <a href="{{ Storage::url('Iuran/'.$r->bukti) }}" download style="color:inherit;text-decoration:none;">
+                                <i class="fas fa-download"></i>
+                              </a>
+                              @else
+                              <span class="text-muted">-</span>
+                              @endif
+                            <td>
+                              @if ($r->status == 'lunas')
                               <span class="badge bg-success">Lunas</span>
-                          @else
+                              @else
                               <span class="badge bg-danger">Belum Lunas</span>
-                          @endif                    
-                        </td>
-                        <td>
-                            <form action="{{ route('iuran.destroy', $r->id) }}" method="POST">
+                              @endif
+                            </td>
+                            <td>
+                              <form action="{{ route('iuran.destroy', $r->id) }}" method="POST">
                                 <a href="{{ route('iuran.edit', $r->id) }}" style="color:inherit;text-decoration:none;">
                                   <i class="fas fa-pen"></i>
                                 </a>
@@ -102,39 +101,40 @@
                                 <button type="submit" style="background:none;border:none;">
                                   <i class="fas fa-trash"></i>
                                 </button>
-                            </form>
-                          </td>                          
-                      </tr>  
-                      @empty
-                        <tr>
-                            <td colspan="8" class="text-center py-4">
-                                <div class="text-muted">Tidak Terdapat Data Iuran</div>
+                              </form>
                             </td>
-                        </tr> 
-                    @endforelse                                    
-                  </tbody>
-                </table>
+                          </tr>
+                          @empty
+                          <tr>
+                            <td colspan="8" class="text-center py-4">
+                              <div class="text-muted">Tidak Terdapat Data Iuran</div>
+                            </td>
+                          </tr>
+                          @endforelse
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                  <!-- /.card-body -->
+                  <!-- begin pagination -->
+                  <div class="my-3 mx-3">
+                    {{ $iurans->links() }}
+                  </div>
+                  <!-- end pagination -->
+                </div>
+                <!-- /.card -->
               </div>
-              </div>
-              <!-- /.card-body -->
-              <!-- begin pagination -->
-              <div class="my-3 mx-3">
-                {{ $iurans->links() }}
-              </div>              
-              <!-- end pagination -->
             </div>
-            <!-- /.card -->
+            <!-- /.row -->
           </div>
-        </div>
-        <!-- /.row -->
-        </div>
-        <!--end::App Content-->
-      </main>
-      <!--end::App Main-->
-      @include('layout.footer')
-    </div>
-    <!--end::App Wrapper-->
-    @include('layout.script')
-  </body>
-  <!--end::Body-->
+          <!--end::App Content-->
+    </main>
+    <!--end::App Main-->
+    @include('layout.footer')
+  </div>
+  <!--end::App Wrapper-->
+  @include('layout.script')
+</body>
+<!--end::Body-->
+
 </html>
