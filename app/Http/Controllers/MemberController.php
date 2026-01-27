@@ -14,44 +14,44 @@ class MemberController extends Controller
     {
         $query = Member::query();
 
-        if($request->filled('search')){
-        $query->where(function($q) use ($request) {
-            $q->where('npm', 'like', '%'.$request->search.'%')
-              ->orWhere('nama_lengkap', 'like', '%'.$request->search.'%')
-              ->orWhere('no_hp', 'like', '%'.$request->search.'%')
-              ->orWhere('email', 'like', '%'.$request->search.'%')
-              ->orWhere('alamat', 'like', '%'.$request->search.'%');
-        });
+        if ($request->filled('search')) {
+            $query->where(function ($q) use ($request) {
+                $q->where('npm', 'like', '%' . $request->search . '%')
+                    ->orWhere('nama_lengkap', 'like', '%' . $request->search . '%')
+                    ->orWhere('no_hp', 'like', '%' . $request->search . '%')
+                    ->orWhere('email', 'like', '%' . $request->search . '%')
+                    ->orWhere('alamat', 'like', '%' . $request->search . '%');
+            });
         }
 
         $tahun_masuk = Member::select('tahun_masuk')
-                      ->distinct()
-                      ->orderBy('tahun_masuk', 'DESC')
-                      ->pluck('tahun_masuk', 'tahun_masuk')
-                      ->toArray();
+            ->distinct()
+            ->orderBy('tahun_masuk', 'DESC')
+            ->pluck('tahun_masuk', 'tahun_masuk')
+            ->toArray();
 
-        
+
         $jabatan = [
-        'ketua_umum' => ' Ketua Umum',
-        'sekretaris_umum' => 'Sekretaris Umum',
-        'bendahara_umum' => 'Bendahara Umum',
-        'kepala_divisi' => 'Kepala Divisi',
-        'sekretaris_divisi' => 'Sekretaris Divisi',
-        'anggota' => 'Anggota'
+            'ketua_umum' => ' Ketua Umum',
+            'sekretaris_umum' => 'Sekretaris Umum',
+            'bendahara_umum' => 'Bendahara Umum',
+            'kepala_divisi' => 'Kepala Divisi',
+            'sekretaris_divisi' => 'Sekretaris Divisi',
+            'anggota' => 'Anggota'
         ];
 
         $status = [
-        'aktif' => 'Aktif',
-        'tidak_aktif' => 'Tidak Aktif'
+            'aktif' => 'Aktif',
+            'tidak_aktif' => 'Tidak Aktif'
         ];
 
         $divisi = [
-        'Kaderisasi' => 'Kaderisasi',
-        'Kesekretariatan' => 'Kesekretariatan',
-        'Mebiskraf' => 'Media Bisnis dan Kreatif',
-        'PSDM' => 'Peningkatan Sumber Daya Mahasiswa',
-        'PM' => 'Pengabdian Masyarakat',
-        'Kerohanian' => 'Kerohanian'
+            'Kaderisasi' => 'Kaderisasi',
+            'Kesekretariatan' => 'Kesekretariatan',
+            'Mebiskraf' => 'Media Bisnis dan Kreatif',
+            'PSDM' => 'Peningkatan Sumber Daya Mahasiswa',
+            'PM' => 'Pengabdian Masyarakat',
+            'Kerohanian' => 'Kerohanian'
         ];
 
         // filter tahun masuk
@@ -69,11 +69,11 @@ class MemberController extends Controller
 
 
         $allmember = $query->paginate(5)->appends(request()->query());
-        return view ('sekum.member.anggota', compact('allmember', 'jabatan', 'status', 'tahun_masuk', 'divisi'));
+        return view('sekum.member.anggota', compact('allmember', 'jabatan', 'status', 'tahun_masuk', 'divisi'));
     }
     public function create()
     {
-        return view ('sekum.member.add-anggota');
+        return view('sekum.member.add-anggota');
     }
 
     public function store(Request $request)
@@ -82,25 +82,25 @@ class MemberController extends Controller
 
         // validate data
         $validatedData = $request->validate([
-            'npm'=>'required|string|max:16|unique:members,npm',
-            'nama_lengkap'=>'required|string|max:100',
-            'tahun_masuk'=>'required|digits:4',
-            'jabatan'=>'required',
-            'divisi'=>'nullable',
-            'status'=>'required',
-            'email'=>'required|email|max:100|unique:members,email',
-            'no_hp'=>'required|string|regex:/^[0-9]{10,20}$/',
-            'alamat'=>'required|string|max:255',
-            'foto'=>'required|image|max:2048'
+            'npm' => 'required|string|max:16|unique:members,npm',
+            'nama_lengkap' => 'required|string|max:100',
+            'tahun_masuk' => 'required|digits:4',
+            'jabatan' => 'required',
+            'divisi' => 'nullable',
+            'status' => 'required',
+            'email' => 'required|email|max:100|unique:members,email',
+            'no_hp' => 'required|string|regex:/^[0-9]{10,20}$/',
+            'alamat' => 'required|string|max:255',
+            'foto' => 'required|image|max:2048'
         ]);
 
         // simpan foto ke dalam storage
         $foto = $request->file('foto');
-        $fotoname = date('Y-m-d').'_'.$foto->getClientOriginalName();
+        $fotoname = date('Y-m-d') . '_' . $foto->getClientOriginalName();
         $foto->storeAs('Member', $fotoname, 'public');
 
         // simpan nama ke dalam database
-        $validatedData['foto']=$fotoname;
+        $validatedData['foto'] = $fotoname;
 
         // simpan data
         $member = Member::create($validatedData);
@@ -134,47 +134,47 @@ class MemberController extends Controller
 
     public function show(Member $member)
     {
-        return view ('sekum.member.anggota', compact('member'));
+        return view('sekum.member.anggota', compact('member'));
     }
 
     public function edit(Member $member)
     {
-        return view ('sekum.member.edit-anggota', compact('member'));
+        return view('sekum.member.edit-anggota', compact('member'));
     }
 
-    public function update(Request $request,Member $member)
+    public function update(Request $request, Member $member)
     {
         // function yang memproses saat update disubmit
 
         // validate data
         $validatedData = $request->validate([
-            'npm'=>'required|string|max:16|unique:members,npm,'. $member->id,
-            'nama_lengkap'=>'required|string|max:100',
-            'tahun_masuk'=>'required|digits:4',
-            'jabatan'=>'required',
-            'divisi'=>'required',
-            'status'=>'required',
-            'email'=>'required|email|max:100|unique:members,email,'. $member->id,
-            'no_hp'=>'required|string|regex:/^[0-9]{10,20}$/',
-            'alamat'=>'required|string|max:255',
-            'foto'=>'nullable|image|mimes:jpg,jpeg,png|max:2048'
+            'npm' => 'required|string|max:16|unique:members,npm,' . $member->id,
+            'nama_lengkap' => 'required|string|max:100',
+            'tahun_masuk' => 'required|digits:4',
+            'jabatan' => 'required',
+            'divisi' => 'required',
+            'status' => 'required',
+            'email' => 'required|email|max:100|unique:members,email,' . $member->id,
+            'no_hp' => 'required|string|regex:/^[0-9]{10,20}$/',
+            'alamat' => 'required|string|max:255',
+            'foto' => 'nullable|image|mimes:jpg,jpeg,png|max:2048'
         ]);
 
         // cek apakah user upload foto baru
-        if($request->hasFile('foto')){
+        if ($request->hasFile('foto')) {
 
             // hapus file ketika sudah ada
-            if($member->foto){
-                Storage::disk('public')->delete('Member/'.$member->foto);
+            if ($member->foto) {
+                Storage::disk('public')->delete('Member/' . $member->foto);
             }
 
             // simpan ke file baru
             $foto = $request->file('foto');
-            $fotoname = date('Y-m-d').'_'.$foto->getClientOriginalName();
+            $fotoname = date('Y-m-d') . '_' . $foto->getClientOriginalName();
             $foto->storeAs('Member', $fotoname, 'public');
 
             // simpan nama ke dalam database
-            $validatedData['foto']=$fotoname;
+            $validatedData['foto'] = $fotoname;
         }
 
         // update data

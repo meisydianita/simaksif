@@ -11,10 +11,10 @@ class AnggotaIuranController extends Controller
     public function index(Request $request)
     {
         $status = [
-        'aktif' => 'Aktif',
-        'tidak_aktif' => 'Tidak Aktif'
+            'aktif' => 'Aktif',
+            'tidak_aktif' => 'Tidak Aktif'
         ];
-        
+
         $bulan = [
             '1' => 'Januari',
             '2' => 'Februari',
@@ -28,25 +28,25 @@ class AnggotaIuranController extends Controller
             '10' => 'Oktober',
             '11' => 'November',
             '12' => 'Desember'
-        ]; 
-        
+        ];
+
         $membersQuery = Member::query();
-    
-        if($request->filled('search')){
-            $membersQuery->where(function($q) use ($request) {
-                $q->where('npm', 'like', '%'.$request->search.'%')
-                ->orWhere('nama_lengkap', 'like', '%'.$request->search.'%')
-                ->orWhere('no_hp', 'like', '%'.$request->search.'%');
+
+        if ($request->filled('search')) {
+            $membersQuery->where(function ($q) use ($request) {
+                $q->where('npm', 'like', '%' . $request->search . '%')
+                    ->orWhere('nama_lengkap', 'like', '%' . $request->search . '%')
+                    ->orWhere('no_hp', 'like', '%' . $request->search . '%');
             });
         }
 
-        
+
         if ($request->filled('status') || $request->get('status') === null) {
-            $membersQuery->where('status', $request->get('status', 'aktif')); 
+            $membersQuery->where('status', $request->get('status', 'aktif'));
         }
 
-        
-        $membersAll = $membersQuery->get(); 
+
+        $membersAll = $membersQuery->get();
         // ambil semua member aktif
         $members = Member::where('status', 'aktif')->get();
         $tahun = $request->get('tahun', now()->year);
@@ -54,8 +54,8 @@ class AnggotaIuranController extends Controller
         foreach ($members as $member) {
 
             $sudahAda = AnggotaIuran::where('member_id', $member->id)
-                            ->where('tahun', $tahun)
-                            ->exists();
+                ->where('tahun', $tahun)
+                ->exists();
 
             if (!$sudahAda) {
                 for ($bulan = 1; $bulan <= 12; $bulan++) {
@@ -72,15 +72,14 @@ class AnggotaIuranController extends Controller
 
         // tampilkan data iuran
         $iurans = AnggotaIuran::with('member')
-                    ->where('tahun', $tahun)
-                    ->orderBy('member_id')
-                    ->orderBy('bulan')
-                    ->get();
+            ->where('tahun', $tahun)
+            ->orderBy('member_id')
+            ->orderBy('bulan')
+            ->get();
 
         $totalIuran = AnggotaIuran::count();
         $belumLunas = AnggotaIuran::where('status', 'belum_lunas')->count();
 
         return view('anggota.iuran', compact('iurans', 'tahun', 'members', 'tahun', 'belumLunas', 'totalIuran', 'membersAll', 'status'));
-
     }
 }

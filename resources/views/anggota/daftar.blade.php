@@ -18,24 +18,39 @@
             <p class="subtitle">
               Langkah kecil hari ini, perubahan besar esok hari. Yuk daftar!
             </p>
-            <form action="#" method="post">
+            <form action="{{ route('postdaftar') }}" method="post">
               @csrf
               <div class="form-container">
                 <div class="form-card">
                   <div class="form-fields">
                     <div class="form-group">
                       <label>Nama Lengkap</label>
-                      <input type="text" name="nama" placeholder="Masukkan nama lengkap">
+                      <input type="text" name="name" placeholder="Masukkan nama lengkap">
+                      @error('name')
+                        <div style="color: #e3342f; font-size: 0.875rem; margin-top: 0rem;">
+                            {{ $message }}
+                        </div>
+                      @enderror
                     </div>
 
                     <div class="form-group">
                       <label>Email</label>
                       <input type="email" name="email" placeholder="Masukkan email">
+                      @error('email')
+                        <div style="color: #e3342f; font-size: 0.875rem; margin-top: 0rem;">
+                            {{ $message }}
+                        </div>
+                      @enderror
                     </div>
 
                     <div class="form-group">
                       <label>Kata Sandi</label>
                       <input type="password" name="password" placeholder="Masukkan kata sandi">
+                      @error('password')
+                        <div style="color: #e3342f; font-size: 0.875rem; margin-top: 0rem;">
+                            {{ $message }}
+                        </div>
+                      @enderror
                     </div>
 
                     <button class="submit-btn" type="submit">Daftar</button>
@@ -46,7 +61,7 @@
           </div>
 
           <p class="link-text">
-            Sudah memiliki akun? <span class="link"><a href="{{ route('login') }}" style="text-decoration:none; color:inherit;">Masuk</a></span>
+            Sudah memiliki akun? <span class="link"><a href="{{ route('login') }}" style="text-decoration:none; color: #002a66;">Masuk</a></span>
           </p>
         </div>
       </div>

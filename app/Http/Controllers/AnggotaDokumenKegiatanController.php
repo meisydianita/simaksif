@@ -12,15 +12,15 @@ class AnggotaDokumenKegiatanController extends Controller
         $query = AnggotaDokumenKegiatan::query();
 
         $tahun = AnggotaDokumenKegiatan::select('tahun')
-                      ->distinct()
-                      ->orderBy('tahun', 'DESC')
-                      ->pluck('tahun', 'tahun')
-                      ->toArray();
+            ->distinct()
+            ->orderBy('tahun', 'DESC')
+            ->pluck('tahun', 'tahun')
+            ->toArray();
 
-        if ($request->filled('search')){
-            $query->where(function($q) use ($request) {
-            $q->where('nama_kegiatan', 'like', '%'.$request->search . '%')
-                ->orwhere('deskripsi_kegiatan', 'like', '%'.$request->search . '%');
+        if ($request->filled('search')) {
+            $query->where(function ($q) use ($request) {
+                $q->where('nama_kegiatan', 'like', '%' . $request->search . '%')
+                    ->orwhere('deskripsi_kegiatan', 'like', '%' . $request->search . '%');
             });
         }
 
@@ -31,6 +31,6 @@ class AnggotaDokumenKegiatanController extends Controller
 
 
         $alldokumenkegiatan = $query->paginate(10)->appends($request->query());
-        return view ('anggota.dokumen-kegiatan', compact('alldokumenkegiatan', 'tahun'));
+        return view('anggota.dokumen-kegiatan', compact('alldokumenkegiatan', 'tahun'));
     }
 }

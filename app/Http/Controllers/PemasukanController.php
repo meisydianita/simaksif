@@ -11,7 +11,7 @@ class PemasukanController extends Controller
     public function index(Request $request)
     {
         $query = Pemasukan::query();
-        $kategori =[
+        $kategori = [
             'dana_universitas' => 'Dana Universitas',
             'donasi_umum' => 'Donasi Umum',
             'sumbangan_anggota' => 'Sumbangan Anggota',
@@ -21,50 +21,50 @@ class PemasukanController extends Controller
         ];
 
         // Search
-        if($request->filled('search')){
+        if ($request->filled('search')) {
             $searchTerm = $request->search;
-            $query->where(function($q) use ($searchTerm) {
-            $q->where('nama_pemasukan', 'like', '%'.$searchTerm.'%')
-              ->orWhere('sumber_pemasukan', 'like', '%'.$searchTerm.'%')
-              ->orWhere('keterangan', 'like', '%'.$searchTerm.'%');
-        });
+            $query->where(function ($q) use ($searchTerm) {
+                $q->where('nama_pemasukan', 'like', '%' . $searchTerm . '%')
+                    ->orWhere('sumber_pemasukan', 'like', '%' . $searchTerm . '%')
+                    ->orWhere('keterangan', 'like', '%' . $searchTerm . '%');
+            });
         }
 
         // Filter kategori
-        if ($request->filled('kategori')){
+        if ($request->filled('kategori')) {
             $query->where('kategori', $request->kategori);
         }
 
         $allpemasukan = $query->paginate(10)->appends(request()->query());
-        return view ('bendum.pemasukan.pemasukan', compact('allpemasukan', 'kategori'));
+        return view('bendum.pemasukan.pemasukan', compact('allpemasukan', 'kategori'));
     }
 
     public function create()
     {
-        return view ('bendum.pemasukan.add-pemasukan');
+        return view('bendum.pemasukan.add-pemasukan');
     }
 
     public function store(Request $request)
     {
         // make validation
         $validatedData = $request->validate([
-            'nomor_pemasukan'=>'required|unique:pemasukans,nomor_pemasukan',
+            'nomor_pemasukan' => 'required|unique:pemasukans,nomor_pemasukan',
             'nama_pemasukan' => 'required|string|max:255',
             'tanggal_pemasukan' => 'required|date',
             'kategori' => 'required',
             'sumber_pemasukan' => 'required|string|max:255',
             'jumlah' => 'required|numeric|min:0|max:99999999999999.99',
             'keterangan' => 'nullable|string|max:255',
-            'bukti'=>'nullable|image|max:2048'
+            'bukti' => 'nullable|image|max:2048'
         ], [
             'jumlah.max' => 'Jumlah terlalu besar! Maksimal Rp 99.999.999.999.999,99',
             'jumlah.numeric' => 'Jumlah harus berupa angka',
         ]);
-        
+
 
         // simpan file ke storage
         $file = $request->file('bukti');
-        $filename = date('Y-m-d').'_'.$file->getClientOriginalName();
+        $filename = date('Y-m-d') . '_' . $file->getClientOriginalName();
         $file->storeAs('Pemasukan', $filename, 'public');
 
         // simpan nama file ke database
@@ -78,45 +78,45 @@ class PemasukanController extends Controller
     }
     public function show(Pemasukan $pemasukan)
     {
-        return view ('bendum.pemasukan.pemasukan', compact('pemasukan'));
+        return view('bendum.pemasukan.pemasukan', compact('pemasukan'));
     }
     public function edit(Pemasukan $pemasukan)
     {
-        return view ('bendum.pemasukan.edit-pemasukan', compact('pemasukan'));
+        return view('bendum.pemasukan.edit-pemasukan', compact('pemasukan'));
     }
 
     public function update(Request $request, Pemasukan $pemasukan)
     {
         // update validation
         $validatedData = $request->validate([
-            'nomor_pemasukan'=>'nullable|unique:pemasukans,nomor_pemasukan,'. $pemasukan->id,
+            'nomor_pemasukan' => 'nullable|unique:pemasukans,nomor_pemasukan,' . $pemasukan->id,
             'nama_pemasukan' => 'required|string|max:255',
             'tanggal_pemasukan' => 'required|date',
             'kategori' => 'required',
             'sumber_pemasukan' => 'required|string|max:255',
             'jumlah' => 'required|numeric|min:0|max:99999999999999.99',
             'keterangan' => 'nullable|string|max:255',
-            'bukti'=>'nullable|image|max:2048'
+            'bukti' => 'nullable|image|max:2048'
         ], [
             'jumlah.max' => 'Jumlah terlalu besar! Maksimal Rp 99.999.999.999.999,99',
             'jumlah.numeric' => 'Jumlah harus berupa angka',
         ]);
 
         // cek apakah user upload foto baru
-        if($request->hasFile('bukti')){
+        if ($request->hasFile('bukti')) {
 
             // hapus file ketika sudah ada
-            if($pemasukan->bukti){
-                Storage::disk('public')->delete('Pemasukan/'.$pemasukan->bukti);
+            if ($pemasukan->bukti) {
+                Storage::disk('public')->delete('Pemasukan/' . $pemasukan->bukti);
             }
 
             // simpan ke file baru
             $foto = $request->file('bukti');
-            $fotoname = date('Y-m-d').'_'.$foto->getClientOriginalName();
+            $fotoname = date('Y-m-d') . '_' . $foto->getClientOriginalName();
             $foto->storeAs('Pemasukan', $fotoname, 'public');
 
             // simpan nama ke dalam database
-            $validatedData['bukti']=$fotoname;
+            $validatedData['bukti'] = $fotoname;
         }
 
         // update data
@@ -128,11 +128,11 @@ class PemasukanController extends Controller
 
     public function destroy($id)
     {
-        $hapusPemasukan = Pemasukan::findOrFail($id);        
-        
+        $hapusPemasukan = Pemasukan::findOrFail($id);
+
         // hapus file bukti kalau ada
-        if ($hapusPemasukan->bukti && Storage::disk('public')->exists('Pemasukan/'.$hapusPemasukan->bukti)) {
-            Storage::disk('public')->delete('Pemasukan/'.$hapusPemasukan->bukti);
+        if ($hapusPemasukan->bukti && Storage::disk('public')->exists('Pemasukan/' . $hapusPemasukan->bukti)) {
+            Storage::disk('public')->delete('Pemasukan/' . $hapusPemasukan->bukti);
         }
 
         // hapus data

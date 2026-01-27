@@ -26,12 +26,23 @@
                   <div class="group-3">
                     <div class="form-group">
                       <label>Email</label>
-                      <input type="email" name="email" placeholder="Masukkan email">
+                      <input type="email" name="email" placeholder="Masukkan email" value="{{ old('email') }}">
+                      @error('email')
+                        <div style="color: #e3342f; font-size: 0.875rem; margin-top: 0rem;">
+                            {{ $message }}
+                        </div>
+                      @enderror
                     </div>
 
                     <div class="form-group">
                       <label>Kata Sandi</label>
-                      <input type="password" name="password" placeholder="Masukkan kata sandi">
+                      <input type="password" name="password" placeholder="Masukkan kata sandi"  class="form-control @error('password') is-invalid @enderror"
+                      value="{{ old('password') }}">
+                      @error('password')
+                        <div style="color: #e3342f; font-size: 0.875rem; margin-top: 0rem;">
+                            {{ $message }}
+                        </div>
+                      @enderror
                     </div>
 
                     <button class="login-button" type="submit">Masuk</button>
@@ -43,7 +54,7 @@
           </div>
 
           <p class="belum-memiliki-akun">
-            Belum memiliki akun? <span class="text-wrapper-6"><a href="{{ route('daftar') }}" style="text-decoration:none; color:inherit;">Daftar</a></span>
+            Belum memiliki akun? <span class="text-wrapper-6"><a href="{{ route('daftar') }}" style="text-decoration:none; color:#002a66;">Daftar</a></span>
           </p>
 
         </div>

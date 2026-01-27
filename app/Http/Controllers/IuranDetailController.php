@@ -9,10 +9,7 @@ use Illuminate\Http\Request;
 
 class IuranDetailController extends Controller
 {
-    public function index(Request $request)
-    {
-    
-    }
+    public function index(Request $request) {}
 
 
     public function create()
@@ -26,33 +23,39 @@ class IuranDetailController extends Controller
     }
     public function show($memberId)
     {
-     $bulan = [
-        1 => 'Januari', 2 => 'Februari', 3 => 'Maret', 4 => 'April',
-        5 => 'Mei', 6 => 'Juni', 7 => 'Juli', 8 => 'Agustus',
-        9 => 'September', 10 => 'Oktober', 11 => 'November', 12 => 'Desember'
-    ];
+        $bulan = [
+            1 => 'Januari',
+            2 => 'Februari',
+            3 => 'Maret',
+            4 => 'April',
+            5 => 'Mei',
+            6 => 'Juni',
+            7 => 'Juli',
+            8 => 'Agustus',
+            9 => 'September',
+            10 => 'Oktober',
+            11 => 'November',
+            12 => 'Desember'
+        ];
 
-    $iurans = Iuran::where('member_id', $memberId)
-        ->orderBy('tahun')
-        ->orderBy('bulan')
-        ->paginate(12)  
-        ->appends(request()->query());  
+        $iurans = Iuran::where('member_id', $memberId)
+            ->orderBy('tahun')
+            ->orderBy('bulan')
+            ->paginate(12)
+            ->appends(request()->query());
 
-    $member = Member::findOrFail($memberId);
+        $member = Member::findOrFail($memberId);
 
-    return view('bendum.iuran.iurandetail', compact(
-        'bulan',
-        'iurans',
-        'member'
-    ));
+        return view('bendum.iuran.iurandetail', compact(
+            'bulan',
+            'iurans',
+            'member'
+        ));
     }
 
 
 
-    public function edit(Iuran $iuran)
-    {
-        
-    }
+    public function edit(Iuran $iuran) {}
 
     public function update(Request $request, IuranDetail $iuranDetail)
     {

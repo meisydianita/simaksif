@@ -11,20 +11,17 @@ class LaporanKasController extends Controller
 {
     public function index()
     {
-        return view ('bendum.laporankas.laporan-kas');
+        return view('bendum.laporankas.laporan-kas');
     }
 
-    public function create()
-    {
-       
-    }
+    public function create() {}
 
     public function store(Request $request)
     {
         //
     }
 
-    
+
 
     public function edit(string $id)
     {
@@ -43,59 +40,67 @@ class LaporanKasController extends Controller
 
     public function cetak(Request $request)
     {
-    
-    $tanggal_awal = $request->tanggal_awal;
-    $tanggal_akhir = $request->tanggal_akhir;
-      
-    $kasIuran = Iuran::whereBetween('tanggal_bayar', [$tanggal_awal, $tanggal_akhir])
-        ->get()
-        ->map(function ($item) {
-            return [
-                'tanggal' => $item->tanggal_bayar,
-                'nama' => 'Iuran ' . ($item->member->nama_lengkap . ' Bulan '. ($item->bulan) . ' Tahun ' . ($item->tahun) ?? '-'),
-                'masuk' => $item->jumlah,
-                'keluar' => 0,
-            ];
-        });
 
-    $kasPemasukan = Pemasukan::whereBetween('tanggal_pemasukan', [$tanggal_awal, $tanggal_akhir])
-        ->get()
-        ->map(function ($item) {
-            return [
-                'tanggal' => $item->tanggal_pemasukan,
-                'nama'=>$item->nama_pemasukan . ' Asal '.$item->sumber_pemasukan,
-                'masuk' => $item->jumlah,
-                'keluar' => 0,
-            ];
-        });
+        $tanggal_awal = $request->tanggal_awal;
+        $tanggal_akhir = $request->tanggal_akhir;
 
-    $kasKeluar = KasKeluar::whereBetween('tanggal_pengeluaran', [$tanggal_awal, $tanggal_akhir])
-        ->get()
-        ->map(function ($item) {
-            return [
-                'tanggal' => $item->tanggal_pengeluaran,
-                'nama'=>$item->nama_pengeluaran . ' ' . $item->penerima . ' ' .
-                \Carbon\Carbon::parse($item->tanggal_pengeluaran)->format('Y'),
-                'masuk' => 0,
-                'keluar' => $item->jumlah,
-            ];
-        });
+        $kasIuran = Iuran::whereBetween('tanggal_bayar', [$tanggal_awal, $tanggal_akhir])
+            ->get()
+            ->map(function ($item) {
+                return [
+                    'tanggal' => $item->tanggal_bayar,
+                    'nama' => 'Iuran ' . ($item->member->nama_lengkap . ' Bulan ' . ($item->bulan) . ' Tahun ' . ($item->tahun) ?? '-'),
+                    'masuk' => $item->jumlah,
+                    'keluar' => 0,
+                ];
+            });
 
-    $laporanKas = $kasIuran
-    ->merge($kasPemasukan)
-    ->merge($kasKeluar)
-    ->sortBy('tanggal')
-    ->values();
+        $kasPemasukan = Pemasukan::whereBetween('tanggal_pemasukan', [$tanggal_awal, $tanggal_akhir])
+            ->get()
+            ->map(function ($item) {
+                return [
+                    'tanggal' => $item->tanggal_pemasukan,
+                    'nama' => $item->nama_pemasukan . ' Asal ' . $item->sumber_pemasukan,
+                    'masuk' => $item->jumlah,
+                    'keluar' => 0,
+                ];
+            });
 
-    // hitung saldo total (opsional)
-    $totalMasuk = $laporanKas->sum('masuk');
-    $totalKeluar = $laporanKas->sum('keluar');
-    $sisaSaldo = $totalMasuk - $totalKeluar;
+        $kasKeluar = KasKeluar::whereBetween('tanggal_pengeluaran', [$tanggal_awal, $tanggal_akhir])
+            ->get()
+            ->map(function ($item) {
+                return [
+                    'tanggal' => $item->tanggal_pengeluaran,
+                    'nama' => $item->nama_pengeluaran . ' ' . $item->penerima . ' ' .
+                        \Carbon\Carbon::parse($item->tanggal_pengeluaran)->format('Y'),
+                    'masuk' => 0,
+                    'keluar' => $item->jumlah,
+                ];
+            });
+
+        $laporanKas = $kasIuran
+            ->merge($kasPemasukan)
+            ->merge($kasKeluar)
+            ->sortBy('tanggal')
+            ->values();
+
+        // hitung saldo total (opsional)
+        $totalMasuk = $laporanKas->sum('masuk');
+        $totalKeluar = $laporanKas->sum('keluar');
+        $sisaSaldo = $totalMasuk - $totalKeluar;
 
 
 
-    return view ('bendum.laporankas.halaman-cetak', 
-      compact('laporanKas', 'totalKeluar', 'totalMasuk', 'sisaSaldo',
-      'tanggal_awal', 'tanggal_akhir'));
+        return view(
+            'bendum.laporankas.halaman-cetak',
+            compact(
+                'laporanKas',
+                'totalKeluar',
+                'totalMasuk',
+                'sisaSaldo',
+                'tanggal_awal',
+                'tanggal_akhir'
+            )
+        );
     }
 }

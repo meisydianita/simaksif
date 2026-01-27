@@ -15,15 +15,15 @@ class DokumenKegiatanController extends Controller
         $query = Dokumenkegiatan::query();
 
         $tahun = Dokumenkegiatan::select('tahun')
-                      ->distinct()
-                      ->orderBy('tahun', 'DESC')
-                      ->pluck('tahun', 'tahun')
-                      ->toArray();
+            ->distinct()
+            ->orderBy('tahun', 'DESC')
+            ->pluck('tahun', 'tahun')
+            ->toArray();
 
-        if ($request->filled('search')){
-            $query->where(function($q) use ($request) {
-            $q->where('nama_kegiatan', 'like', '%'.$request->search . '%')
-                ->orwhere('deskripsi_kegiatan', 'like', '%'.$request->search . '%');
+        if ($request->filled('search')) {
+            $query->where(function ($q) use ($request) {
+                $q->where('nama_kegiatan', 'like', '%' . $request->search . '%')
+                    ->orwhere('deskripsi_kegiatan', 'like', '%' . $request->search . '%');
             });
         }
 
@@ -34,13 +34,13 @@ class DokumenKegiatanController extends Controller
 
 
         $alldokumenkegiatan = $query->paginate(10)->appends($request->query());
-        return view ('sekum.dokumenkegiatan.dokumen-kegiatan', compact('alldokumenkegiatan', 'tahun'));
+        return view('sekum.dokumenkegiatan.dokumen-kegiatan', compact('alldokumenkegiatan', 'tahun'));
     }
 
     public function create()
     {
         $penanggungjawab = Member::where('status', 'aktif')->get();
-        return view ('sekum.dokumenkegiatan.add-dokumenkegiatan', compact('penanggungjawab'));
+        return view('sekum.dokumenkegiatan.add-dokumenkegiatan', compact('penanggungjawab'));
     }
 
     public function store(Request $request)
@@ -48,28 +48,28 @@ class DokumenKegiatanController extends Controller
         //data akan diproses di sini ketika disubmit
 
         // validate data
-        $validatedData=$request->validate([
-            'nama_kegiatan'=>'required|string|max:100',
-            'tanggal_mulai'=>'required|date',
-            'tanggal_selesai'=>'required|date',
-            'member_id'=>'required',
-            'tahun'=>'required|digits:4',
-            'deskripsi_kegiatan'=>'required|string',
-            'proposal'=>'required|file|mimes:pdf,doc,docx|max:10240',
+        $validatedData = $request->validate([
+            'nama_kegiatan' => 'required|string|max:100',
+            'tanggal_mulai' => 'required|date',
+            'tanggal_selesai' => 'required|date',
+            'member_id' => 'required',
+            'tahun' => 'required|digits:4',
+            'deskripsi_kegiatan' => 'required|string',
+            'proposal' => 'required|file|mimes:pdf,doc,docx|max:10240',
             'laporan_pertanggungjawaban' => 'required|file|mimes:pdf,doc,docx|max:10240'
-            
+
         ]);
 
         //simpan proposal ke dalam storage
         $proposal = $request->file('proposal');
-        $proposalname = date('Y-m-d').'_'.$proposal->getClientOriginalName();
+        $proposalname = date('Y-m-d') . '_' . $proposal->getClientOriginalName();
         $proposal->storeAs('DokumenKegiatan/Proposal', $proposalname, 'public');
-        
+
         //simpan lpj ke dalam storage
         $lpj = $request->file('laporan_pertanggungjawaban');
-        $lpjname = date('Y-m-d').'_'.$lpj->getClientOriginalName();
+        $lpjname = date('Y-m-d') . '_' . $lpj->getClientOriginalName();
         $lpj->storeAs('DokumenKegiatan/Lpj', $lpjname, 'public');
- 
+
         //simpan nama proposal ke database
         $validatedData['proposal'] = $proposalname;
 
@@ -84,13 +84,13 @@ class DokumenKegiatanController extends Controller
     }
     public function show(DokumenKegiatan $dokumen_kegiatan)
     {
-        return view ('sekum.dokumenkegiatan.dokumen-kegiatan', compact ('dokumen_kegiatan'));
+        return view('sekum.dokumenkegiatan.dokumen-kegiatan', compact('dokumen_kegiatan'));
     }
 
     public function edit(DokumenKegiatan $dokumen_kegiatan)
     {
         $penanggungjawab = Member::where('status', 'aktif')->get();
-        return view ('sekum.dokumenkegiatan.edit-dokumenkegiatan', compact('dokumen_kegiatan', 'penanggungjawab'));
+        return view('sekum.dokumenkegiatan.edit-dokumenkegiatan', compact('dokumen_kegiatan', 'penanggungjawab'));
     }
 
     public function update(Request $request, DokumenKegiatan $dokumen_kegiatan)
@@ -98,47 +98,47 @@ class DokumenKegiatanController extends Controller
         // data akan diproses di sini saat disubmit
 
         // validate data
-        $validatedData=$request->validate([
-            'nama_kegiatan'=>'required|string|max:100',
-            'tanggal_mulai'=>'required|date',
-            'tanggal_selesai'=>'required|date',
-            'member_id'=>'required',
-            'tahun'=>'required|digits:4',
-            'deskripsi_kegiatan'=>'required|string',
-            'proposal'=>'nullable|file|mimes:pdf,doc,docx|max:10240',
+        $validatedData = $request->validate([
+            'nama_kegiatan' => 'required|string|max:100',
+            'tanggal_mulai' => 'required|date',
+            'tanggal_selesai' => 'required|date',
+            'member_id' => 'required',
+            'tahun' => 'required|digits:4',
+            'deskripsi_kegiatan' => 'required|string',
+            'proposal' => 'nullable|file|mimes:pdf,doc,docx|max:10240',
             'laporan_pertanggungjawaban' => 'nullable|file|mimes:pdf,doc,docx|max:10240'
         ]);
 
         // cek apakah user upload file proposal baru
-        if($request->hasFile('proposal')){
-           
-           // hapus file ketika sudah ada
-           if($dokumen_kegiatan->proposal){
-            Storage::disk('public')->delete('DokumenKegiatan/Proposal'.$dokumen_kegiatan->proposal);
-           }
-           // simpan ke file baru
-           $proposal = $request->file('proposal');
-           $proposalname = date('Y-m-d').'_'.$proposal->getClientOriginalName();
-           $proposal->storeAs('DokumenKegiatan/Proposal', $proposalname, 'public');
+        if ($request->hasFile('proposal')) {
 
-           // update nama file di database
-           $validatedData['proposal']=$proposalname;
+            // hapus file ketika sudah ada
+            if ($dokumen_kegiatan->proposal) {
+                Storage::disk('public')->delete('DokumenKegiatan/Proposal' . $dokumen_kegiatan->proposal);
+            }
+            // simpan ke file baru
+            $proposal = $request->file('proposal');
+            $proposalname = date('Y-m-d') . '_' . $proposal->getClientOriginalName();
+            $proposal->storeAs('DokumenKegiatan/Proposal', $proposalname, 'public');
+
+            // update nama file di database
+            $validatedData['proposal'] = $proposalname;
         }
 
         // cek apakah user upload file lpj baru
-        if($request->hasFile('laporan_pertanggungjawaban')){
-           
-          // hapus file ketika sudah ada
-          if($dokumen_kegiatan->laporan_pertanggungjawaban){
-           Storage::disk('public')->delete('DokumenKegiatan/Lpj'.$dokumen_kegiatan->laporan_pertanggungjawaban);
-          }
-           // simpan ke file baru
-          $lpj = $request->file('laporan_pertanggungjawaban');
-          $lpjname = date('Y-m-d').'_'.$lpj->getClientOriginalName();
-          $lpj->storeAs('DokumenKegiatan/Lpj', $lpjname, 'public');
+        if ($request->hasFile('laporan_pertanggungjawaban')) {
 
-          // update nama file di database
-          $validatedData['laporan_pertanggungjawaban']=$lpjname;
+            // hapus file ketika sudah ada
+            if ($dokumen_kegiatan->laporan_pertanggungjawaban) {
+                Storage::disk('public')->delete('DokumenKegiatan/Lpj' . $dokumen_kegiatan->laporan_pertanggungjawaban);
+            }
+            // simpan ke file baru
+            $lpj = $request->file('laporan_pertanggungjawaban');
+            $lpjname = date('Y-m-d') . '_' . $lpj->getClientOriginalName();
+            $lpj->storeAs('DokumenKegiatan/Lpj', $lpjname, 'public');
+
+            // update nama file di database
+            $validatedData['laporan_pertanggungjawaban'] = $lpjname;
         }
 
         // update data
@@ -150,16 +150,16 @@ class DokumenKegiatanController extends Controller
 
     public function destroy($id)
     {
-        $hapusDokumenKegiatan = DokumenKegiatan::findOrFail($id);        
-        
+        $hapusDokumenKegiatan = DokumenKegiatan::findOrFail($id);
+
         // hapus file bukti kalau ada
-        if ($hapusDokumenKegiatan->proposal && Storage::disk('public')->exists('DokumenKegiatan/Proposal/'.$hapusDokumenKegiatan->proposal)) {
-            Storage::disk('public')->delete('DokumenKegiatan/Proposal/'.$hapusDokumenKegiatan->proposal);
+        if ($hapusDokumenKegiatan->proposal && Storage::disk('public')->exists('DokumenKegiatan/Proposal/' . $hapusDokumenKegiatan->proposal)) {
+            Storage::disk('public')->delete('DokumenKegiatan/Proposal/' . $hapusDokumenKegiatan->proposal);
         }
 
         // hapus file bukti kalau ada
-        if ($hapusDokumenKegiatan->laporan_pertanggungjawaban && Storage::disk('public')->exists('DokumenKegiatan/Lpj/'.$hapusDokumenKegiatan->laporan_pertanggungjawaban)) {
-            Storage::disk('public')->delete('DokumenKegiatan/Lpj/'.$hapusDokumenKegiatan->laporan_pertanggungjawaban);
+        if ($hapusDokumenKegiatan->laporan_pertanggungjawaban && Storage::disk('public')->exists('DokumenKegiatan/Lpj/' . $hapusDokumenKegiatan->laporan_pertanggungjawaban)) {
+            Storage::disk('public')->delete('DokumenKegiatan/Lpj/' . $hapusDokumenKegiatan->laporan_pertanggungjawaban);
         }
 
         $hapusDokumenKegiatan->delete();

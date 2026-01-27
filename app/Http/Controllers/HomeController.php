@@ -24,7 +24,8 @@ use Illuminate\Support\Facades\DB as FacadesDB;
 
 class HomeController extends Controller
 {
-    public function index (){
+    public function index()
+    {
         $totalsuratmasuk = Suratmasuk::count();
         $totalsuratkeluar = Suratkeluar::count();
         $totalsertifikat = Sertifikat::count();
@@ -33,57 +34,66 @@ class HomeController extends Controller
         $totalmembernonaktif = Member::where('status',  'tidak_aktif')->count();
 
         $tahunSekarang = date('Y');
-    
+
         $querySuratMasuk = Suratmasuk::whereYear('created_at', $tahunSekarang)
             ->selectRaw('MONTH(created_at) as bulan, COUNT(*) as total')
             ->groupBy('bulan')
             ->orderBy('bulan')
             ->get();
-              
+
         $querySuratKeluar = Suratkeluar::whereYear('created_at', $tahunSekarang)
             ->selectRaw('MONTH(created_at) as bulan, COUNT(*) as total')
             ->groupBy('bulan')
             ->orderBy('bulan')
             ->get();
-        
+
         $queryDokumenKegiatan = Dokumenkegiatan::whereYear('created_at', $tahunSekarang)
             ->selectRaw('MONTH(created_at) as bulan, COUNT(*) as total')
             ->groupBy('bulan')
             ->orderBy('bulan')
             ->get();
-        
+
         $querySertifikat = Sertifikat::whereYear('created_at', $tahunSekarang)
             ->selectRaw('MONTH(created_at) as bulan, COUNT(*) as total')
             ->groupBy('bulan')
             ->orderBy('bulan')
             ->get();
-        
+
         // Fungsi untuk mapping data ke array 12 bulan
-        function mapDataKeBulan($query) {
-            $data = array_fill(0, 12, 0); 
+        function mapDataKeBulan($query)
+        {
+            $data = array_fill(0, 12, 0);
             foreach ($query as $item) {
-                $data[$item->bulan - 1] = $item->total; 
+                $data[$item->bulan - 1] = $item->total;
             }
             return $data;
         }
-        
+
         $grafiktotalsuratmasuk = mapDataKeBulan($querySuratMasuk);
         $grafiktotalsuratkeluar = mapDataKeBulan($querySuratKeluar);
         $grafiktotaldokumenkegiatan = mapDataKeBulan($queryDokumenKegiatan);
-        $grafiktotalsertifikat = mapDataKeBulan($querySertifikat);         
-       
+        $grafiktotalsertifikat = mapDataKeBulan($querySertifikat);
+
         $bulan = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'];
-        
-        
-        return view ('sekum.home', compact('totalsuratmasuk', 
-        'totalsuratkeluar', 'totalsertifikat', 'totaldokumenkegiatan', 
-        'totalmemberaktif', 'totalmembernonaktif', 'grafiktotalsuratmasuk', 'grafiktotalsuratkeluar',  
-        'grafiktotaldokumenkegiatan', 'grafiktotalsertifikat',
-        'bulan', 'tahunSekarang'));
-        
+
+
+        return view('sekum.home', compact(
+            'totalsuratmasuk',
+            'totalsuratkeluar',
+            'totalsertifikat',
+            'totaldokumenkegiatan',
+            'totalmemberaktif',
+            'totalmembernonaktif',
+            'grafiktotalsuratmasuk',
+            'grafiktotalsuratkeluar',
+            'grafiktotaldokumenkegiatan',
+            'grafiktotalsertifikat',
+            'bulan',
+            'tahunSekarang'
+        ));
     }
 
-    public function bendum() 
+    public function bendum()
     {
         $tahunSekarang = now()->year;
         $tanggalMulaiTahun = now()->startOfYear();
@@ -92,7 +102,7 @@ class HomeController extends Controller
         $kasMasukIuran = Iuran::where('status', 'lunas')
             ->whereYear('tanggal_bayar', $tahunSekarang)
             ->selectRaw('MONTH(tanggal_bayar) as bulan, SUM(jumlah) as total')
-            ->groupBy(\Illuminate\Support\Facades\DB::raw('YEAR(tanggal_bayar), MONTH(tanggal_bayar)')) 
+            ->groupBy(\Illuminate\Support\Facades\DB::raw('YEAR(tanggal_bayar), MONTH(tanggal_bayar)'))
             ->orderBy('bulan')
             ->get();
 
@@ -124,17 +134,17 @@ class HomeController extends Controller
         $saldoAwal =
             (
                 Iuran::where('status', 'lunas')
-                    ->whereDate('tanggal_bayar', '<', $tanggalMulaiTahun)
-                    ->sum('jumlah')
+                ->whereDate('tanggal_bayar', '<', $tanggalMulaiTahun)
+                ->sum('jumlah')
                 +
                 Pemasukan::whereDate('tanggal_pemasukan', '<', $tanggalMulaiTahun)
-                    ->sum('jumlah')
+                ->sum('jumlah')
             )
             -
             KasKeluar::whereDate('tanggal_pengeluaran', '<', $tanggalMulaiTahun)
-                ->sum('jumlah');
+            ->sum('jumlah');
 
-        
+
         $totaliuran = Iuran::where('status', 'lunas')
             ->whereYear('tanggal_bayar', $tahunSekarang)
             ->sum('jumlah');
@@ -144,11 +154,11 @@ class HomeController extends Controller
 
         $totalkasmasuk = $totaliuran + $totalpemasukan;
 
-        
+
         $totalkaskeluar = KasKeluar::whereYear('tanggal_pengeluaran', $tahunSekarang)
             ->sum('jumlah');
 
-        
+
         $sisasaldo = $saldoAwal + $totalkasmasuk - $totalkaskeluar;
 
         $bulan = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'];
@@ -166,8 +176,9 @@ class HomeController extends Controller
 
 
 
-    public function anggota (){    
-        
+    public function anggota()
+    {
+
         // Data lama (count semua)
         $totalsuratmasuk = AnggotaSuratMasuk::count();
         $totalsuratkeluar = AnggotaSuratKeluar::count();
@@ -184,19 +195,19 @@ class HomeController extends Controller
             ->groupBy('bulan')
             ->orderBy('bulan')
             ->get();
-            
+
         $querySuratKeluar = AnggotaSuratKeluar::whereYear('created_at', $tahunSekarang)
             ->selectRaw('MONTH(created_at) as bulan, COUNT(*) as total')
             ->groupBy('bulan')
             ->orderBy('bulan')
             ->get();
-        
+
         $queryDokumenKegiatan = AnggotaDokumenKegiatan::whereYear('created_at', $tahunSekarang)
             ->selectRaw('MONTH(created_at) as bulan, COUNT(*) as total')
             ->groupBy('bulan')
             ->orderBy('bulan')
             ->get();
-        
+
         $querySertifikat = AnggotaSertifikat::whereYear('created_at', $tahunSekarang)
             ->selectRaw('MONTH(created_at) as bulan, COUNT(*) as total')
             ->groupBy('bulan')
@@ -204,26 +215,27 @@ class HomeController extends Controller
             ->get();
 
         // Fungsi mapping data
-        function mapDataKeBulan($query) {
-            $data = array_fill(0, 12, 0); 
+        function mapDataKeBulan($query)
+        {
+            $data = array_fill(0, 12, 0);
             foreach ($query as $item) {
-                $data[$item->bulan - 1] = $item->total; 
+                $data[$item->bulan - 1] = $item->total;
             }
             return $data;
         }
-        
+
         $grafiktotalsuratmasuk = mapDataKeBulan($querySuratMasuk);
         $grafiktotalsuratkeluar = mapDataKeBulan($querySuratKeluar);
         $grafiktotaldokumenkegiatan = mapDataKeBulan($queryDokumenKegiatan);
-        $grafiktotalsertifikat = mapDataKeBulan($querySertifikat);         
+        $grafiktotalsertifikat = mapDataKeBulan($querySertifikat);
 
         // DATA BENDUM - DIGABUNG
         $tanggalMulaiTahun = now()->startOfYear();
-        
+
         $kasMasukIuran = Iuran::where('status', 'lunas')
             ->whereYear('tanggal_bayar', $tahunSekarang)
             ->selectRaw('MONTH(tanggal_bayar) as bulan, SUM(jumlah) as total')
-            ->groupBy(\Illuminate\Support\Facades\DB::raw('YEAR(tanggal_bayar), MONTH(tanggal_bayar)')) 
+            ->groupBy(\Illuminate\Support\Facades\DB::raw('YEAR(tanggal_bayar), MONTH(tanggal_bayar)'))
             ->orderBy('bulan')
             ->get();
 
@@ -253,16 +265,16 @@ class HomeController extends Controller
         }
 
         $saldoAwal = (
-                Iuran::where('status', 'lunas')
-                    ->whereDate('tanggal_bayar', '<', $tanggalMulaiTahun)
-                    ->sum('jumlah')
-                +
-                Pemasukan::whereDate('tanggal_pemasukan', '<', $tanggalMulaiTahun)
-                    ->sum('jumlah')
-            )
+            Iuran::where('status', 'lunas')
+            ->whereDate('tanggal_bayar', '<', $tanggalMulaiTahun)
+            ->sum('jumlah')
+            +
+            Pemasukan::whereDate('tanggal_pemasukan', '<', $tanggalMulaiTahun)
+            ->sum('jumlah')
+        )
             -
             KasKeluar::whereDate('tanggal_pengeluaran', '<', $tanggalMulaiTahun)
-                ->sum('jumlah');
+            ->sum('jumlah');
 
         $totaliuran = AnggotaIuran::where('status', 'lunas')
             ->whereYear('tanggal_bayar', $tahunSekarang)
@@ -279,16 +291,25 @@ class HomeController extends Controller
         $bulan = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'];
 
         // HAPUS fungsi anggota() & bendum() - sudah digabung
-        
-        return view('anggota.home-anggota', compact(
-            'totalsuratmasuk', 'totalsuratkeluar', 'totalsertifikat', 
-            'totaldokumenkegiatan', 'totalmemberaktif', 'totalmembernonaktif',
-            'grafiktotalsuratmasuk', 'grafiktotalsuratkeluar', 
-            'grafiktotaldokumenkegiatan', 'grafiktotalsertifikat',
-            'totalkasmasuk', 'totalkaskeluar', 'sisasaldo',
-            'grafikKasMasuk', 'grafikKasKeluar',
-            'bulan', 'tahunSekarang'
-        ));
-        }
 
+        return view('anggota.home-anggota', compact(
+            'totalsuratmasuk',
+            'totalsuratkeluar',
+            'totalsertifikat',
+            'totaldokumenkegiatan',
+            'totalmemberaktif',
+            'totalmembernonaktif',
+            'grafiktotalsuratmasuk',
+            'grafiktotalsuratkeluar',
+            'grafiktotaldokumenkegiatan',
+            'grafiktotalsertifikat',
+            'totalkasmasuk',
+            'totalkaskeluar',
+            'sisasaldo',
+            'grafikKasMasuk',
+            'grafikKasKeluar',
+            'bulan',
+            'tahunSekarang'
+        ));
+    }
 }
