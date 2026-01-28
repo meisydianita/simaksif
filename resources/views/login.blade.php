@@ -26,7 +26,9 @@
                   <div class="group-3">
                     <div class="form-group">
                       <label>Email</label>
-                      <input type="email" name="email" placeholder="Masukkan email" value="{{ old('email') }}">
+                      <input type="email" name="email" placeholder="Masukkan email" value="{{ old('email') }}" 
+                      class="form-control-user @error('email') is-invalid @enderror
+                      ">
                       @error('email')
                         <div style="color: #e3342f; font-size: 0.875rem; margin-top: 0rem;">
                             {{ $message }}
@@ -36,8 +38,10 @@
 
                     <div class="form-group">
                       <label>Kata Sandi</label>
-                      <input type="password" name="password" placeholder="Masukkan kata sandi"  class="form-control @error('password') is-invalid @enderror"
-                      value="{{ old('password') }}">
+                      <input type="password" name="password" placeholder="Masukkan kata sandi"
+                      value="{{ old('password') }}"
+                      class="form-control-user @error('password') is-invalid @enderror
+                      ">
                       @error('password')
                         <div style="color: #e3342f; font-size: 0.875rem; margin-top: 0rem;">
                             {{ $message }}

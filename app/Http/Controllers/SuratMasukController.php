@@ -119,7 +119,8 @@ class SuratMasukController extends Controller
 
         $hapusSuratMasuk->delete();
         // redirect ke indext kategori
-        return redirect()->route('surat-masuk.index');
+        return redirect()->back()->with('success', 'Data berhasil dihapus');
+
     }
 
     public function download(Request $request, SuratMasuk $surat_masuk)

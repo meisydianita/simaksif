@@ -175,3 +175,20 @@ html, body {
   font-size: 16px;
   color: #ffffff;
 }
+.form-control-user {
+  width: 100%;
+  padding: 10px 14px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  outline: none;
+  transition: 0.2s;
+}
+
+.form-control-user.is-invalid {
+  border-color: #e74c3c;
+  background-color: #fff5f5;
+}
+
+.form-control-user.is-invalid:focus {
+  box-shadow: 0 0 0 2px rgba(231, 76, 60, 0.2);
+}

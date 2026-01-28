@@ -92,7 +92,10 @@
                               @endif
                             </td>
                             <td>
-                              <form action="{{ route('iuran.destroy', $r->id) }}" method="POST">
+                              <form action="{{ route('iuran.destroy', $r->id) }}" 
+                              method="POST"
+                              class="d-inline"
+                              data-confirm="true">
                                 <a href="{{ route('iuran.edit', $r->id) }}" style="color:inherit;text-decoration:none;">
                                   <i class="fas fa-pen"></i>
                                 </a>

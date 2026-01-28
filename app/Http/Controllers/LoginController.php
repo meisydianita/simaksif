@@ -61,7 +61,8 @@ class LoginController extends Controller
                 // Set session untuk anggota
                 session(['active_guard' => 'anggota']);
 
-                return redirect('/beranda-anggota');
+                return redirect('/beranda-anggota')
+                 ->with('success', 'Login berhasil. Selamat datang!');
             }
         }
 

@@ -31,8 +31,49 @@
   <script src="{{asset('AdminLTE/dist/js/adminlte.js')}}"></script>
   <!--end::Required Plugin(AdminLTE)--><!--begin::OverlayScrollbars Configure-->
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.0/sweetalert.min.js"></script>
-  <!-- end::Required Plugin sweetalert -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script>
+    $(function() {
+      $(document).on('submit', 'form[data-confirm]', function(e) {
+        e.preventDefault();
+        const form = this;
+
+        Swal.fire({
+          title: 'Apakah Anda Yakin?',
+          text: "Data ini akan dihapus secara permanen!",
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#003580',
+          cancelButtonColor: '#F25922',
+          confirmButtonText: 'Hapus',
+          cancelButtonText: 'Batal',
+          didOpen: () => {
+            Swal.getPopup().style.fontSize = '13px';
+            Swal.getTitle().style.fontSize = '16px';
+            Swal.getHtmlContainer().style.fontSize = '13px';
+          }
+        }).then((result) => {
+          if (result.isConfirmed) {
+
+            Swal.fire({
+              title: "Berhasil!",
+              text: "Data berhasil dihapus.",
+              icon: "success",
+              didOpen: () => {
+                Swal.getPopup().style.fontSize = '13px';
+                Swal.getTitle().style.fontSize = '16px';
+                Swal.getHtmlContainer().style.fontSize = '13px';
+              }
+            });
+
+            form.submit();
+          }
+        });
+      });
+    });
+  </script>
+
+
 
   <script>
     const SELECTOR_SIDEBAR_WRAPPER = '.sidebar-wrapper';

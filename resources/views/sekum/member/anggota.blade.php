@@ -84,9 +84,11 @@
                       @endif
                     </form>
 
-                    <!-- Tambah Button - DI SAMPING FORM -->
+                    
                     <div class="ms-auto">
-                      <a href="{{ route('member.create') }}" class="btn btn-sm btn-dark">Tambah</a>
+                      <a href="{{ route('member.create') }}" class="btn btn-sm"
+                      style="background-color:#003580; border-color:#003580; color:#fff;">
+                        Tambah</a>
                     </div>
                   </div>
                 </div>
@@ -137,7 +139,10 @@
                           </a>
                         </td>
                         <td>
-                          <form action="{{ route('member.destroy', $r->id) }}" method="POST">
+                          <form action="{{ route('member.destroy', $r->id) }}" 
+                          method="POST"
+                          class="d-inline"
+                          data-confirm="true">
                             <a href="{{ route('member.edit', $r->id) }}" style="color:inherit;text-decoration:none;">
                               <i class="fas fa-pen"></i>
                             </a>

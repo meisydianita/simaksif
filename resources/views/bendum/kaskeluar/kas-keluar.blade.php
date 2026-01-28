@@ -47,7 +47,7 @@
                           @endforeach
                         </select>
                       </div>
-                      <!-- Clear Button - DALAM FORM -->
+                      <!-- Clear Button-->
                       @if(request('search') || request('kategori'))
                       <a href="{{ route('kas-keluar.index') }}" class="btn btn-lg btn-sm btn-default">
                         <i class="fa-solid fa-xmark"></i>
@@ -57,7 +57,8 @@
 
                     <div class="ms-auto">
                       <a href="{{ route('kas-keluar.create') }}"
-                        class="btn btn-sm btn-dark">
+                        class="btn btn-sm"
+                        style="background-color:#003580; border-color:#003580; color:#fff;">
                         Tambah
                       </a>
                     </div>
@@ -100,7 +101,10 @@
                           </a>
                         </td>
                         <td>
-                          <form action="{{ route('kas-keluar.destroy', $r->id) }}" method="POST">
+                          <form action="{{ route('kas-keluar.destroy', $r->id) }}" 
+                          method="POST"
+                          class="d-inline"
+                          data-confirm="true">
                             <a href="{{ route('kas-keluar.edit', $r->id) }}" style="color:inherit;text-decoration:none;">
                               <i class="fas fa-pen"></i>
                             </a>

@@ -56,7 +56,7 @@ Route::middleware(['auth:user', 'ceklevel:Bendahara Umum'])->group(function () {
     Route::resource('pemasukan', PemasukanController::class);
     Route::resource('kas-keluar', KasKeluarController::class);
     Route::resource('laporan-kas', LaporanKasController::class);
-    Route::get(  '/cetak-laporan-kas/{tanggal_awal}/{tanggal_akhir}',  [LaporanKasController::class, 'cetak'])->name('laporan-kas.cetak');
+    Route::get(  '/bendum/cetak-laporan-kas/{tanggal_awal}/{tanggal_akhir}',  [LaporanKasController::class, 'cetak'])->name('laporan-kas.cetak');
     });
 
 Route::middleware(['auth:anggota', 'ceklevel:Anggota'])->group(function () {

@@ -43,7 +43,8 @@
 
                     <div class="ms-auto">
                       <a href="{{ route('surat-masuk.create') }}"
-                        class="btn btn-sm btn-dark">
+                        class="btn btn-sm"
+                        style="background-color:#003580; border-color:#003580; color:#fff;">
                         Tambah
                       </a>
                     </div>
@@ -80,16 +81,24 @@
                           </a>
                         </td>
                         <td>
-                          <form action="{{ route('surat-masuk.destroy', $r->id) }}" method="POST">
-                            <a href="{{ route('surat-masuk.edit', $r->id) }}" style="color:inherit;text-decoration:none;">
-                              <i class="fas fa-pen"></i>
-                            </a>
+                          <form action="{{ route('surat-masuk.destroy', $r->id) }}"
+                            method="POST"
+                            class="d-inline"
+                            data-confirm="true">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" style="background:none;border:none;" class="justify-content-center show_confirm">
+
+                            <a href="{{ route('surat-masuk.edit', $r->id) }}"
+                              style="color:inherit;text-decoration:none;">
+                              <i class="fas fa-pen"></i>
+                            </a>
+
+                            <button type="submit"
+                              style="background:none;border:none;">
                               <i class="fas fa-trash"></i>
                             </button>
                           </form>
+
                         </td>
                       </tr>
                       @empty

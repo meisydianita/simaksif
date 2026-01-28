@@ -62,7 +62,8 @@
 
                     <div class="ms-auto">
                       <a href="{{ route('dokumen-kegiatan.create') }}"
-                        class="btn btn-sm btn-dark">
+                        class="btn btn-sm"
+                        style="background-color:#003580; border-color:#003580; color:#fff;">
                         Tambah
                       </a>
                     </div>
@@ -112,7 +113,10 @@
                           </a>
                         </td>
                         <td>
-                          <form action="{{ route('dokumen-kegiatan.destroy', $r->id) }}" method="POST">
+                          <form action="{{ route('dokumen-kegiatan.destroy', $r->id) }}" 
+                          method="POST"
+                          class="d-inline"
+                          data-confirm="true">
                             <a href="{{ route('dokumen-kegiatan.edit', $r->id) }}" style="color:inherit;text-decoration:none;">
                               <i class="fas fa-pen"></i>
                             </a>
