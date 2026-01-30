@@ -39,10 +39,17 @@ class LoginController extends Controller
                 session(['active_guard' => 'user']);
 
                 $user = Auth::guard('user')->user();
+                $welcomeMessage = "Selamat datang, " . $user->name . "!";
+
+                $user = Auth::guard('user')->user();
                 if ($user->level == 'Sekretaris Umum') {
-                    return redirect('/beranda-sekum');
+                    return redirect('/beranda-sekum')
+                    ->with('login_success', $welcomeMessage);
+                    
                 } else {
-                    return redirect(to: '/beranda-bendum');
+                    return redirect(to: '/beranda-bendum')
+                    ->with('login_success', $welcomeMessage);
+                    
                 }
             }
         }
@@ -60,13 +67,16 @@ class LoginController extends Controller
 
                 // Set session untuk anggota
                 session(['active_guard' => 'anggota']);
+                $user = Auth::guard('anggota')->user();
+                $welcomeMessage = "Selamat datang, " . $user->name . "!";
 
                 return redirect('/beranda-anggota')
-                 ->with('success', 'Login berhasil. Selamat datang!');
+                 ->with('login_success', $welcomeMessage);
+                    
             }
         }
 
-        return redirect('/login')->with('error', 'Email atau password salah');
+        return redirect('/login')->with('error', 'Email atau kata sandi salah!');
     }
 
     public function postlogout(Request $request)
@@ -78,6 +88,7 @@ class LoginController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect('/login')->with('success', 'Logout berhasil');
+        return redirect('/login')->with('logout', 'Logout berhasil. Sampai jumpa! ');
+
     }
 }

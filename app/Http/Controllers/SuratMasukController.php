@@ -47,7 +47,7 @@ class SuratMasukController extends Controller
 
         // simpan file ke storage
         $file = $request->file('file_surat');
-        $filename = date('Y-m-d') . '_' . $file->getClientOriginalName();
+        $filename = now('Asia/Jakarta')->format('d-m-Y_His') . '_' . $file->getClientOriginalName();
         $file->storeAs('SuratMasuk', $filename, 'public');
 
         // simpan nama file ke database
@@ -73,39 +73,50 @@ class SuratMasukController extends Controller
 
     public function update(Request $request, SuratMasuk $surat_masuk)
     {
-        //function yang akan memproses saat update disubmit
-        //buat validasi
-        $validatedData = $request->validate([
-            'nomor_surat' => 'required|unique:surat_masuks,nomor_surat,' . $surat_masuk->id,
-            'tanggal_surat' => 'required|date',
-            'asal_surat' => 'required|string|max:255',
-            'perihal' => 'required|string|max:255',
-            'file_surat' => 'nullable|file|mimes:pdf,doc,docx|max:10240'
-        ]);
+        try {
+            $validatedData = $request->validate([
+                'nomor_surat'   => 'required|unique:surat_masuks,nomor_surat,' . $surat_masuk->id,
+                'tanggal_surat' => 'required|date',
+                'asal_surat'    => 'required|string|max:255',
+                'perihal'       => 'required|string|max:255',
+                'file_surat'    => 'nullable|file|mimes:pdf,doc,docx|max:10240'
+            ]);
 
+            $isChanged = false;
 
-        // CEK: apakah user upload file baru?
-        if ($request->hasFile('file_surat')) {
-
-            // hapus file lama (kalau ada)
-            if ($surat_masuk->file_surat) {
-                Storage::disk('public')->delete('SuratMasuk/' . $surat_masuk->file_surat);
+            // Cek perubahan field utama
+            $mainFields = ['nomor_surat', 'tanggal_surat', 'asal_surat', 'perihal'];
+            foreach ($mainFields as $field) {
+                if ($request->filled($field) && $surat_masuk->$field != $request->$field) {
+                    $isChanged = true;
+                    break;
+                }
             }
 
-            // simpan file baru
-            $file = $request->file('file_surat');
-            $filename = date('Y-m-d') . '_' . $file->getClientOriginalName();
-            $file->storeAs('SuratMasuk', $filename, 'public');
+            // Upload file baru (kalau ada)
+            if ($request->hasFile('file_surat')) {
+                // hapus file lama
+                if ($surat_masuk->file_surat) {
+                    Storage::disk('public')->delete('SuratMasuk/' . $surat_masuk->file_surat);
+                }
 
-            // update nama file di data
-            $validatedData['file_surat'] = $filename;
+                $file = $request->file('file_surat');
+                $filename = now('Asia/Jakarta')->format('d-m-Y_His') . '_' . $file->getClientOriginalName();
+                $file->storeAs('SuratMasuk', $filename, 'public');
+
+                $validatedData['file_surat'] = $filename;
+                $isChanged = true;
+            }
+
+            if ($isChanged) {
+                $surat_masuk->update($validatedData);
+                return redirect()->route('surat-masuk.index')->with('success', 'Data berhasil diperbarui.');
+            }
+
+            return redirect()->route('surat-masuk.index')->with('info', 'Tidak ada perubahan data.');
+        } catch (\Exception $e) {
+            return redirect()->route('surat-masuk.index')->with('error', 'Gagal memperbarui data: ' . $e->getMessage());
         }
-
-        //update data
-        $surat_masuk->update($validatedData);
-
-        // redirect ke index ketika berhasil diupdate
-        return redirect()->route('surat-masuk.index');
     }
 
     public function destroy($id)
@@ -120,7 +131,6 @@ class SuratMasukController extends Controller
         $hapusSuratMasuk->delete();
         // redirect ke indext kategori
         return redirect()->back()->with('success', 'Data berhasil dihapus');
-
     }
 
     public function download(Request $request, SuratMasuk $surat_masuk)

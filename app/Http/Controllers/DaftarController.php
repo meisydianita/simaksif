@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Anggota;
 use App\Models\User;
+use Exception;
 use Illuminate\Http\Request;
 
 class DaftarController extends Controller
@@ -15,7 +16,8 @@ class DaftarController extends Controller
 
     public function postdaftar(Request $request)
     {
-        // validated data
+        try{
+            // validated data
         $validatedData = $request->validate(
             [
                 'name' => 'required|string|max:100',
@@ -39,6 +41,10 @@ class DaftarController extends Controller
             'level' => 'Anggota'
         ]);
 
-        return view('login');
+       return redirect('login')->with('signup_success', 'Pendaftaran sebagai anggota berhasil. Silahkan masuk!');
+        }catch(Exception $e){
+            return back()->with('signup_error', 'Pendaftaran gagal: ' . $e->getMessage());
+        }
+        
     }
 }

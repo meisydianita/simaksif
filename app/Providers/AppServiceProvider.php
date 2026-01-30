@@ -32,6 +32,7 @@ class AppServiceProvider extends ServiceProvider
          Carbon::setLocale('id');
          Member::observe(MemberObserver::class);
          Pluralizer::useLanguage('indonesian');
+        date_default_timezone_set('Asia/Jakarta');
 
     });
         // Paginator::useTailwind();

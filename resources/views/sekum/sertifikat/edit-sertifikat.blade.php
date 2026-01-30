@@ -14,7 +14,7 @@
       <!--begin::App Content-->
       <div class="app-content">
         <!--begin::Container-->
-        <div class="container-fluid">
+        <div class="container-fluid pt-4">
           <!--begin::Row-->
           <div class="row">
             <div class="col-12">
@@ -100,13 +100,13 @@
                         </div>
                         <div class="col-md-6">
                           <label for="formFile" class="form-label">Unggah Dokumen</label>
-                          <input class="form-control form-control-sm" type="file" id="formFile">
+                          <input class="form-control form-control-sm" type="file" id="formFile" name="file">
                         </div>
                         <!--end::Col-->
                         <!--begin::Col-->
                         <div class="d-flex justify-content-center gap-2">
-                          <a href="{{ route('sertifikat.index') }}" class="btn btn-sm btn-outline-secondary">Batal</a>
-                          <button class="btn btn-sm btn-dark" type="submit">Kirim</button>
+                          <a href="{{ route('sertifikat.index') }}" class="btn btn-sm btn-orange-custom">Batal</a>
+                          <button class="btn btn-sm btn-blue-custom" type="submit">Kirim</button>
                         </div>
                         <!--end::Col-->
 

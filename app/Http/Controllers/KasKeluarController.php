@@ -61,7 +61,7 @@ class KasKeluarController extends Controller
 
         // simpan file ke storage
         $file = $request->file('bukti');
-        $filename = date('Y-m-d') . '_' . $file->getClientOriginalName();
+        $filename = now('Asia/Jakarta')->format('d-m-Y_His') . '_' . $file->getClientOriginalName();
         $file->storeAs('KasKeluar', $filename, 'public');
 
         // simpan nama file ke database
@@ -86,43 +86,60 @@ class KasKeluarController extends Controller
 
     public function update(Request $request, KasKeluar $kas_keluar)
     {
-        // make validation
-        $validatedData = $request->validate([
-            'nomor_pengeluaran' => 'nullable|unique:kas_keluars,nomor_pengeluaran,' . $kas_keluar->id,
-            'nama_pengeluaran' => 'required|string|max:255',
-            'tanggal_pengeluaran' => 'required|date',
-            'kategori' => 'required',
-            'jumlah' => 'required|numeric|min:0|max:99999999999999.99',
-            'penerima' => 'required|string|max:255',
-            'keterangan' => 'nullable|string|max:255',
-            'bukti' => 'nullable|image|max:2048'
-        ], [
-            'jumlah.max' => 'Jumlah terlalu besar! Maksimal Rp 99.999.999.999.999,99',
-            'jumlah.numeric' => 'Jumlah harus berupa angka',
-        ]);
+        try {
+            // make validation
+            $validatedData = $request->validate([
+                'nomor_pengeluaran' => 'nullable|unique:kas_keluars,nomor_pengeluaran,' . $kas_keluar->id,
+                'nama_pengeluaran' => 'required|string|max:255',
+                'tanggal_pengeluaran' => 'required|date',
+                'kategori' => 'required',
+                'jumlah' => 'required|numeric|min:0|max:99999999999999.99',
+                'penerima' => 'required|string|max:255',
+                'keterangan' => 'nullable|string|max:255',
+                'bukti' => 'nullable|image|max:2048'
+            ], [
+                'jumlah.max' => 'Jumlah terlalu besar! Maksimal Rp 99.999.999.999.999,99',
+                'jumlah.numeric' => 'Jumlah harus berupa angka',
+            ]);
+            $isChanged = false;
 
-        // cek apakah user upload foto baru
-        if ($request->hasFile('bukti')) {
-
-            // hapus file ketika sudah ada
-            if ($kas_keluar->bukti) {
-                Storage::disk('public')->delete('KasKeluar/' . $kas_keluar->bukti);
+            $mainFields = ['nomor_pengeluaran', 'nama_pengeluaran', 'tanggal_pengeluaran', 'kategori', 'jumlah', 'penerima', 'keterangan'];
+            foreach ($mainFields as $field) {
+                if ($request->filled($field) && $kas_keluar->$field != $request->$field) {
+                    $isChanged = true;
+                    break;
+                }
             }
 
-            // simpan ke file baru
-            $foto = $request->file('bukti');
-            $fotoname = date('Y-m-d') . '_' . $foto->getClientOriginalName();
-            $foto->storeAs('KasKeluar', $fotoname, 'public');
+            // cek apakah user upload foto baru
+            if ($request->hasFile('bukti')) {
 
-            // simpan nama ke dalam database
-            $validatedData['bukti'] = $fotoname;
+                // hapus file ketika sudah ada
+                if ($kas_keluar->bukti) {
+                    Storage::disk('public')->delete('KasKeluar/' . $kas_keluar->bukti);
+                }
+
+                // simpan ke file baru
+                $foto = $request->file('bukti');
+                $fotoname = now('Asia/Jakarta')->format('d-m-Y_His') . '_' . $foto->getClientOriginalName();
+                $foto->storeAs('KasKeluar', $fotoname, 'public');
+
+                // simpan nama ke dalam database
+                $validatedData['bukti'] = $fotoname;
+            }
+
+            // update data
+            $kas_keluar->update($validatedData);
+
+
+            // redirect to index ketika berhasil diupdate
+            if ($isChanged) {
+                return redirect()->route('kas-keluar.index')->with('success', 'Data berhasil diperbarui.');
+            }
+            return redirect()->route('kas-keluar.index')->with('info', 'Tidak ada perubahan data.');
+        } catch (\Exception $e) {
+            return redirect()->route('kas-keluar.index')->with('error', 'Gagal memperbarui data: ' . $e->getMessage());
         }
-
-        // update data
-        $kas_keluar->update($validatedData);
-
-        // redirect to index ketika berhasil diupdate
-        return redirect()->route('kas-keluar.index');
     }
 
     public function destroy($id)

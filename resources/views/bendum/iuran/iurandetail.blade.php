@@ -11,11 +11,11 @@
     @include('layout.header')
     @include ('layout.sidebar')
     <!--begin::App Main-->
-    <main class="app-main pt-4">
+    <main class="app-main">
       <!--begin::App Content-->
       <div class="app-content">
         <!--begin::Container-->
-        <div class="container-fluid">
+        <div class="container-fluid pt-4">
           <!-- /.row -->
           <div class="row">
             <div class="col-12">
@@ -72,7 +72,7 @@
                             <td>{{ $bulan[$r->bulan] }}</td>
                             <td>{{ $r->tahun }}</td>
                             <td>Rp. {{ number_format($r->jumlah, 0, ',', '.') }}</td>
-                            <td>{{ $r->tanggal_bayar ?? '-'}}</td>
+                            <td>{{ $r->tanggal_bayar ? \Carbon\Carbon::parse($r->tanggal_bayar)->format('d-m-Y') : '-' }}</td>
                             <td>
                               @if($r->bukti)
                               <a href="{{ Storage::url('Iuran/'.$r->bukti) }}" target="_blank" style="color:inherit;text-decoration:none;">

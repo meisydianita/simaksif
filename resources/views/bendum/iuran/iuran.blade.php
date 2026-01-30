@@ -10,12 +10,12 @@
     @include('layout.header')
     @include ('layout.sidebar')
     <!--begin::App Main-->
-    <main class="app-main pt-4">
+    <main class="app-main">
 
       <!--begin::App Content-->
       <div class="app-content">
         <!--begin::Container-->
-        <div class="container-fluid">
+        <div class="container-fluid pt-4">
           <!-- /.row -->
           <div class="row">
             <div class="col-12">

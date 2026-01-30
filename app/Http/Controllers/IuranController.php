@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Iuran;
 use App\Models\Member;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -104,7 +105,7 @@ class IuranController extends Controller
         // upload bukti kalau ada
         if ($request->hasFile('bukti')) {
             $file = $request->file('bukti');
-            $filename = date('Y-m-d') . '_' . $file->getClientOriginalName();
+            $filename = now('Asia/Jakarta')->format('d-m-Y_His') . '_' . $file->getClientOriginalName();
             $file->storeAs('Iuran', $filename, 'public');
             $validatedData['bukti'] = $filename;
         }
@@ -132,40 +133,56 @@ class IuranController extends Controller
 
     public function update(Request $request, Iuran $iuran)
     {
-        // update validation
-        $validatedData = $request->validate([
-            'member_id' => 'nullable',
-            'bulan' => 'nullable',
-            'tahun' => 'nullable|digits:4',
-            'jumlah' => 'nullable|numeric|min:0|max:99999999999999.99',
-            'tanggal_bayar' => 'nullable|date',
-            'metode_bayar' => 'nullable',
-            'bukti' => 'nullable|image|max:2048',
-            'status' => 'required'
-        ]);
+        try {
+            // update validation
+            $validatedData = $request->validate([
+                'member_id' => 'nullable',
+                'bulan' => 'nullable',
+                'tahun' => 'nullable|digits:4',
+                'jumlah' => 'nullable|numeric|min:0|max:99999999999999.99',
+                'tanggal_bayar' => 'nullable|date',
+                'metode_bayar' => 'nullable',
+                'bukti' => 'nullable|image|max:2048',
+                'status' => 'required'
+            ]);
+            $isChanged = false;
 
-        // cek apakah user upload foto baru
-        if ($request->hasFile('bukti')) {
-
-            // hapus file ketika sudah ada
-            if ($iuran->bukti) {
-                Storage::disk('public')->delete('Iuran/' . $iuran->bukti);
+            $mainFields = ['member_id', 'bulan', 'tahun', 'jumlah', 'tanggal_bayar', 'metode_bayar', 'status'];
+            foreach ($mainFields as $field) {
+                if ($request->filled($field) && $iuran->$field != $request->$field) {
+                    $isChanged = true;
+                    break;
+                }
             }
 
-            // simpan ke file baru
-            $foto = $request->file('bukti');
-            $fotoname = date('Y-m-d') . '_' . $foto->getClientOriginalName();
-            $foto->storeAs('Iuran', $fotoname, 'public');
+            // cek apakah user upload foto baru
+            if ($request->hasFile('bukti')) {
 
-            // simpan nama ke dalam database
-            $validatedData['bukti'] = $fotoname;
+                // hapus file ketika sudah ada
+                if ($iuran->bukti) {
+                    Storage::disk('public')->delete('Iuran/' . $iuran->bukti);
+                }
+
+                // simpan ke file baru
+                $foto = $request->file('bukti');
+                $filename = now('Asia/Jakarta')->format('d-m-Y_His') . '_' . $foto->getClientOriginalName();
+                $foto->storeAs('Iuran', $filename, 'public');
+
+                // simpan nama ke dalam database
+                $validatedData['bukti'] = $filename;
+            }
+
+            // update data
+            $iuran->update($validatedData);
+
+            // return redirect
+            if ($isChanged) {
+                return redirect()->route('iurandetail.show', $iuran->member_id)->with('success', 'Data berhasil diperbarui.');
+            }
+            return redirect()->route('iurandetail.show', $iuran->member_id)->with('info', 'Tidak ada perubahan data.');
+        } catch (Exception $e) {
+            return redirect()->route('iurandetail.show', $iuran->member_id)->with('error', 'Gagal memperbarui data.' . $e->getMessage());
         }
-
-        // update data
-        $iuran->update($validatedData);
-
-        // return redirect
-        return redirect()->route('iurandetail.show', $iuran->member_id);
     }
 
     public function destroy(Iuran $iuran)

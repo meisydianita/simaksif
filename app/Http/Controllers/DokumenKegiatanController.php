@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\Dokumenkegiatan;
 use App\Models\Member;
+use Exception;
 use GuzzleHttp\Psr7\Query;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
+use PhpParser\Node\Stmt\TryCatch;
 
 class DokumenKegiatanController extends Controller
 {
@@ -62,12 +64,12 @@ class DokumenKegiatanController extends Controller
 
         //simpan proposal ke dalam storage
         $proposal = $request->file('proposal');
-        $proposalname = date('Y-m-d') . '_' . $proposal->getClientOriginalName();
+        $proposalname = now('Asia/Jakarta')->format('d-m-Y_His') . '_' . $proposal->getClientOriginalName();
         $proposal->storeAs('DokumenKegiatan/Proposal', $proposalname, 'public');
 
         //simpan lpj ke dalam storage
         $lpj = $request->file('laporan_pertanggungjawaban');
-        $lpjname = date('Y-m-d') . '_' . $lpj->getClientOriginalName();
+        $lpjname = now('Asia/Jakarta')->format('d-m-Y_His') . '_' . $lpj->getClientOriginalName();
         $lpj->storeAs('DokumenKegiatan/Lpj', $lpjname, 'public');
 
         //simpan nama proposal ke database
@@ -95,57 +97,75 @@ class DokumenKegiatanController extends Controller
 
     public function update(Request $request, DokumenKegiatan $dokumen_kegiatan)
     {
-        // data akan diproses di sini saat disubmit
+        try {
+            // data akan diproses di sini saat disubmit
 
-        // validate data
-        $validatedData = $request->validate([
-            'nama_kegiatan' => 'required|string|max:100',
-            'tanggal_mulai' => 'required|date',
-            'tanggal_selesai' => 'required|date',
-            'member_id' => 'required',
-            'tahun' => 'required|digits:4',
-            'deskripsi_kegiatan' => 'required|string',
-            'proposal' => 'nullable|file|mimes:pdf,doc,docx|max:10240',
-            'laporan_pertanggungjawaban' => 'nullable|file|mimes:pdf,doc,docx|max:10240'
-        ]);
+            // validate data
+            $validatedData = $request->validate([
+                'nama_kegiatan' => 'required|string|max:100',
+                'tanggal_mulai' => 'required|date',
+                'tanggal_selesai' => 'required|date',
+                'member_id' => 'required',
+                'tahun' => 'required|digits:4',
+                'deskripsi_kegiatan' => 'required|string',
+                'proposal' => 'nullable|file|mimes:pdf,doc,docx|max:10240',
+                'laporan_pertanggungjawaban' => 'nullable|file|mimes:pdf,doc,docx|max:10240'
+            ]);
+            $isChanged = false;
 
-        // cek apakah user upload file proposal baru
-        if ($request->hasFile('proposal')) {
-
-            // hapus file ketika sudah ada
-            if ($dokumen_kegiatan->proposal) {
-                Storage::disk('public')->delete('DokumenKegiatan/Proposal' . $dokumen_kegiatan->proposal);
+            $mainFields = ['nama_kegiatan', 'tanggal_mulai', 'tanggal_selesai', 'member_id', 'tahun', 'deskripsi_kegiatan'];
+            foreach ($mainFields as $field) {
+                if ($request->filled($field) && $dokumen_kegiatan->$field != $request->$field) {
+                    $isChanged = true;
+                    break;
+                }
             }
-            // simpan ke file baru
-            $proposal = $request->file('proposal');
-            $proposalname = date('Y-m-d') . '_' . $proposal->getClientOriginalName();
-            $proposal->storeAs('DokumenKegiatan/Proposal', $proposalname, 'public');
 
-            // update nama file di database
-            $validatedData['proposal'] = $proposalname;
-        }
+            // cek apakah user upload file proposal baru
+            if ($request->hasFile('proposal')) {
 
-        // cek apakah user upload file lpj baru
-        if ($request->hasFile('laporan_pertanggungjawaban')) {
+                // hapus file ketika sudah ada
+                if ($dokumen_kegiatan->proposal) {
+                    Storage::disk('public')->delete('DokumenKegiatan/Proposal' . $dokumen_kegiatan->proposal);
+                }
+                // simpan ke file baru
+                $proposal = $request->file('proposal');
+                $proposalname = now('Asia/Jakarta')->format('d-m-Y_His') . '_' . $proposal->getClientOriginalName();
+                $proposal->storeAs('DokumenKegiatan/Proposal', $proposalname, 'public');
 
-            // hapus file ketika sudah ada
-            if ($dokumen_kegiatan->laporan_pertanggungjawaban) {
-                Storage::disk('public')->delete('DokumenKegiatan/Lpj' . $dokumen_kegiatan->laporan_pertanggungjawaban);
+                // update nama file di database
+                $validatedData['proposal'] = $proposalname;
+                $isChanged = true;
             }
-            // simpan ke file baru
-            $lpj = $request->file('laporan_pertanggungjawaban');
-            $lpjname = date('Y-m-d') . '_' . $lpj->getClientOriginalName();
-            $lpj->storeAs('DokumenKegiatan/Lpj', $lpjname, 'public');
 
-            // update nama file di database
-            $validatedData['laporan_pertanggungjawaban'] = $lpjname;
+            // cek apakah user upload file lpj baru
+            if ($request->hasFile('laporan_pertanggungjawaban')) {
+
+                // hapus file ketika sudah ada
+                if ($dokumen_kegiatan->laporan_pertanggungjawaban) {
+                    Storage::disk('public')->delete('DokumenKegiatan/Lpj' . $dokumen_kegiatan->laporan_pertanggungjawaban);
+                }
+                // simpan ke file baru
+                $lpj = $request->file('laporan_pertanggungjawaban');
+                $lpjname = now('Asia/Jakarta')->format('d-m-Y_His') . '_' . $lpj->getClientOriginalName();
+                $lpj->storeAs('DokumenKegiatan/Lpj', $lpjname, 'public');
+
+                // update nama file di database
+                $validatedData['laporan_pertanggungjawaban'] = $lpjname;
+                $isChanged = true;
+            }
+
+            // update data
+            $dokumen_kegiatan->update($validatedData);
+
+            //redirect to index ketika berhasil disimpan
+            if ($isChanged) {
+                return redirect()->route('dokumen-kegiatan.index')->with('success', 'Data berhasil diperbarui');
+            }
+            return redirect()->route('dokumen-kegiatan.index')->with('info', 'Tidak ada perubahan data.');
+        } catch (Exception $e) {
+            return redirect()->route('dokumen-kegiatan.index')->with('error', 'Gagal memperbarui data: ' . $e->getMessage());
         }
-
-        // update data
-        $dokumen_kegiatan->update($validatedData);
-
-        //redirect to index ketika berhasil disimpan
-        return redirect()->route('dokumen-kegiatan.index');
     }
 
     public function destroy($id)

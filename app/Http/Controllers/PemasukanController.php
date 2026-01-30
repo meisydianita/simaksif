@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Pemasukan;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -64,7 +65,7 @@ class PemasukanController extends Controller
 
         // simpan file ke storage
         $file = $request->file('bukti');
-        $filename = date('Y-m-d') . '_' . $file->getClientOriginalName();
+        $filename = now('Asia/Jakarta')->format('d-m-Y_His') . '_' . $file->getClientOriginalName();
         $file->storeAs('Pemasukan', $filename, 'public');
 
         // simpan nama file ke database
@@ -87,43 +88,60 @@ class PemasukanController extends Controller
 
     public function update(Request $request, Pemasukan $pemasukan)
     {
-        // update validation
-        $validatedData = $request->validate([
-            'nomor_pemasukan' => 'nullable|unique:pemasukans,nomor_pemasukan,' . $pemasukan->id,
-            'nama_pemasukan' => 'required|string|max:255',
-            'tanggal_pemasukan' => 'required|date',
-            'kategori' => 'required',
-            'sumber_pemasukan' => 'required|string|max:255',
-            'jumlah' => 'required|numeric|min:0|max:99999999999999.99',
-            'keterangan' => 'nullable|string|max:255',
-            'bukti' => 'nullable|image|max:2048'
-        ], [
-            'jumlah.max' => 'Jumlah terlalu besar! Maksimal Rp 99.999.999.999.999,99',
-            'jumlah.numeric' => 'Jumlah harus berupa angka',
-        ]);
+        try {
+            // update validation
+            $validatedData = $request->validate([
+                'nomor_pemasukan' => 'nullable|unique:pemasukans,nomor_pemasukan,' . $pemasukan->id,
+                'nama_pemasukan' => 'required|string|max:255',
+                'tanggal_pemasukan' => 'required|date',
+                'kategori' => 'required',
+                'sumber_pemasukan' => 'required|string|max:255',
+                'jumlah' => 'required|numeric|min:0|max:99999999999999.99',
+                'keterangan' => 'nullable|string|max:255',
+                'bukti' => 'nullable|image|max:2048'
+            ], [
+                'jumlah.max' => 'Jumlah terlalu besar! Maksimal Rp 99.999.999.999.999,99',
+                'jumlah.numeric' => 'Jumlah harus berupa angka',
+            ]);
+            $isChanged = false;
 
-        // cek apakah user upload foto baru
-        if ($request->hasFile('bukti')) {
-
-            // hapus file ketika sudah ada
-            if ($pemasukan->bukti) {
-                Storage::disk('public')->delete('Pemasukan/' . $pemasukan->bukti);
+            $mainFields = ['nomor_pemasukan', 'nama_pemasukan', 'tanggal_pemasukan', 'kategori', 'sumber_pemasukan', 'jumlah', 'keterangan'];
+            foreach ($mainFields as $field) {
+                if ($request->filled($field) && $pemasukan->$field != $request->$field) {
+                    $isChanged = true;
+                    break;
+                }
             }
 
-            // simpan ke file baru
-            $foto = $request->file('bukti');
-            $fotoname = date('Y-m-d') . '_' . $foto->getClientOriginalName();
-            $foto->storeAs('Pemasukan', $fotoname, 'public');
+            // cek apakah user upload foto baru
+            if ($request->hasFile('bukti')) {
 
-            // simpan nama ke dalam database
-            $validatedData['bukti'] = $fotoname;
+                // hapus file ketika sudah ada
+                if ($pemasukan->bukti) {
+                    Storage::disk('public')->delete('Pemasukan/' . $pemasukan->bukti);
+                }
+
+                // simpan ke file baru
+                $foto = $request->file('bukti');
+                $fotoname = now('Asia/Jakarta')->format('d-m-Y_His') . '_' . $foto->getClientOriginalName();
+                $foto->storeAs('Pemasukan', $fotoname, 'public');
+
+                // simpan nama ke dalam database
+                $validatedData['bukti'] = $fotoname;
+                $isChanged = true;
+            }
+
+            // update data
+            $pemasukan->update($validatedData);
+
+            // redirect to index ketika berhasil diupdate
+            if ($isChanged) {
+                return redirect()->route('pemasukan.index')->with('success', 'Data berhasil diperbarui.');
+            }
+            return redirect()->route('pemasukan.index')->with('info', 'Tidak ada perubahan data.');
+        } catch (Exception $e) {
+            return redirect()->route('pemasukan.index')->with('error', 'Gagal memperbarui data: ' . $e->getMessage());
         }
-
-        // update data
-        $pemasukan->update($validatedData);
-
-        // redirect to index ketika berhasil diupdate
-        return redirect()->route('pemasukan.index');
     }
 
     public function destroy($id)

@@ -59,22 +59,82 @@
               title: "Berhasil!",
               text: "Data berhasil dihapus.",
               icon: "success",
+              confirmButtonText: "OK",
+              timer: 3000,
+              confirmButtonColor: "#003580",
+              timerProgressBar: true,
               didOpen: () => {
                 Swal.getPopup().style.fontSize = '13px';
                 Swal.getTitle().style.fontSize = '16px';
                 Swal.getHtmlContainer().style.fontSize = '13px';
               }
+            }).then((result) => {
+              if (result.isConfirmed || result.dismiss === Swal.DismissReason.timer) {
+                form.submit();
+              }
             });
 
-            form.submit();
+
           }
         });
       });
     });
   </script>
 
+  @if (session('success'))
+  <script>
+    Swal.fire({
+      title: "Berhasil!",
+      text: "{{ session('success') }}",
+      icon: "success",
+      confirmButtonText: "OK",
+      confirmButtonColor: "#003580",
+      timer: 3000,
+      timerProgressBar: true,
+      didOpen: () => {
+        Swal.getPopup().style.fontSize = '13px';
+        Swal.getTitle().style.fontSize = '16px';
+        Swal.getHtmlContainer().style.fontSize = '13px';
+      }
+    });
+  </script>
+  @endif
 
+  @if (session('info'))
+  <script>
+    Swal.fire({
+      title: "Info",
+      text: "{{ session('info') }}",
+      icon: "info",
+      confirmButtonText: "OK",
+      confirmButtonColor: "#003580",
+      timer: 3000,
+      timerProgressBar: true,
+      didOpen: () => {
+        Swal.getPopup().style.fontSize = '13px';
+        Swal.getTitle().style.fontSize = '16px';
+        Swal.getHtmlContainer().style.fontSize = '13px';
+      }
+    });
+  </script>
+  @endif
 
+  @if (session('error'))
+  <script>
+    Swal.fire({
+      title: "Gagal!",
+      text: "{{ session('error') }}",
+      icon: "error",
+      confirmButtonText: "OK",
+      confirmButtonColor: "#003580",
+      didOpen: () => {
+        Swal.getPopup().style.fontSize = '13px';
+        Swal.getTitle().style.fontSize = '16px';
+        Swal.getHtmlContainer().style.fontSize = '13px';
+      }
+    });
+  </script>
+  @endif
   <script>
     const SELECTOR_SIDEBAR_WRAPPER = '.sidebar-wrapper';
     const Default = {
@@ -187,6 +247,74 @@
   </script>
   <!--end::OverlayScrollbars Configure-->
   <!--end::Script-->
+  <style>
+    .toast-white {
+      background-color: #ffffff;
+      color: #212529;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, .15);
+      border-left: 5px solid transparent;
+    }
+
+    .toast-white.success {
+      border-left-color: #198754;
+    }
+    .toast-white.danger {
+      border-left-color: #dc3545;
+    }
+    .toast-white.info {
+      border-left-color: #003580;
+    }
+    .toast-white .btn-close {
+      filter: invert(0);
+    }
+  </style>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+
+      const toastMessages = [{
+          message: "{{ session('login_success') }}",
+          type: "success"
+        },
+        {
+          message: "{{ session('error') }}",
+          type: "danger"
+        },
+        {
+          message: "{{ session('logout') }}",
+          type: "info"
+        }
+      ];
+
+      toastMessages
+        .filter(t => t.message !== "")
+        .forEach(t => {
+          const container = document.createElement('div');
+          container.className = 'toast-container position-fixed top-0 end-0 p-3';
+
+          container.innerHTML = `
+          <div class="toast toast-white ${t.type}" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="d-flex">
+              <div class="toast-body">${t.message}</div>
+              <button type="button"
+                class="btn-close me-2 m-auto"
+                data-bs-dismiss="toast"></button>
+            </div>
+          </div>
+        `;
+
+          document.body.appendChild(container);
+
+          bootstrap.Toast
+            .getOrCreateInstance(container.querySelector('.toast'), {
+              delay: 3000,
+              autohide: true
+            })
+            .show();
+        });
+
+    });
+  </script>
 </body>
 
 </html>

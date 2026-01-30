@@ -62,7 +62,7 @@ class SertifikatController extends Controller
 
         //simpan file ke dalam storage
         $file = $request->file('file');
-        $filename = date('Y-m-d') . '_' . $file->getClientOriginalName();
+        $filename = now('Asia/Jakarta')->format('d-m-Y_His') . '_' . $file->getClientOriginalName();
         $file->storeAs('Sertifikat', $filename, 'public');
 
         //simpan nama file ke database
@@ -86,39 +86,56 @@ class SertifikatController extends Controller
 
     public function update(Request $request, Sertifikat $sertifikat)
     {
-        //function yang memproses saat update disubmit
-        // validate data
-        $validatedData = $request->validate([
-            'nomor_sertifikat' => 'required|unique:sertifikats,nomor_sertifikat,' . $sertifikat->id,
-            'nama_penerima' => 'required|string|max:100',
-            'peran_penerima' => 'required',
-            'nama_kegiatan' => 'required|string|max:100',
-            'tanggal_sertifikat' => 'required|date',
-            'file' => 'nullable|file|mimes:pdf,doc,docx,jpg,jpeg,png|max:10240'
-        ]);
+        try {
+            //function yang memproses saat update disubmit
+            // validate data
+            $validatedData = $request->validate([
+                'nomor_sertifikat' => 'required|unique:sertifikats,nomor_sertifikat,' . $sertifikat->id,
+                'nama_penerima' => 'required|string|max:100',
+                'peran_penerima' => 'required',
+                'nama_kegiatan' => 'required|string|max:100',
+                'tanggal_sertifikat' => 'required|date',
+                'file' => 'nullable|file|mimes:pdf,doc,docx,jpg,jpeg,png|max:10240'
+            ]);
+            $isChanged = false;
 
-        //cek apakah user upload file baru
-        if ($request->hasFile('file')) {
-
-            // hapus file ketika sudah ada
-            if ($sertifikat->file) {
-                Storage::disk('public')->delete('Sertifikat/' . $sertifikat->file);
+            $mainFields = ['nomor_sertifikat', 'nama_penerima', 'peran_penerima', 'nama_kegiatan', 'tanggal_sertifikat'];
+            foreach ($mainFields as $field) {
+                if ($request->filled($field) && $sertifikat->$field != $request->$field) {
+                    $isChanged = true;
+                    break;
+                }
             }
 
-            // simpan ke file baru
-            $file = $request->file('file');
-            $filename = date('Y-m-d') . '_' . $file->getClientOriginalName();
-            $file->storeAs('Sertifikat', $filename, 'public');
+            //cek apakah user upload file baru
+            if ($request->hasFile('file')) {
 
-            // update nama file di database
-            $validatedData['file'] = $filename;
+                // hapus file ketika sudah ada
+                if ($sertifikat->file) {
+                    Storage::disk('public')->delete('Sertifikat/' . $sertifikat->file);
+                }
+
+                // simpan ke file baru
+                $file = $request->file('file');
+                $filename = now('Asia/Jakarta')->format('d-m-Y_His') . '_' . $file->getClientOriginalName();
+                $file->storeAs('Sertifikat', $filename, 'public');
+
+                // update nama file di database
+                $validatedData['file'] = $filename;
+                $isChanged = true;
+            }
+
+            // update data
+            $sertifikat->update($validatedData);
+
+            // redirect ke index ketika berhasil disimpan
+            if ($isChanged) {
+                return redirect()->route('sertifikat.index')->with('success', 'Data berhasil diperbarui.');
+            }
+            return redirect()->route(route: 'sertifikat.index')->with('info', 'Tidak ada perubahan data.');
+        } catch (\Exception $e) {
+            return redirect()->route('sertifikat.index')->with('error', 'Gagal memperbarui data: ' . $e->getMessage());
         }
-
-        // update data
-        $sertifikat->update($validatedData);
-
-        // redirect ke index ketika berhasil disimpan
-        return redirect()->route('sertifikat.index');
     }
 
     public function destroy($id)

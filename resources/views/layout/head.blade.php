@@ -79,7 +79,11 @@
   <!-- end-iconify -->
   <!--begin::Required Plugin(AdminLTE)-->
   <link rel="stylesheet" href="{{ asset('AdminLTE/dist/css/adminlte.css') }}" />
+  <link rel="stylesheet" href="{{ asset('css/custom.css') }}">
   <!--end::Required Plugin(AdminLTE)-->
+
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet"/>
+  <!-- end::Toastr -->
 
   <!-- tailwind -->
   <!-- @vite(['resources/css/app.css', 'resources/js/app.js']) -->

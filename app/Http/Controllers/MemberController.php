@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Iuran;
 use App\Models\Member;
+use Exception;
 use GuzzleHttp\Psr7\Query;
+use Illuminate\Container\Attributes\Storage as AttributesStorage;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 
@@ -96,7 +98,7 @@ class MemberController extends Controller
 
         // simpan foto ke dalam storage
         $foto = $request->file('foto');
-        $fotoname = date('Y-m-d') . '_' . $foto->getClientOriginalName();
+        $fotoname = now('Asia/Jakarta')->format('d-m-Y_His') . '_' . $foto->getClientOriginalName();
         $foto->storeAs('Member', $fotoname, 'public');
 
         // simpan nama ke dalam database
@@ -144,71 +146,94 @@ class MemberController extends Controller
 
     public function update(Request $request, Member $member)
     {
-        // function yang memproses saat update disubmit
+        try {
+            // function yang memproses saat update disubmit
 
-        // validate data
-        $validatedData = $request->validate([
-            'npm' => 'required|string|max:16|unique:members,npm,' . $member->id,
-            'nama_lengkap' => 'required|string|max:100',
-            'tahun_masuk' => 'required|digits:4',
-            'jabatan' => 'required',
-            'divisi' => 'required',
-            'status' => 'required',
-            'email' => 'required|email|max:100|unique:members,email,' . $member->id,
-            'no_hp' => 'required|string|regex:/^[0-9]{10,20}$/',
-            'alamat' => 'required|string|max:255',
-            'foto' => 'nullable|image|mimes:jpg,jpeg,png|max:2048'
-        ]);
+            // validate data
+            $validatedData = $request->validate([
+                'npm' => 'required|string|max:16|unique:members,npm,' . $member->id,
+                'nama_lengkap' => 'required|string|max:100',
+                'tahun_masuk' => 'required|digits:4',
+                'jabatan' => 'required',
+                'divisi' => 'required',
+                'status' => 'required',
+                'email' => 'required|email|max:100|unique:members,email,' . $member->id,
+                'no_hp' => 'required|string|regex:/^[0-9]{10,20}$/',
+                'alamat' => 'required|string|max:255',
+                'foto' => 'nullable|image|mimes:jpg,jpeg,png|max:2048'
+            ]);
+            $isChanged = false;
 
-        // cek apakah user upload foto baru
-        if ($request->hasFile('foto')) {
-
-            // hapus file ketika sudah ada
-            if ($member->foto) {
-                Storage::disk('public')->delete('Member/' . $member->foto);
+            $mainFields = ['npm', 'nama_lengkap', 'tahun_masuk', 'jabatan', 'divisi', 'status', 'email', 'no_hp', 'alamat'];
+            foreach ($mainFields as $field) {
+                if ($request->filled($field) && $member->$field != $request->$field) {
+                    $isChanged = true;
+                    break;
+                }
             }
 
-            // simpan ke file baru
-            $foto = $request->file('foto');
-            $fotoname = date('Y-m-d') . '_' . $foto->getClientOriginalName();
-            $foto->storeAs('Member', $fotoname, 'public');
+            // cek apakah user upload foto baru
+            if ($request->hasFile('foto')) {
 
-            // simpan nama ke dalam database
-            $validatedData['foto'] = $fotoname;
-        }
+                // hapus file ketika sudah ada
+                if ($member->foto) {
+                    Storage::disk('public')->delete('Member/' . $member->foto);
+                }
 
-        // update data
-        $member->update($validatedData);
+                // simpan ke file baru
+                $foto = $request->file('foto');
+                $fotoname = now('Asia/Jakarta')->format('d-m-Y_His') . '_' . $foto->getClientOriginalName();
+                $foto->storeAs('Member', $fotoname, 'public');
 
-        if ($validatedData['status'] == 'aktif') {
-            $tahun = now()->year;
-
-            for ($bulan = 1; $bulan <= 12; $bulan++) {
-
-                $jumlah = ($bulan == 1) ? 10000 : 5000;
-
-                Iuran::firstOrCreate(
-                    [
-                        'member_id' => $member->id,
-                        'bulan' => $bulan,
-                        'tahun' => $tahun,
-                    ],
-                    [
-                        'jumlah' => $jumlah,
-                        'status' => 'belum_lunas'
-                    ]
-                );
+                // simpan nama ke dalam database
+                $validatedData['foto'] = $fotoname;
+                $isChanged = true;
             }
+
+            // update data
+            $member->update($validatedData);
+
+            if ($validatedData['status'] == 'aktif') {
+                $tahun = now()->year;
+
+                for ($bulan = 1; $bulan <= 12; $bulan++) {
+
+                    $jumlah = ($bulan == 1) ? 10000 : 5000;
+
+                    Iuran::firstOrCreate(
+                        [
+                            'member_id' => $member->id,
+                            'bulan' => $bulan,
+                            'tahun' => $tahun,
+                        ],
+                        [
+                            'jumlah' => $jumlah,
+                            'status' => 'belum_lunas'
+                        ]
+                    );
+                }
+            }
+            // redirect to index ketika berhasil diupdate
+
+            if ($isChanged) {
+                return redirect()->route('member.index')->with('success', 'Data berhasil diperbarui.');
+            }
+            return redirect()->route('member.index')->with('info', 'Tidak ada perubahan data.');
+        } catch (Exception $e) {
+            return redirect()->route('member.index')->with('error', 'Gagal memperbarui data.' . $e->getMessage());
         }
-
-
-        // redirect to index ketika berhasil diupdate
-        return redirect()->route('member.index');
     }
 
-    public function destroy(Member $member)
+    public function destroy($id)
     {
-        $member->delete();
+        $hapusMember = Member::findOrFail($id);
+
+        // hapus foto bukti kalau ada
+        if($hapusMember->foto && Storage::disk('public')->exists('Member/' .$hapusMember->foto)){
+            Storage::disk('public')->delete('Member/' . $hapusMember->foto);
+        }
+        // hapus data
+        $hapusMember->delete();
         return redirect()->route('member.index');
     }
 }

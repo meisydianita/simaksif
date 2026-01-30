@@ -13,7 +13,7 @@
       <!--begin::App Content-->
       <div class="app-content">
         <!--begin::Container-->
-        <div class="container-fluid">
+        <div class="container-fluid pt-4">
           <!--begin::Row-->
           <div class="row">
             <div class="col-12">
@@ -21,7 +21,7 @@
               <div class="card">
                 <div class="card-header">
                   <!--begin::Form-->
-                  <form class="needs-validation" action="{{ route('surat-masuk.update', $surat_masuk->id) }}" method="post" enctype="multipart/form-data">
+                  <form class="needs-validation" action="{{ route('surat-masuk.update', $surat_masuk->id) }}" method="post" enctype="multipart/form-data" data-success>
                     @csrf
                     @method('PUT')
                     <!--begin::Body-->
@@ -83,8 +83,8 @@
                         </div>
 
                         <div class="d-flex justify-content-center gap-2">
-                          <a href="{{ route('surat-masuk.index') }}" class="btn btn-sm btn-outline-secondary">Batal</a>
-                          <button class="btn btn-sm btn-dark" type="submit">Simpan</button>
+                          <a href="{{ route('surat-masuk.index') }}" class="btn btn-sm btn-orange-custom">Batal</a>
+                          <button class="btn btn-sm btn-blue-custom" type="submit">Simpan</button>
                         </div>
 
                         <!--end::Col-->

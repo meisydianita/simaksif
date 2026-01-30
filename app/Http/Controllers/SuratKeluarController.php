@@ -62,7 +62,7 @@ class SuratKeluarController extends Controller
 
         //simpan file ke dalam storage
         $file = $request->file('file_surat');
-        $filename = date('Y-m-d') . '_' . $file->getClientOriginalName();
+        $filename = now('Asia/Jakarta')->format('d-m-Y_His') . '_' . $file->getClientOriginalName();
         $file->storeAs('SuratKeluar', $filename, 'public');
 
         // simpan nama file ke database
@@ -88,40 +88,53 @@ class SuratKeluarController extends Controller
 
     public function update(Request $request, SuratKeluar $surat_keluar)
     {
-        //function yang memproses saat update disubmit
-        //validate data
-        $validatedData = $request->validate([
-            'jenis_surat' => 'required',
-            'nomor_surat' => 'required|unique:surat_masuks,nomor_surat,' . $surat_keluar->id,
-            'tanggal_surat' => 'required|date',
-            'tujuan_surat' => 'required|string|max:255',
-            'perihal' => 'required|string|max:255',
-            'file_surat' => 'nullable|file|mimes:pdf,doc,docx|max:10240'
-        ]);
+        try {
+            $validatedData = $request->validate([
+                'jenis_surat'   => 'required',
+                'nomor_surat'   => 'required|unique:surat_keluars,nomor_surat,' . $surat_keluar->id,
+                'tanggal_surat' => 'required|date',
+                'tujuan_surat'  => 'required|string|max:255',
+                'perihal'       => 'required|string|max:255',
+                'file_surat'    => 'nullable|file|mimes:pdf,doc,docx|max:10240'
+            ]);
 
-        //cek apakah user upload file baru
-        if ($request->hasFile('file_surat')) {
+            $isChanged = false;
 
-            //hapus file ketika sudah ada
-            if ($surat_keluar->file_surat) {
-                Storage::disk('public')->delete('SuratKeluar/' . $surat_keluar->file_surat);
+            $mainFields = ['jenis_surat', 'nomor_surat', 'tanggal_surat', 'tujuan_surat', 'perihal'];
+            foreach ($mainFields as $field) {
+                if ($request->filled($field) && $surat_keluar->$field != $request->$field) {
+                    $isChanged = true;
+                    break;
+                }
             }
 
-            //simpan ke file baru
-            $file = $request->file('file_surat');
-            $filename = date('Y-m-d') . '_' . $file->getClientOriginalName();
-            $file->storeAs('SuratKeluar', $filename, 'public');
+            if ($request->hasFile('file_surat')) {
+                if ($surat_keluar->file_surat) {
+                    Storage::disk('public')->delete('SuratKeluar/' . $surat_keluar->file_surat);
+                }
 
-            //update nama file di database
-            $validatedData['file_surat'] = $filename;
+                $file = $request->file('file_surat');
+                $filename = now('Asia/Jakarta')->format('d-m-Y_His') . '_' . $file->getClientOriginalName();
+                $file->storeAs('SuratKeluar', $filename, 'public');
+
+                $validatedData['file_surat'] = $filename;
+                $isChanged = true;
+            }
+
+            $surat_keluar->update($validatedData);
+
+            if ($isChanged) {
+                return redirect()->route('surat-keluar.index')->with('success', 'Data berhasil diperbarui.');
+            }
+
+            return redirect()->route('surat-keluar.index')->with('info', 'Tidak ada perubahan data.');
+        } catch (\Exception $e) {
+        
+            return redirect()->route('surat-keluar.index')->with('error', 'Gagal memperbarui data: ' . $e->getMessage());
         }
-
-        //update data
-        $surat_keluar->update($validatedData);
-
-        //redirect to index ketika berhasil disimpan
-        return redirect()->route('surat-keluar.index');
     }
+
+
 
     public function destroy($id)
     {

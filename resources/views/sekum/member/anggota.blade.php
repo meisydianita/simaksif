@@ -10,11 +10,11 @@
     @include('layout.header')
     @include ('layout.sidebar')
     <!--begin::App Main-->
-    <main class="app-main pt-4">
+    <main class="app-main">
       <!--begin::App Content-->
       <div class="app-content">
         <!--begin::Container-->
-        <div class="container-fluid">
+        <div class="container-fluid pt-4">
           <!-- /.row -->
           <div class="row">
             <div class="col-12">
@@ -86,9 +86,10 @@
 
                     
                     <div class="ms-auto">
-                      <a href="{{ route('member.create') }}" class="btn btn-sm"
-                      style="background-color:#003580; border-color:#003580; color:#fff;">
-                        Tambah</a>
+                      <a href="{{ route('member.create') }}" \
+                      class="btn btn-sm btn-blue-custom"
+                      >
+                      Tambah</a>
                     </div>
                   </div>
                 </div>
