@@ -92,10 +92,26 @@
         <!--begin::User Menu Dropdown-->
         <li class="nav-item dropdown user-menu">
           <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+            @php
+            $authUser = null;
+            $photoPath = null;
+
+            if (Auth::guard('user')->check()) {
+            $authUser = Auth::guard('user')->user();
+            $photoPath = 'Profil/User/';
+            } elseif (Auth::guard('anggota')->check()) {
+            $authUser = Auth::guard('anggota')->user();
+            $photoPath = 'Profil/Anggota/';
+            }
+            @endphp
+
             <img
-              src="{{asset('AdminLTE/dist/assets/img/mee.png')}}"
+              src="{{ $authUser && $authUser->photo
+                ? asset('storage/' . $photoPath . $authUser->photo)
+                : asset('AdminLTE/dist/assets/img/mee.png')}}"
               class="user-image rounded-circle shadow"
               alt="User Image" />
+
             <span class="d-none d-md-inline">
               @if(Auth::guard('user')->check())
               {{ Auth::guard('user')->user()->name }}
@@ -107,9 +123,24 @@
           <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-end">
             <!--begin::User Image-->
             <li class="user-header" style="background-color: #003580; color: white;">
+              @php
+              $authUser = null;
+              $photoPath = null;
+
+              if (Auth::guard('user')->check()) {
+              $authUser = Auth::guard('user')->user();
+              $photoPath = 'Profil/User/';
+              } elseif (Auth::guard('anggota')->check()) {
+              $authUser = Auth::guard('anggota')->user();
+              $photoPath = 'Profil/Anggota/';
+              }
+              @endphp
+
               <img
-                src="{{asset('AdminLTE/dist/assets/img/mee.png')}}"
-                class="rounded-circle shadow"
+                src="{{ $authUser && $authUser->photo
+                ? asset('storage/' . $photoPath . $authUser->photo)
+                : asset('AdminLTE/dist/assets/img/mee.png')}}"
+                class="user-image rounded-circle shadow"
                 alt="User Image" />
               <p>
                 {{ Auth::guard('user')->check()
@@ -133,7 +164,21 @@
             <!--end::User Image-->
             <!--begin::Menu Footer-->
             <li class="user-footer">
-              <a href="#" class="btn btn-default btn-flat">Profil</a>
+              @auth('user')
+              @php
+              $user = Auth::guard('user')->user();
+              @endphp
+
+              @if($user->level == 'Sekretaris Umum')
+              <a href="{{ route('profil-sekum') }}" class="btn btn-default btn-flat">Profil</a>
+              @elseif($user->level == 'Bendahara Umum')
+              <a href="{{ route('profil-bendum') }}" class="btn btn-default btn-flat">Profil</a>
+              @endif
+              @endauth
+
+              @auth('anggota')
+              <a href="{{ route('profil-anggota') }}" class="btn btn-default btn-flat">Profil</a>
+              @endauth
               <!-- <a href="{{ route('logout') }}" class="btn btn-default btn-flat float-end" method="post">Keluar</a>                  -->
               <form action="{{ route('logout') }}" method="POST" style="display: inline;">
                 @csrf

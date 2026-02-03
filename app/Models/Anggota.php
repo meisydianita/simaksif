@@ -18,6 +18,7 @@ class Anggota extends Authenticatable
         'level',
         'email',
         'password',
+        'photo',
     ];
 
     protected $hidden = [

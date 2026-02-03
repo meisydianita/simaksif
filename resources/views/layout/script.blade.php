@@ -221,8 +221,6 @@
       });
     })();
 
-
-
     document.addEventListener('DOMContentLoaded', function() {
       const searchInput = document.getElementById('searchInput');
 
@@ -273,11 +271,11 @@
     document.addEventListener('DOMContentLoaded', function() {
 
       const toastMessages = [{
-          message: "{{ session('login_success') }}",
+          message: "{{ session('login_success_dashboard') }}",
           type: "success"
         },
         {
-          message: "{{ session('error') }}",
+          message: "{{ session('error_dashboard') }}",
           type: "danger"
         },
         {

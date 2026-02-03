@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+  <title>Sidebar</title>
 </head>
 
 <body>
@@ -16,7 +16,6 @@
         background-color: rgba(0, 53, 128, 0.1) !important;
         border-left: 3px solid #003580 !important;
       }
-
       .app-sidebar[style*="background-color: #ffffff"] .nav-link.active {
         background-color: rgba(0, 53, 128, 0.15) !important;
       }
@@ -57,13 +56,13 @@
           <li class="nav-item">
             <a href="{{ route('beranda-sekum') }}" class="nav-link">
               <i class="nav-icon fa-solid fa-house" style="color: #003580;"></i>
-              <p style="color: #003580;">Beranda</p>
+              <p style="color: #003580; font-size: 14px;">Beranda</p>
             </a>
           </li>
           <li class="nav-item">
             <a href="#" class="nav-link">
               <i class="nav-icon fa-solid fa-envelope" style="color: #003580;"></i>
-              <p style="color: #003580;">
+              <p style="color: #003580; font-size: 14px;">
                 Surat-menyurat
                 <i class="nav-arrow bi bi-chevron-right"></i>
               </p>
@@ -72,13 +71,13 @@
               <li class="nav-item">
                 <a href="{{ route('surat-masuk.index')}}" class="nav-link">
                   <i class="nav-icon bi bi-circle" style="color: #003580;"></i>
-                  <p style="color: #003580;">Surat Masuk</p>
+                  <p style="color: #003580; font-size: 14px;">Surat Masuk</p>
                 </a>
               </li>
               <li class="nav-item">
                 <a href="{{ route('surat-keluar.index') }}" class="nav-link">
                   <i class="nav-icon bi bi-circle" style="color: #003580;"></i>
-                  <p style="color: #003580;">Surat Keluar</p>
+                  <p style="color: #003580; font-size: 14px;">Surat Keluar</p>
                 </a>
               </li>
             </ul>
@@ -86,21 +85,21 @@
           <li class="nav-item">
             <a href="{{ route('sertifikat.index') }}" class="nav-link">
               <i class="nav-icon fa-solid fa-file" style="color: #003580;"></i>
-              <p style="color: #003580;">Sertifikat</p>
+              <p style="color: #003580; font-size: 14px;">Sertifikat</p>
             </a>
           </li>
 
           <li class="nav-item">
             <a href="{{ route('dokumen-kegiatan.index') }}" class="nav-link">
               <i class="nav-icon fa-solid fa-file-fragment" style="color: #003580;"></i>
-              <p style="color: #003580;">Dokumen Kegiatan</p>
+              <p style="color: #003580; font-size: 14px;">Dokumen Kegiatan</p>
             </a>
           </li>
 
           <li class="nav-item">
             <a href="{{ route('member.index') }}" class="nav-link">
               <i class="nav-icon fa-solid fa-users" style="color: #003580;"></i>
-              <p style="color: #003580;">Anggota</p>
+              <p style="color: #003580; font-size: 14px;">Anggota</p>
             </a>
           </li>
           @endif
@@ -112,13 +111,13 @@
           <li class="nav-item">
             <a href="{{ route('beranda-bendum') }}" class="nav-link">
               <i class="nav-icon fa-solid fa-house" style="color: #003580;"></i>
-              <p style="color: #003580;">Beranda</p>
+              <p style="color: #003580; font-size: 14px;">Beranda</p>
             </a>
           </li>
           <li class="nav-item">
             <a href="#" class="nav-link">
               <i class="nav-icon fa-solid fa-wallet" style="color: #003580;"></i>
-              <p style="color: #003580;">
+              <p style="color: #003580; font-size: 14px;">
                 Kas Masuk
                 <i class="nav-arrow bi bi-chevron-right" style="color: #003580;"></i>
               </p>
@@ -127,13 +126,13 @@
               <li class="nav-item">
                 <a href="{{ route('iuran.index') }}" class="nav-link">
                   <i class="nav-icon bi bi-circle" style="color: #003580;"></i>
-                  <p style="color: #003580;">Iuran</p>
+                  <p style="color: #003580; font-size: 14px;">Iuran</p>
                 </a>
               </li>
               <li class="nav-item">
                 <a href="{{ route('pemasukan.index') }}" class="nav-link">
                   <i class="nav-icon bi bi-circle" style="color: #003580;"></i>
-                  <p style="color: #003580;">Pemasukan</p>
+                  <p style="color: #003580; font-size: 14px;">Pemasukan</p>
                 </a>
               </li>
             </ul>
@@ -141,14 +140,14 @@
           <li class="nav-item">
             <a href="{{ route('kas-keluar.index') }}" class="nav-link">
               <i class="nav-icon fa-solid fa-credit-card" style="color: #003580;"></i>
-              <p style="color: #003580;">Kas Keluar</p>
+              <p style="color: #003580; font-size: 14px;">Kas Keluar</p>
             </a>
           </li>
 
           <li class="nav-item">
             <a href="{{ route('laporan-kas.index') }}" class="nav-link">
               <i class="nav-icon fa-solid fa-folder" style="color: #003580;"></i>
-              <p style="color: #003580;">Laporan Kas</p>
+              <p style="color: #003580; font-size: 14px;">Laporan Kas</p>
             </a>
           </li>
           @endif
@@ -160,13 +159,13 @@
           <li class="nav-item">
             <a href="{{ route('beranda-anggota') }}" class="nav-link">
               <i class="nav-icon fa-solid fa-house" style="color: #003580;"></i>
-              <p style="color: #003580;">Beranda</p>
+              <p style="color: #003580; font-size: 14px;">Beranda</p>
             </a>
           </li>
           <li class="nav-item">
             <a href="#" class="nav-link">
               <i class="nav-icon fa-solid fa-envelope" style="color: #003580;"></i>
-              <p style="color: #003580;">
+              <p style="color: #003580; font-size: 14px;">
                 Surat-menyurat
                 <i class="nav-arrow bi bi-chevron-right" style="color: #003580;"></i>
               </p>
@@ -175,13 +174,13 @@
               <li class="nav-item">
                 <a href="{{ route('surat-masuk-anggota.index') }}" class="nav-link">
                   <i class="nav-icon bi bi-circle" style="color: #003580;"></i>
-                  <p style="color: #003580;">Surat Masuk</p>
+                  <p style="color: #003580; font-size: 14px;">Surat Masuk</p>
                 </a>
               </li>
               <li class="nav-item">
                 <a href="{{ route('surat-keluar-anggota.index') }}" class="nav-link">
                   <i class="nav-icon bi bi-circle" style="color: #003580;"></i>
-                  <p style="color: #003580;">Surat Keluar</p>
+                  <p style="color: #003580; font-size: 14px;">Surat Keluar</p>
                 </a>
               </li>
             </ul>
@@ -189,7 +188,7 @@
           <li class="nav-item">
             <a href="{{ route('sertifikat-anggota.index') }}" class="nav-link">
               <i class="nav-icon fa-solid fa-file" style="color: #003580;"></i>
-              <p style="color: #003580;">Sertifikat</p>
+              <p style="color: #003580; font-size: 14px;">Sertifikat</p>
             </a>
           </li>
 
@@ -197,21 +196,21 @@
             <a href="{{ route('dokumen-kegiatan-anggota.index') }}" class="nav-link">
               <i class="nav-icon fa-solid fa-file-fragment" style="color: #003580;"></i>
               <i class=""></i>
-              <p style="color: #003580;">Dokumen Kegiatan</p>
+              <p style="color: #003580; font-size: 14px;">Dokumen Kegiatan</p>
             </a>
           </li>
 
           <li class="nav-item">
             <a href="{{ route('member-anggota.index') }}" class="nav-link">
               <i class="nav-icon fa-solid fa-users" style="color: #003580;"></i>
-              <p style="color: #003580;">Anggota</p>
+              <p style="color: #003580; font-size: 14px;">Anggota</p>
             </a>
           </li>
 
           <li class="nav-item">
             <a href="#" class="nav-link">
               <i class="nav-icon fa-solid fa-wallet" style="color: #003580;"></i>
-              <p style="color: #003580;">
+              <p style="color: #003580; font-size: 14px;">
                 Kas Masuk
                 <i class="nav-arrow bi bi-chevron-right" style="color: #003580;"></i>
               </p>
@@ -220,13 +219,13 @@
               <li class="nav-item">
                 <a href="{{ route('iuran-anggota.index') }}" class="nav-link">
                   <i class="nav-icon bi bi-circle" style="color: #003580;"></i>
-                  <p style="color: #003580;">Iuran</p>
+                  <p style="color: #003580; font-size: 14px;">Iuran</p>
                 </a>
               </li>
               <li class="nav-item">
                 <a href="{{ route('pemasukan-anggota.index') }}" class="nav-link">
                   <i class="nav-icon bi bi-circle" style="color: #003580;"></i>
-                  <p style="color: #003580;">Pemasukan</p>
+                  <p style="color: #003580; font-size: 14px;">Pemasukan</p>
                 </a>
               </li>
             </ul>
@@ -234,14 +233,14 @@
           <li class="nav-item">
             <a href="{{ route('kas-keluar-anggota.index') }}" class="nav-link">
               <i class="nav-icon fa-solid fa-credit-card" style="color: #003580;"></i>
-              <p style="color: #003580;">Kas Keluar</p>
+              <p style="color: #003580; font-size: 14px;">Kas Keluar</p>
             </a>
           </li>
 
           <li class="nav-item">
             <a href="{{ route('laporan-kas-anggota.index') }}" class="nav-link">
               <i class="nav-icon fa-solid fa-folder" style="color: #003580;"></i>
-              <p style="color: #003580;">Laporan Kas</p>
+              <p style="color: #003580; font-size: 14px;">Laporan Kas</p>
             </a>
           </li>
 

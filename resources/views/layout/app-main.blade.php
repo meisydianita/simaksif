@@ -9,11 +9,11 @@
 
 <body>
   <!--begin::App Main-->
-  <main class="app-main pt-4">
+  <main class="app-main">
     <!--begin::App Content-->
     <div class="app-content">
       <!--begin::Container-->
-      <div class="container-fluid">
+      <div class="container-fluid pt-4">
         <!--begin::Row-->
         <div class="row">
           <div class="col-12">

@@ -156,70 +156,70 @@
 
   </div>
 <script>
-  document.addEventListener('DOMContentLoaded', function() {
-  const messages = {
-    login_success: "{{ session('login_success') }}",
-    error: "{{ session('error') }}",
-    logout: "{{ session('logout') }}",
-    signup_success: "{{ session('signup_success') }}"
-  };
+    document.addEventListener('DOMContentLoaded', function() {
+    const messages = {
+      login_success: "{{ session('login_success') }}",
+      error: "{{ session('error') }}",
+      logout: "{{ session('logout') }}",
+      signup_success: "{{ session('signup_success') }}"
+    };
 
-  let activeMessage = null;
-  let messageType = null;
+    let activeMessage = null;
+    let messageType = null;
 
-  for (const [type, message] of Object.entries(messages)) {
-    if (message && message.trim() !== "") {
-      activeMessage = message;
-      // semua selain error → jadi class 'success'
-      messageType = type === 'error' ? 'error' : 'success';
-      break;
+    for (const [type, message] of Object.entries(messages)) {
+      if (message && message.trim() !== "") {
+        activeMessage = message;
+        // semua selain error → jadi class 'success'
+        messageType = type === 'error' ? 'error' : 'success';
+        break;
+      }
     }
-  }
 
-  if (!activeMessage) return;
+    if (!activeMessage) return;
 
-  const toast = document.createElement('div');
-  toast.className = `toast toast-white ${messageType}`;
+    const toast = document.createElement('div');
+    toast.className = `toast toast-white ${messageType}`;
 
-  toast.innerHTML = `
-    <div class="toast-header">
-      <div class="toast-body">${activeMessage}</div>
-      <button type="button" class="btn-close">&times;</button>
-    </div>
-  `;
+    toast.innerHTML = `
+      <div class="toast-header">
+        <div class="toast-body">${activeMessage}</div>
+        <button type="button" class="btn-close">&times;</button>
+      </div>
+    `;
 
-  let container = document.querySelector('.toast-container');
-  if (!container) {
-    container = document.createElement('div');
-    container.className = 'toast-container';
-    document.body.appendChild(container);
-  }
+    let container = document.querySelector('.toast-container');
+    if (!container) {
+      container = document.createElement('div');
+      container.className = 'toast-container';
+      document.body.appendChild(container);
+    }
 
-  container.appendChild(toast);
+    container.appendChild(toast);
 
-  setTimeout(() => {
-    toast.classList.add('show');
-  }, 10);
-
-  const closeBtn = toast.querySelector('.btn-close');
-  closeBtn.addEventListener('click', function() {
-    toast.classList.remove('show');
     setTimeout(() => {
-      toast.remove();
-    }, 300);
-  });
+      toast.classList.add('show');
+    }, 10);
 
-  setTimeout(() => {
-    if (toast.parentNode) {
+    const closeBtn = toast.querySelector('.btn-close');
+    closeBtn.addEventListener('click', function() {
       toast.classList.remove('show');
       setTimeout(() => {
-        if (toast.parentNode) {
-          toast.remove();
-        }
+        toast.remove();
       }, 300);
-    }
-  }, 3000);
-});
+    });
+
+    setTimeout(() => {
+      if (toast.parentNode) {
+        toast.classList.remove('show');
+        setTimeout(() => {
+          if (toast.parentNode) {
+            toast.remove();
+          }
+        }, 300);
+      }
+    }, 3000);
+  });
 
 </script>
 

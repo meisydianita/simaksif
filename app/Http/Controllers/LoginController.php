@@ -44,11 +44,11 @@ class LoginController extends Controller
                 $user = Auth::guard('user')->user();
                 if ($user->level == 'Sekretaris Umum') {
                     return redirect('/beranda-sekum')
-                    ->with('login_success', $welcomeMessage);
+                    ->with('login_success_dashboard', $welcomeMessage);
                     
                 } else {
                     return redirect(to: '/beranda-bendum')
-                    ->with('login_success', $welcomeMessage);
+                    ->with('login_success_dashboard', $welcomeMessage);
                     
                 }
             }
@@ -71,12 +71,12 @@ class LoginController extends Controller
                 $welcomeMessage = "Selamat datang, " . $user->name . "!";
 
                 return redirect('/beranda-anggota')
-                 ->with('login_success', $welcomeMessage);
+                 ->with('login_success_dashboard', $welcomeMessage);
                     
             }
         }
 
-        return redirect('/login')->with('error', 'Email atau kata sandi salah!');
+        return redirect('/login')->with('error_dashboard', 'Email atau kata sandi salah!');
     }
 
     public function postlogout(Request $request)
