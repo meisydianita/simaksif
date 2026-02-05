@@ -4,9 +4,8 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Login | HIMASIF</title>
-
-  <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+  <title>Reset Password | HIMASIF</title>
+  <link rel="stylesheet" href="{{ asset('css/style2.css') }}">
   <style>
     .toast-container {
       position: fixed;
@@ -75,33 +74,28 @@
     .toast-white.error {
       border-left: 5px solid #dc3545;
     }
-
-    .toast-white.info {
-      border-left: 5px solid #003580;
-    }
   </style>
 </head>
 
-<body>
-  <div class="login">
-    <div class="group">
-      <div class="frame">
-        <div class="div">
-          <div class="group-2">
-            <div class="text-wrapper">Selamat Datang</div>
-            <p class="p">
-              Langkah kecil hari ini, perubahan besar esok hari. Yuk masuk!
+<body class="page-register">
+  <div class="register-container">
+    <div class="right-panel">
+      <div class="white-background">
+        <div class="content-wrapper">
+          <div class="form-header">
+            <div class="title">Registrasi Akun</div>
+            <p class="subtitle">
+              Langkah kecil hari ini, perubahan besar esok hari. Yuk daftar!
             </p>
-            <form action="{{ route('postlogin') }}" method="post">
+            <form action="{{ route('password.update') }}" method="post">
               @csrf
-              <div class="frame-wrapper">
-                <div class="group-wrapper">
-                  <div class="group-3">
+              <div class="form-container">
+                <div class="form-card">
+                  <div class="form-fields">
+
                     <div class="form-group">
                       <label>Email</label>
-                      <input type="email" name="email" placeholder="Masukkan email" value="{{ old('email') }}"
-                        class="form-control-user @error('email') is-invalid @enderror
-                      ">
+                      <input type="email" name="email" placeholder="Masukkan email">
                       @error('email')
                       <div style="color: #e3342f; font-size: 0.875rem; margin-top: 0rem;">
                         {{ $message }}
@@ -111,10 +105,7 @@
 
                     <div class="form-group">
                       <label>Kata Sandi</label>
-                      <input type="password" name="password" placeholder="Masukkan kata sandi"
-                        value="{{ old('password') }}"
-                        class="form-control-user @error('password') is-invalid @enderror
-                      ">
+                      <input type="password" name="password" placeholder="Masukkan kata sandi">
                       @error('password')
                       <div style="color: #e3342f; font-size: 0.875rem; margin-top: 0rem;">
                         {{ $message }}
@@ -122,111 +113,111 @@
                       @enderror
                     </div>
 
-                    <button class="login-button" type="submit">Masuk</button>
-                    <div style="text-align: right;">
-                      <a href="{{ route('reset-kata-sandi') }}" style="color: #980404; font-size:12px;" >Lupa Kata Sandi?</a>
+                    <div class="form-group">
+                      <label>Konfirmasi Kata Sandi</label>
+                      <input type="password" name="password_confirmation" placeholder="Konfirmasi kata sandi">
+                      @error('password')
+                      <div style="color: #e3342f; font-size: 0.875rem; margin-top: 0rem;">
+                        {{ $message }}
+                      </div>
+                      @enderror
+                    </div>
+                    <div class="form-group">
+                        <input type="hidden" name="token" id="token" name="token" value="{{ $token }}" required>
                     </div>
 
+                    
+                    <button class="submit-btn" type="submit">Kirim</button>
                   </div>
                 </div>
               </div>
             </form>
           </div>
 
-          <p class="belum-memiliki-akun">
-            Belum memiliki akun? <span class="text-wrapper-6"><a href="{{ route('daftar') }}" style="text-decoration:none; color:#002a66;">Daftar</a></span>
-          </p>
-
+         
         </div>
       </div>
     </div>
-
-    <!-- ROBOT -->
     <img class="robot" src="{{ asset('img/robot.png') }}" alt="Robot HIMASIF">
-
-    <!-- TEKS KIRI (POSISI ASLI) -->
-    <h2 class="text-wrapper-8">
+    <h2 class="left-title">
       Berproses,<br>
       Berorganisasi,<br>
       Berinovasi Bersama<br>
       HIMASIF.
     </h2>
 
-    <p class="text-wrapper-9">
+    <p class="left-subtitle">
       Akses semua kebutuhan administrasi dan kegiatan HIMASIF secara cepat,
       praktis, dan terpusat.
     </p>
-
   </div>
-<script>
+  <script>
     document.addEventListener('DOMContentLoaded', function() {
-    const messages = {
-      login_success: "{{ session('login_success') }}",
-      error: "{{ session('login_error') }}",
-      logout: "{{ session('logout') }}",
-      signup_success: "{{ session('signup_success') }}"
-    };
+      const messages = {
+        success: "{{ session('signup_success') }}",
+        error: "{{ session('signup_error') }}"
+      };
 
-    let activeMessage = null;
-    let messageType = null;
+      let activeMessage = null;
+      let messageType = null;
 
-    for (const [type, message] of Object.entries(messages)) {
-      if (message && message.trim() !== "") {
-        activeMessage = message;
-        
-        messageType = type === 'error' ? 'error' : 'success';
-        break;
+      for (const [type, message] of Object.entries(messages)) {
+        if (message && message.trim() !== "") {
+          activeMessage = message;
+          messageType = type === 'error' ? 'error' : 'success';
+          break;
+        }
       }
-    }
 
-    if (!activeMessage) return;
+      if (!activeMessage) return;
 
-    const toast = document.createElement('div');
-    toast.className = `toast toast-white ${messageType}`;
+      const toast = document.createElement('div');
+      toast.className = `toast toast-white ${messageType}`;
 
-    toast.innerHTML = `
+      toast.innerHTML = `
       <div class="toast-header">
         <div class="toast-body">${activeMessage}</div>
         <button type="button" class="btn-close">&times;</button>
       </div>
-    `;
+      `;
 
-    let container = document.querySelector('.toast-container');
-    if (!container) {
-      container = document.createElement('div');
-      container.className = 'toast-container';
-      document.body.appendChild(container);
-    }
+      // Buat container jika belum ada
+      let container = document.querySelector('.toast-container');
+      if (!container) {
+        container = document.createElement('div');
+        container.className = 'toast-container';
+        document.body.appendChild(container);
+      }
 
-    container.appendChild(toast);
+      container.appendChild(toast);
 
-    setTimeout(() => {
-      toast.classList.add('show');
-    }, 10);
-
-    const closeBtn = toast.querySelector('.btn-close');
-    closeBtn.addEventListener('click', function() {
-      toast.classList.remove('show');
+      // Trigger animation
       setTimeout(() => {
-        toast.remove();
-      }, 300);
-    });
+        toast.classList.add('show');
+      }, 10);
 
-    setTimeout(() => {
-      if (toast.parentNode) {
+      // Close button event
+      const closeBtn = toast.querySelector('.btn-close');
+      closeBtn.addEventListener('click', function() {
         toast.classList.remove('show');
         setTimeout(() => {
-          if (toast.parentNode) {
-            toast.remove();
-          }
+          toast.remove();
         }, 300);
-      }
-    }, 3000);
-  });
+      });
 
-</script>
-
-
+      // Auto remove setelah 3 detik
+      setTimeout(() => {
+        if (toast.parentNode) {
+          toast.classList.remove('show');
+          setTimeout(() => {
+            if (toast.parentNode) {
+              toast.remove();
+            }
+          }, 300);
+        }
+      }, 3000);
+    });
+  </script>
 </body>
 
 </html>

@@ -23,13 +23,11 @@ use App\Http\Controllers\LaporanKasController;
 use App\Http\Controllers\MemberController;
 use App\Http\Controllers\PemasukanController;
 use App\Http\Controllers\ProfilController;
+use App\Http\Controllers\ResetPasswordController;
 use App\Http\Controllers\SuratMasukController;
 use App\Http\Controllers\SuratKeluarController;
 use App\Http\Controllers\SertifikatController;
 use App\Http\Controllers\UserController;
-use App\Http\Middleware\Authenticate;
-use App\Http\Middleware\CekLevel;
-use App\Models\AnggotaSertifikat;
 
 Route::get('/', function () {
     return view('welcome');
@@ -40,10 +38,14 @@ Route::post('/postlogin', [LoginController::class, 'postlogin'])->name('postlogi
 Route::post('/postlogout', [LoginController::class, 'postlogout'])->name('logout');
 Route::get('/daftar', function () {return view('anggota.daftar');})->name('daftar');
 Route::post('/postdaftar', [DaftarController::class, 'postdaftar'])->name('postdaftar');
+Route::get('/reset-kata-sandi', [LoginController::class, 'resetsandi'])->name('reset-kata-sandi');
+Route::post('/forgot-password', [ResetPasswordController::class, 'forgotPassword'])->name('password.email');
+Route::get('/reset-password/{token}', [ResetPasswordController::class, 'passwordReset'])->name('password.reset');
+Route::post('/reset-password', [ResetPasswordController::class, 'updatePassword'])->name('password.update');
+
 
 Route::middleware(['auth:user', 'ceklevel:Sekretaris Umum'])->group(function () {
     Route::get('/beranda-sekum', [HomeController::class, 'index'])->name('beranda-sekum');
-    // Route::get('/home', [HomeController::class, 'grafiksekum'])->name('home');
     Route::resource('surat-masuk', SuratMasukController::class);
     Route::post('/download(suratmasuk)', [SuratMasukController::class, 'download'])->name('downloadsuratmasuk');
     Route::resource('surat-keluar', SuratKeluarController::class);
@@ -56,7 +58,7 @@ Route::middleware(['auth:user', 'ceklevel:Sekretaris Umum'])->group(function () 
         Route::resource('user', UserController::class)->names('sekum.user');
     });
     Route::get('/ubah-kata-sandi-sekum', [ProfilController::class, 'passwordsekum'])->name('ubah-sandi-sekum');
-    Route::put('/sekum/password', [UserController::class, 'updatePassword'])->name('sekum-update-sandi');
+    Route::put('/sekum/password', [UserController::class, 'updatePassword'])->name('sekum-update-sandi'); 
     });
 
 Route::middleware(['auth:user', 'ceklevel:Bendahara Umum'])->group(function () {

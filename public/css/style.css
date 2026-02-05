@@ -137,6 +137,23 @@ html, body {
   background-color: #002a66;
 }
 
+.cancel-button {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #F25922;
+    color: white;
+    text-decoration: none;
+    border-radius: 6px;
+    height: 44px; /* samakan dengan tombol kirim */
+    font-size: 14px;
+}
+
+.cancel-button:hover {
+    background-color: #d94e1d;
+}
+
 /* BAWAH */
 .belum-memiliki-akun {
   font-size: 14px;
@@ -193,3 +210,18 @@ html, body {
   box-shadow: 0 0 0 2px rgba(231, 76, 60, 0.2);
 }
 
+
+.reset-box {
+  height: 200px;
+}
+
+
+.reset-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.reset-center .div {
+  margin-top: 0; 
+}

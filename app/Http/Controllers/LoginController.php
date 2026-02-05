@@ -76,7 +76,7 @@ class LoginController extends Controller
             }
         }
 
-        return redirect('/login')->with('error_dashboard', 'Email atau kata sandi salah!');
+        return redirect('/login')->with('login_error', 'Email atau kata sandi salah!');
     }
 
     public function postlogout(Request $request)
@@ -91,4 +91,10 @@ class LoginController extends Controller
         return redirect('/login')->with('logout', 'Logout berhasil. Sampai jumpa! ');
 
     }
+
+    public function resetsandi (){
+        return view ('auth.reset-kata-sandi');
+    }
+
+    
 }
