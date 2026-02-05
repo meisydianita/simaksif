@@ -60,8 +60,8 @@
                         </div>
 
                         <div class="d-flex justify-content-center gap-2">
-                          <a href="{{ route('profil-anggota') }}" class="btn btn-sm btn-orange-custom">Batal</a>
-                          <button class="btn btn-sm btn-blue-custom" type="submit">Simpan</button>
+                          <a href="{{ route('profil-anggota') }}" class="btn btn-sm btn-orange-custom btn-uniform">Batal</a>
+                          <button class="btn btn-sm btn-blue-custom btn-uniform" type="submit">Simpan</button>
                         </div>
 
                         <!--end::Col-->

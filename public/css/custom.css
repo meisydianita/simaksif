@@ -39,3 +39,11 @@
     color: #fff;
     box-shadow: none;
 }
+
+.btn-uniform {
+    min-width: 110px;      
+    padding: 6px 20px;     
+    font-size: 14px;
+    border-radius: 5px;    
+    text-align: center;
+}

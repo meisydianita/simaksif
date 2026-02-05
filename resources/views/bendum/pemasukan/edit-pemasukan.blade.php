@@ -132,8 +132,8 @@
 
                         <!--begin::Col-->
                         <div class="d-flex justify-content-center gap-2">
-                          <a href="{{ route('pemasukan.index') }}" class="btn btn-sm btn-orange-custom">Batal</a>
-                          <button class="btn btn-sm btn-blue-custom" type="submit">Kirim</button>
+                          <a href="{{ route('pemasukan.index') }}" class="btn btn-sm btn-orange-custom btn-uniform">Batal</a>
+                          <button class="btn btn-sm btn-blue-custom btn-uniform" type="submit">Kirim</button>
                         </div>
                         <!--end::Col-->
                       </div>
