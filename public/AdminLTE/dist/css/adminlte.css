@@ -15592,3 +15592,33 @@ fieldset legend {
     content: " (" attr(href) ")";
   }
 }
+
+
+.nav-treeview .nav-link {
+      padding-left: 35px !important;
+    }
+
+.nav-treeview .nav-treeview .nav-link {
+      padding-left: 55px !important;
+    }
+
+.nav-link:hover .sb-icon,
+.nav-link:hover .sb-text {
+    color: #001f4d;
+}
+
+.sb-icon {
+    color: #003580;
+}
+
+.sb-text {
+    color: #003580;
+    font-size: 14px;
+}
+
+#beranda img {
+    max-height: 420px;
+    width: 500px;
+}
+
+
