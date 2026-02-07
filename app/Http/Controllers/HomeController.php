@@ -17,10 +17,6 @@ use App\Models\Pemasukan;
 use App\Models\Sertifikat;
 use App\Models\Suratkeluar;
 use App\Models\Suratmasuk;
-// use Illuminate\Container\Attributes\DB;
-use DB;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB as FacadesDB;
 
 class HomeController extends Controller
 {

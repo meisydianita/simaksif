@@ -49,40 +49,44 @@ class DokumenKegiatanController extends Controller
     {
         //data akan diproses di sini ketika disubmit
 
-        // validate data
-        $validatedData = $request->validate([
-            'nama_kegiatan' => 'required|string|max:100',
-            'tanggal_mulai' => 'required|date',
-            'tanggal_selesai' => 'required|date',
-            'member_id' => 'required',
-            'tahun' => 'required|digits:4',
-            'deskripsi_kegiatan' => 'required|string',
-            'proposal' => 'required|file|mimes:pdf,doc,docx|max:10240',
-            'laporan_pertanggungjawaban' => 'required|file|mimes:pdf,doc,docx|max:10240'
+        try {
+            // validate data
+            $validatedData = $request->validate([
+                'nama_kegiatan' => 'required|string|max:100',
+                'tanggal_mulai' => 'required|date',
+                'tanggal_selesai' => 'required|date',
+                'member_id' => 'required',
+                'tahun' => 'required|digits:4',
+                'deskripsi_kegiatan' => 'required|string',
+                'proposal' => 'required|file|mimes:pdf,doc,docx|max:10240',
+                'laporan_pertanggungjawaban' => 'required|file|mimes:pdf,doc,docx|max:10240'
 
-        ]);
+            ]);
 
-        //simpan proposal ke dalam storage
-        $proposal = $request->file('proposal');
-        $proposalname = now('Asia/Jakarta')->format('d-m-Y_His') . '_' . $proposal->getClientOriginalName();
-        $proposal->storeAs('DokumenKegiatan/Proposal', $proposalname, 'public');
+            //simpan proposal ke dalam storage
+            $proposal = $request->file('proposal');
+            $proposalname = now('Asia/Jakarta')->format('d-m-Y_His') . '_' . $proposal->getClientOriginalName();
+            $proposal->storeAs('DokumenKegiatan/Proposal', $proposalname, 'public');
 
-        //simpan lpj ke dalam storage
-        $lpj = $request->file('laporan_pertanggungjawaban');
-        $lpjname = now('Asia/Jakarta')->format('d-m-Y_His') . '_' . $lpj->getClientOriginalName();
-        $lpj->storeAs('DokumenKegiatan/Lpj', $lpjname, 'public');
+            //simpan lpj ke dalam storage
+            $lpj = $request->file('laporan_pertanggungjawaban');
+            $lpjname = now('Asia/Jakarta')->format('d-m-Y_His') . '_' . $lpj->getClientOriginalName();
+            $lpj->storeAs('DokumenKegiatan/Lpj', $lpjname, 'public');
 
-        //simpan nama proposal ke database
-        $validatedData['proposal'] = $proposalname;
+            //simpan nama proposal ke database
+            $validatedData['proposal'] = $proposalname;
 
-        //simpan nama lpj ke database
-        $validatedData['laporan_pertanggungjawaban'] = $lpjname;
+            //simpan nama lpj ke database
+            $validatedData['laporan_pertanggungjawaban'] = $lpjname;
 
-        //simpan data
-        Dokumenkegiatan::create($validatedData);
+            //simpan data
+            Dokumenkegiatan::create($validatedData);
 
-        //redirect to index ketika berhasil disimpan
-        return redirect()->route('dokumen-kegiatan.index');
+            //redirect to index ketika berhasil disimpan
+            return redirect()->route('dokumen-kegiatan.index')->with('success', 'Data berhasil ditambah.');
+        } catch (Exception $e) {
+            return redirect()->route('dokumen-kegiatan.index')->with('error', 'Gagal menyimpan data: ' . $e->getMessage());
+        }
     }
     public function show(DokumenKegiatan $dokumen_kegiatan)
     {
@@ -99,7 +103,6 @@ class DokumenKegiatanController extends Controller
     {
         try {
             // data akan diproses di sini saat disubmit
-
             // validate data
             $validatedData = $request->validate([
                 'nama_kegiatan' => 'required|string|max:100',

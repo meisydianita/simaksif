@@ -185,9 +185,15 @@ class IuranController extends Controller
         }
     }
 
-    public function destroy(Iuran $iuran)
+    public function destroy($id)
     {
-        $iuran->delete();
+        $hapusIuran = Iuran::findOrFail($id);
+
+        // hapus file bukti
+        if ($hapusIuran->bukti && Storage::disk('public')->exists('Iuran/' . $hapusIuran->bukti)) {
+            Storage::disk('public')->delete('Iuran/' . $hapusIuran->bukti);
+        }
+        $hapusIuran->delete();
         return redirect()->route('iuran.index');
     }
 }

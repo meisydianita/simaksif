@@ -124,7 +124,7 @@
 
                     <button class="login-button" type="submit">Masuk</button>
                     <div style="text-align: right;">
-                      <a href="{{ route('reset-kata-sandi') }}" style="color: #980404; font-size:12px; text-decoration: none; font-weight:bold;" >Lupa Kata Sandi?</a>
+                      <a href="{{ route('reset-kata-sandi') }}" style="color: #C3110C; font-size:12px; text-decoration: none; font-weight:bold;" >Lupa Kata Sandi?</a>
                     </div>
 
                   </div>

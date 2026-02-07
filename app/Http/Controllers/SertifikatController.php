@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Sertifikat;
+use Exception;
 use GuzzleHttp\Psr7\Query;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
@@ -49,30 +50,33 @@ class SertifikatController extends Controller
     public function store(Request $request)
     {
         //data akan diproses di sini ketika disubmit
+        try {
+            // validate data
+            $validatedData = $request->validate([
+                'nomor_sertifikat' => 'required|unique:sertifikats,nomor_sertifikat',
+                'nama_penerima' => 'required|string|max:100',
+                'peran_penerima' => 'required',
+                'nama_kegiatan' => 'required|string|max:100',
+                'tanggal_sertifikat' => 'required|date',
+                'file' => 'required|file|mimes:pdf,doc,docx,jpg,jpeg,png|max:10240'
+            ]);
 
-        // validate data
-        $validatedData = $request->validate([
-            'nomor_sertifikat' => 'required|unique:sertifikats,nomor_sertifikat',
-            'nama_penerima' => 'required|string|max:100',
-            'peran_penerima' => 'required',
-            'nama_kegiatan' => 'required|string|max:100',
-            'tanggal_sertifikat' => 'required|date',
-            'file' => 'required|file|mimes:pdf,doc,docx,jpg,jpeg,png|max:10240'
-        ]);
+            //simpan file ke dalam storage
+            $file = $request->file('file');
+            $filename = now('Asia/Jakarta')->format('d-m-Y_His') . '_' . $file->getClientOriginalName();
+            $file->storeAs('Sertifikat', $filename, 'public');
 
-        //simpan file ke dalam storage
-        $file = $request->file('file');
-        $filename = now('Asia/Jakarta')->format('d-m-Y_His') . '_' . $file->getClientOriginalName();
-        $file->storeAs('Sertifikat', $filename, 'public');
+            //simpan nama file ke database
+            $validatedData['file'] = $filename;
 
-        //simpan nama file ke database
-        $validatedData['file'] = $filename;
+            //simpan data
+            Sertifikat::create($validatedData);
 
-        //simpan data
-        Sertifikat::create($validatedData);
-
-        //redirect to index ketika berhasil disimpan
-        return redirect()->route('sertifikat.index');
+            //redirect to index ketika berhasil disimpan
+            return redirect()->route('sertifikat.index')->with('success', 'Data berhasil ditambah.');
+        } catch (Exception $e) {
+            return redirect()->route('sertifikat.index')->with('error', 'Gagal menyimpan data: ' . $e->getMessage());
+        }
     }
     public function show(Sertifikat $sertifikat)
     {

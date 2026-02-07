@@ -47,35 +47,39 @@ class PemasukanController extends Controller
 
     public function store(Request $request)
     {
-        // make validation
-        $validatedData = $request->validate([
-            'nomor_pemasukan' => 'required|unique:pemasukans,nomor_pemasukan',
-            'nama_pemasukan' => 'required|string|max:255',
-            'tanggal_pemasukan' => 'required|date',
-            'kategori' => 'required',
-            'sumber_pemasukan' => 'required|string|max:255',
-            'jumlah' => 'required|numeric|min:0|max:99999999999999.99',
-            'keterangan' => 'nullable|string|max:255',
-            'bukti' => 'nullable|image|max:2048'
-        ], [
-            'jumlah.max' => 'Jumlah terlalu besar! Maksimal Rp 99.999.999.999.999,99',
-            'jumlah.numeric' => 'Jumlah harus berupa angka',
-        ]);
+        try {
+            // make validation
+            $validatedData = $request->validate([
+                'nomor_pemasukan' => 'required|unique:pemasukans,nomor_pemasukan',
+                'nama_pemasukan' => 'required|string|max:255',
+                'tanggal_pemasukan' => 'required|date',
+                'kategori' => 'required',
+                'sumber_pemasukan' => 'required|string|max:255',
+                'jumlah' => 'required|numeric|min:0|max:99999999999999.99',
+                'keterangan' => 'nullable|string|max:255',
+                'bukti' => 'nullable|image|max:2048'
+            ], [
+                'jumlah.max' => 'Jumlah terlalu besar! Maksimal Rp 99.999.999.999.999,99',
+                'jumlah.numeric' => 'Jumlah harus berupa angka',
+            ]);
 
 
-        // simpan file ke storage
-        $file = $request->file('bukti');
-        $filename = now('Asia/Jakarta')->format('d-m-Y_His') . '_' . $file->getClientOriginalName();
-        $file->storeAs('Pemasukan', $filename, 'public');
+            // simpan file ke storage
+            $file = $request->file('bukti');
+            $filename = now('Asia/Jakarta')->format('d-m-Y_His') . '_' . $file->getClientOriginalName();
+            $file->storeAs('Pemasukan', $filename, 'public');
 
-        // simpan nama file ke database
-        $validatedData['bukti'] = $filename;
+            // simpan nama file ke database
+            $validatedData['bukti'] = $filename;
 
-        //simpan data
-        Pemasukan::create($validatedData);
+            //simpan data
+            Pemasukan::create($validatedData);
 
-        // redirect ke index ketika berhasil disimpan
-        return redirect()->route('pemasukan.index');
+            // redirect ke index ketika berhasil disimpan
+            return redirect()->route('pemasukan.index')->with('success', 'Data berhasil ditambah.');
+        } catch (Exception $e) {
+            return redirect()->route('pemasukan.index')->with('error', 'Gagal menyimpan data: ' . $e->getMessage());
+        }
     }
     public function show(Pemasukan $pemasukan)
     {

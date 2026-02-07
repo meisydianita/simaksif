@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Suratkeluar;
+use Exception;
 use GuzzleHttp\Psr7\Query;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -49,30 +50,33 @@ class SuratKeluarController extends Controller
     public function store(Request $request)
     {
         //data akan diproses di sini ketika disubmit
+        try {
+            //validate data
+            $validatedData = $request->validate([
+                'jenis_surat' => 'required',
+                'nomor_surat' => 'required|unique:surat_keluars,nomor_surat',
+                'tanggal_surat' => 'required|date',
+                'tujuan_surat' => 'required|string|max:255',
+                'perihal' => 'required|string|max:255',
+                'file_surat' => 'required|file|mimes:pdf,doc,docx|max:10240'
+            ]);
 
-        //validate data
-        $validatedData = $request->validate([
-            'jenis_surat' => 'required',
-            'nomor_surat' => 'required|unique:surat_keluars,nomor_surat',
-            'tanggal_surat' => 'required|date',
-            'tujuan_surat' => 'required|string|max:255',
-            'perihal' => 'required|string|max:255',
-            'file_surat' => 'required|file|mimes:pdf,doc,docx|max:10240'
-        ]);
+            //simpan file ke dalam storage
+            $file = $request->file('file_surat');
+            $filename = now('Asia/Jakarta')->format('d-m-Y_His') . '_' . $file->getClientOriginalName();
+            $file->storeAs('SuratKeluar', $filename, 'public');
 
-        //simpan file ke dalam storage
-        $file = $request->file('file_surat');
-        $filename = now('Asia/Jakarta')->format('d-m-Y_His') . '_' . $file->getClientOriginalName();
-        $file->storeAs('SuratKeluar', $filename, 'public');
+            // simpan nama file ke database
+            $validatedData['file_surat'] = $filename;
 
-        // simpan nama file ke database
-        $validatedData['file_surat'] = $filename;
+            //simpan data
+            Suratkeluar::create($validatedData);
 
-        //simpan data
-        Suratkeluar::create($validatedData);
-
-        //redirect to index ketika berhasil disimpan
-        return redirect()->route('surat-keluar.index');
+            //redirect to index ketika berhasil disimpan
+            return redirect()->route('surat-keluar.index')->with('success', 'Data berhasil ditambah.');
+        } catch (Exception $e) {
+            return redirect()->route('surat-keluar.index')->with('error', 'Gagal menyimpan data: ' . $e->getMessage());
+        }
     }
 
     public function show(SuratKeluar $surat_keluar)
@@ -129,7 +133,7 @@ class SuratKeluarController extends Controller
 
             return redirect()->route('surat-keluar.index')->with('info', 'Tidak ada perubahan data.');
         } catch (\Exception $e) {
-        
+
             return redirect()->route('surat-keluar.index')->with('error', 'Gagal memperbarui data: ' . $e->getMessage());
         }
     }

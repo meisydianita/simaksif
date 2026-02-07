@@ -78,7 +78,7 @@
 
                 <div class="col-lg-6 text-end">
 
-                    <img src="{{asset('img/himasif.jpg')}}"
+                    <img src="{{asset('img/cois.png')}}"
                         class="img-fluid rounded-4"
                         alt="Hero Image">
 

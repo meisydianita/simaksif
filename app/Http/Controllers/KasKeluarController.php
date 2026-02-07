@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\KasKeluar;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpKernel\HttpCache\Store;
@@ -44,34 +45,38 @@ class KasKeluarController extends Controller
 
     public function store(Request $request)
     {
-        // make validation
-        $validatedData = $request->validate([
-            'nomor_pengeluaran' => 'required|unique:kas_keluars,nomor_pengeluaran',
-            'nama_pengeluaran' => 'required|string|max:255',
-            'tanggal_pengeluaran' => 'required|date',
-            'kategori' => 'required',
-            'jumlah' => 'required|numeric|min:0|max:99999999999999.99',
-            'penerima' => 'required|string|max:255',
-            'keterangan' => 'nullable|string|max:255',
-            'bukti' => 'required|image|max:2048'
-        ], [
-            'jumlah.max' => 'Jumlah terlalu besar! Maksimal Rp 99.999.999.999.999,99',
-            'jumlah.numeric' => 'Jumlah harus berupa angka',
-        ]);
+        try {
+            // make validation
+            $validatedData = $request->validate([
+                'nomor_pengeluaran' => 'required|unique:kas_keluars,nomor_pengeluaran',
+                'nama_pengeluaran' => 'required|string|max:255',
+                'tanggal_pengeluaran' => 'required|date',
+                'kategori' => 'required',
+                'jumlah' => 'required|numeric|min:0|max:99999999999999.99',
+                'penerima' => 'required|string|max:255',
+                'keterangan' => 'nullable|string|max:255',
+                'bukti' => 'required|image|max:2048'
+            ], [
+                'jumlah.max' => 'Jumlah terlalu besar! Maksimal Rp 99.999.999.999.999,99',
+                'jumlah.numeric' => 'Jumlah harus berupa angka',
+            ]);
 
-        // simpan file ke storage
-        $file = $request->file('bukti');
-        $filename = now('Asia/Jakarta')->format('d-m-Y_His') . '_' . $file->getClientOriginalName();
-        $file->storeAs('KasKeluar', $filename, 'public');
+            // simpan file ke storage
+            $file = $request->file('bukti');
+            $filename = now('Asia/Jakarta')->format('d-m-Y_His') . '_' . $file->getClientOriginalName();
+            $file->storeAs('KasKeluar', $filename, 'public');
 
-        // simpan nama file ke database
-        $validatedData['bukti'] = $filename;
+            // simpan nama file ke database
+            $validatedData['bukti'] = $filename;
 
-        //simpan data
-        KasKeluar::create($validatedData);
+            //simpan data
+            KasKeluar::create($validatedData);
 
-        // redirect ke index ketika berhasil disimpan
-        return redirect()->route('kas-keluar.index');
+            // redirect ke index ketika berhasil disimpan
+            return redirect()->route('kas-keluar.index')->with('success', 'Data berhasil ditambah.');
+        } catch (Exception $e) {
+            return redirect()->route('kas-keluar.index')->with('error', 'Gagal menyimpan data: ' . $e->getMessage());
+        }
     }
 
     public function show(KasKeluar $kas_keluar)

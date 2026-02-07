@@ -69,7 +69,6 @@ class MemberController extends Controller
             $query->where('status', $request->status);
         }
 
-
         $allmember = $query->paginate(5)->appends(request()->query());
         return view('sekum.member.anggota', compact('allmember', 'jabatan', 'status', 'tahun_masuk', 'divisi'));
     }
@@ -81,57 +80,58 @@ class MemberController extends Controller
     public function store(Request $request)
     {
         // data akan diproses di sini ketika disubmit (create)
+        try {
+            // validate data
+            $validatedData = $request->validate([
+                'npm' => 'required|string|max:16|unique:members,npm',
+                'nama_lengkap' => 'required|string|max:100',
+                'tahun_masuk' => 'required|digits:4',
+                'jabatan' => 'required',
+                'divisi' => 'nullable',
+                'status' => 'required',
+                'email' => 'required|email|max:100|unique:members,email',
+                'no_hp' => 'required|string|regex:/^[0-9]{10,20}$/',
+                'alamat' => 'required|string|max:255',
+                'foto' => 'required|image|max:2048'
+            ]);
 
-        // validate data
-        $validatedData = $request->validate([
-            'npm' => 'required|string|max:16|unique:members,npm',
-            'nama_lengkap' => 'required|string|max:100',
-            'tahun_masuk' => 'required|digits:4',
-            'jabatan' => 'required',
-            'divisi' => 'nullable',
-            'status' => 'required',
-            'email' => 'required|email|max:100|unique:members,email',
-            'no_hp' => 'required|string|regex:/^[0-9]{10,20}$/',
-            'alamat' => 'required|string|max:255',
-            'foto' => 'required|image|max:2048'
-        ]);
+            // simpan foto ke dalam storage
+            $foto = $request->file('foto');
+            $fotoname = now('Asia/Jakarta')->format('d-m-Y_His') . '_' . $foto->getClientOriginalName();
+            $foto->storeAs('Member', $fotoname, 'public');
 
-        // simpan foto ke dalam storage
-        $foto = $request->file('foto');
-        $fotoname = now('Asia/Jakarta')->format('d-m-Y_His') . '_' . $foto->getClientOriginalName();
-        $foto->storeAs('Member', $fotoname, 'public');
+            // simpan nama ke dalam database
+            $validatedData['foto'] = $fotoname;
 
-        // simpan nama ke dalam database
-        $validatedData['foto'] = $fotoname;
+            // simpan data
+            $member = Member::create($validatedData);
 
-        // simpan data
-        $member = Member::create($validatedData);
+            if ($member->status == 'aktif') {
+                $tahun = now()->year;
 
-        if ($member->status == 'aktif') {
-            $tahun = now()->year;
+                for ($bulan = 1; $bulan <= 12; $bulan++) {
 
-            for ($bulan = 1; $bulan <= 12; $bulan++) {
+                    $jumlah = ($bulan == 1) ? 10000 : 5000;
 
-                $jumlah = ($bulan == 1) ? 10000 : 5000;
-
-                Iuran::firstOrCreate(
-                    [
-                        'member_id' => $member->id,
-                        'bulan' => $bulan,
-                        'tahun' => $tahun,
-                    ],
-                    [
-                        'jumlah' => $jumlah,
-                        'status' => 'belum_lunas'
-                    ]
-                );
+                    Iuran::firstOrCreate(
+                        [
+                            'member_id' => $member->id,
+                            'bulan' => $bulan,
+                            'tahun' => $tahun,
+                        ],
+                        [
+                            'jumlah' => $jumlah,
+                            'status' => 'belum_lunas'
+                        ]
+                    );
+                }
             }
+
+            // redirect to index ketika berhasil disimpan
+            return redirect()->route('member.index')->with('success', 'Data berhasil ditambah.');
+        } catch (Exception $e) {
+            return redirect()->route('member.index')->with('error', 'Gagal menyimpan data: ' . $e->getMessage());
         }
-
-
-
-        // redirect to index ketika berhasil disimpan
-        return redirect()->route('member.index');
     }
 
     public function show(Member $member)
@@ -148,7 +148,6 @@ class MemberController extends Controller
     {
         try {
             // function yang memproses saat update disubmit
-
             // validate data
             $validatedData = $request->validate([
                 'npm' => 'required|string|max:16|unique:members,npm,' . $member->id,
@@ -229,7 +228,7 @@ class MemberController extends Controller
         $hapusMember = Member::findOrFail($id);
 
         // hapus foto bukti kalau ada
-        if($hapusMember->foto && Storage::disk('public')->exists('Member/' .$hapusMember->foto)){
+        if ($hapusMember->foto && Storage::disk('public')->exists('Member/' . $hapusMember->foto)) {
             Storage::disk('public')->delete('Member/' . $hapusMember->foto);
         }
         // hapus data
