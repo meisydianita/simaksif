@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="id">
-<title>Anggota Iuran Detail</title>
+<title>Iuran Detail</title>
 @include('layout.head')
 
 <!--begin::Body-->
@@ -15,7 +15,7 @@
       <!--begin::App Content-->
       <div class="app-content">
         <!--begin::Container-->
-        <div class="container-fluid pt-4>
+        <div class="container-fluid pt-4">
           <!-- /.row -->
           <div class="row">
             <div class="col-12">
@@ -71,7 +71,7 @@
                             <td>{{ $bulan[$r->bulan] }}</td>
                             <td>{{ $r->tahun }}</td>
                             <td>Rp. {{ number_format($r->jumlah, 0, ',', '.') }}</td>
-                            <td>{{ $r->tanggal_bayar ?? '-'}}</td>
+                            <td>{{ $r->tanggal_bayar ? \Carbon\Carbon::parse($r->tanggal_bayar)->format('d-m-Y') : '-' }}</td>
                             <td>
                               @if($r->bukti)
                               <a href="{{ Storage::url('Iuran/'.$r->bukti) }}" target="_blank" style="color:inherit;text-decoration:none;">
@@ -83,7 +83,6 @@
                               @else
                               <span class="text-muted">-</span>
                               @endif
-                            </td>
                             <td>
                               @if ($r->status == 'lunas')
                               <span class="badge bg-success">Lunas</span>
@@ -94,7 +93,7 @@
                           </tr>
                           @empty
                           <tr>
-                            <td colspan="7" class="text-center py-4">
+                            <td colspan="8" class="text-center py-4">
                               <div class="text-muted">Tidak Terdapat Data Iuran</div>
                             </td>
                           </tr>

@@ -55,7 +55,6 @@ class HomeController extends Controller
             ->orderBy('bulan')
             ->get();
 
-        // Fungsi untuk mapping data ke array 12 bulan
         function mapDataKeBulan($query)
         {
             $data = array_fill(0, 12, 0);
@@ -71,7 +70,6 @@ class HomeController extends Controller
         $grafiktotalsertifikat = mapDataKeBulan($querySertifikat);
 
         $bulan = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'];
-
 
         return view('sekum.home', compact(
             'totalsuratmasuk',
@@ -93,7 +91,6 @@ class HomeController extends Controller
     {
         $tahunSekarang = now()->year;
         $tanggalMulaiTahun = now()->startOfYear();
-
 
         $kasMasukIuran = Iuran::where('status', 'lunas')
             ->whereYear('tanggal_bayar', $tahunSekarang)
@@ -170,12 +167,8 @@ class HomeController extends Controller
         ));
     }
 
-
-
     public function anggota()
     {
-
-        // Data lama (count semua)
         $totalsuratmasuk = AnggotaSuratMasuk::count();
         $totalsuratkeluar = AnggotaSuratKeluar::count();
         $totalsertifikat = AnggotaSertifikat::count();
@@ -185,7 +178,7 @@ class HomeController extends Controller
 
         $tahunSekarang = date('Y');
 
-        // Grafik surat & dokumen (lama)
+
         $querySuratMasuk = AnggotaSuratMasuk::whereYear('created_at', $tahunSekarang)
             ->selectRaw('MONTH(created_at) as bulan, COUNT(*) as total')
             ->groupBy('bulan')
@@ -210,7 +203,6 @@ class HomeController extends Controller
             ->orderBy('bulan')
             ->get();
 
-        // Fungsi mapping data
         function mapDataKeBulan($query)
         {
             $data = array_fill(0, 12, 0);
@@ -225,7 +217,7 @@ class HomeController extends Controller
         $grafiktotaldokumenkegiatan = mapDataKeBulan($queryDokumenKegiatan);
         $grafiktotalsertifikat = mapDataKeBulan($querySertifikat);
 
-        // DATA BENDUM - DIGABUNG
+
         $tanggalMulaiTahun = now()->startOfYear();
 
         $kasMasukIuran = Iuran::where('status', 'lunas')
@@ -285,8 +277,6 @@ class HomeController extends Controller
         $sisasaldo = $saldoAwal + $totalkasmasuk - $totalkaskeluar;
 
         $bulan = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'];
-
-        // HAPUS fungsi anggota() & bendum() - sudah digabung
 
         return view('anggota.home-anggota', compact(
             'totalsuratmasuk',

@@ -11,9 +11,8 @@
 
     <div class="card-header">
         <div style="display: flex; align-items: center;">
-            <!-- Logo Kanan -->
             <div style="width: 15%; text-align: right;">
-                <img src="{{asset('AdminLTE/dist/assets/img/himasif 24-25.png')}}" alt="Logo HIMASI" style="height: 120px;">
+                <img src="{{asset('img/logo.png')}}" alt="Logo Himasif" style="height: 120px;">
             </div>
 
             <div style="width: 70%; text-align: center;">
@@ -26,11 +25,9 @@
                     HIMPUNAN MAHASISWA SISTEM INFORMASI
                 </h3>
 
-
                 <p style="margin: 2px 0 2px 0; font-size: 13px;">
                     Sekretariat HIMASIF F. Teknik UNIB
                 </p>
-
 
                 <div style="
                     display: flex;
@@ -57,9 +54,8 @@
             </div>
 
             <div style="width: 15%; text-align: left;">
-                <img src="{{asset('AdminLTE/dist/assets/img/logo-unib.png')}}" alt="Logo Unib" style="height: 120px;">
+                <img src="{{asset('img/logo-unib.png')}}" alt="Logo Unib" style="height: 120px;">
             </div>
-
 
         </div>
         <hr style="border: 2px solid black;">
@@ -117,8 +113,6 @@
                     SISA SALDO : Rp {{ number_format($sisaSaldo, 0, ',', '.') }}
                 </td>
             </tr>
-
-
 
         </tbody>
     </table>

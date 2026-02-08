@@ -18,13 +18,11 @@
             <div class="col-md-4 mb-3">
               <div class="card h-100">
                 <div class="card-body text-center p-4">
-
-
                   <div class="position-relative d-inline-block mb-3">
                     <img
                       src="{{ $user->photo 
                       ? asset('storage/Profil/User/' . $user->photo) 
-                      : asset('AdminLTE/dist/assets/img/mee.png') }}"
+                      : asset('img/admin.png') }}"
                       alt="Foto Profil"
                       class="rounded-circle shadow"
                       width="120"
@@ -32,12 +30,9 @@
                       style="object-fit: cover;">
                   </div>
 
-
                   <h6 class="fw-bold mb-1">{{ $user->name }}</h6>
 
-
                   <p class="text-muted mb-4">{{ $user->level }}</p>
-
 
                   <div class="d-grid gap-2">
                     <button class="btn btn-light btn-sm text-start fs-10 fw-medium">

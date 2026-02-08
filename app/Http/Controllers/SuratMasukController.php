@@ -45,13 +45,9 @@ class SuratMasukController extends Controller
                 'perihal' => 'required|string|max:255',
                 'file_surat' => 'required|file|mimes:pdf,doc,docx|max:10240'
             ]);
-
-            // simpan file ke storage
             $file = $request->file('file_surat');
             $filename = now('Asia/Jakarta')->format('d-m-Y_His') . '_' . $file->getClientOriginalName();
             $file->storeAs('SuratMasuk', $filename, 'public');
-
-            // simpan nama file ke database
             $validatedData['file_surat'] = $filename;
 
             //simpan data
@@ -87,8 +83,6 @@ class SuratMasukController extends Controller
             ]);
 
             $isChanged = false;
-
-            // Cek perubahan field utama
             $mainFields = ['nomor_surat', 'tanggal_surat', 'asal_surat', 'perihal'];
             foreach ($mainFields as $field) {
                 if ($request->filled($field) && $surat_masuk->$field != $request->$field) {
@@ -96,10 +90,7 @@ class SuratMasukController extends Controller
                     break;
                 }
             }
-
-            // Upload file baru
             if ($request->hasFile('file_surat')) {
-                // hapus file lama
                 if ($surat_masuk->file_surat) {
                     Storage::disk('public')->delete('SuratMasuk/' . $surat_masuk->file_surat);
                 }
@@ -126,8 +117,6 @@ class SuratMasukController extends Controller
     public function destroy($id)
     {
         $hapusSuratMasuk = SuratMasuk::findOrFail($id);
-
-        // hapus file bukti kalau ada
         if ($hapusSuratMasuk->file_surat && Storage::disk('public')->exists('SuratMasuk/' . $hapusSuratMasuk->file_surat)) {
             Storage::disk('public')->delete('SuratMasuk/' . $hapusSuratMasuk->file_surat);
         }

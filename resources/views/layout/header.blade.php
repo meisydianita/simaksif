@@ -108,7 +108,7 @@
             <img
               src="{{ $authUser && $authUser->photo
                 ? asset('storage/' . $photoPath . $authUser->photo)
-                : asset('AdminLTE/dist/assets/img/mee.png')}}"
+                : asset('img/admin.png')}}"
               class="user-image rounded-circle shadow"
               alt="User Image" />
 
@@ -139,7 +139,7 @@
               <img
                 src="{{ $authUser && $authUser->photo
                 ? asset('storage/' . $photoPath . $authUser->photo)
-                : asset('AdminLTE/dist/assets/img/mee.png')}}"
+                : asset('img/admin.png')}}"
                 class="user-image rounded-circle shadow"
                 alt="User Image" />
               <p>
@@ -179,7 +179,7 @@
               @auth('anggota')
               <a href="{{ route('profil-anggota') }}" class="btn btn-default btn-flat">Profil</a>
               @endauth
-              <!-- <a href="{{ route('logout') }}" class="btn btn-default btn-flat float-end" method="post">Keluar</a>                  -->
+              
               <form action="{{ route('logout') }}" method="POST" style="display: inline;">
                 @csrf
                 <button type="submit" class="btn btn-default btn-flat float-end">

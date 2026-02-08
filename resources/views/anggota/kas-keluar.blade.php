@@ -47,7 +47,7 @@
                           @endforeach
                         </select>
                       </div>
-                      <!-- Clear Button - DALAM FORM -->
+                      
                       @if(request('search') || request('kategori'))
                       <a href="{{ route('kas-keluar-anggota.index') }}" class="btn btn-lg btn-sm btn-default">
                         <i class="fa-solid fa-xmark"></i>
@@ -84,12 +84,16 @@
                         <td>{{ $r->penerima }}</td>
                         <td>{{ $r->keterangan }}</td>
                         <td>
+                          @if ($r->bukti)
                           <a href="{{ Storage::url('KasKeluar/'.$r->bukti) }}" target="_blank" style="color:inherit;text-decoration:none;">
                             <i class="far fa-eye"></i>
                           </a> |
                           <a href="{{ Storage::url('KasKeluar/'.$r->bukti) }}" download style="color:inherit;text-decoration:none;">
                             <i class="fas fa-download"></i>
                           </a>
+                          @else
+                          <span class="text-muted">-</span>
+                          @endif                          
                         </td>
                       </tr>
                       @empty

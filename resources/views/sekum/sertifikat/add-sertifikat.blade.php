@@ -46,6 +46,7 @@
                             aria-label=".form-control-sm example"
                             name="nomor_sertifikat" />
                         </div>
+                        <!--end::Col-->
 
                         <!--begin::Col-->
                         <div class="col-md-6">
@@ -58,6 +59,7 @@
                             name="nama_penerima" />
                         </div>
                         <!--end::Col-->
+
                         <!--begin::Col -->
                         <div class="col-md-6">
                           <label for="validationCustom02" class="form-label">Peran Penerima</label>
@@ -69,6 +71,7 @@
                           </select>
                         </div>
                         <!--end::Col -->
+
                         <!--begin::Col-->
                         <div class="col-md-6">
                           <label for="validationCustom01" class="form-label">Nama Kegiatan</label>
@@ -80,6 +83,7 @@
                             name="nama_kegiatan" />
                         </div>
                         <!--end::Col-->
+
                         <!--begin::Col-->
                         <div class="col-md-6">
                           <label for="validationCustom02" class="form-label">Tanggal Sertifikat</label>
@@ -96,20 +100,12 @@
                         <!--end::Col-->
 
                         <!--begin::Col-->
-
-                        <!--begin::Col-->
-
-
                         <div class="d-flex justify-content-center gap-2">
                           <a href="{{ route('sertifikat.index') }}" class="btn btn-sm btn-orange-custom btn-uniform">Batal</a>
                           <button class="btn btn-sm btn-blue-custom btn-uniform" type="submit">Kirim</button>
                         </div>
-
                         <!--end::Col-->
-
-                        <!--end::Col-->
-
-
+                        
                       </div>
                       <!--end::Row-->
                     </div>

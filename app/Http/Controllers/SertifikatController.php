@@ -22,7 +22,6 @@ class SertifikatController extends Controller
         $query = Sertifikat::query();
 
         if ($request->filled('search')) {
-            // Escape special chars + trim
             $searchTerm = '%' . trim($request->search) . '%';
 
             $query->where(function ($q) use ($searchTerm) {
@@ -60,13 +59,9 @@ class SertifikatController extends Controller
                 'tanggal_sertifikat' => 'required|date',
                 'file' => 'required|file|mimes:pdf,doc,docx,jpg,jpeg,png|max:10240'
             ]);
-
-            //simpan file ke dalam storage
             $file = $request->file('file');
             $filename = now('Asia/Jakarta')->format('d-m-Y_His') . '_' . $file->getClientOriginalName();
             $file->storeAs('Sertifikat', $filename, 'public');
-
-            //simpan nama file ke database
             $validatedData['file'] = $filename;
 
             //simpan data
@@ -111,20 +106,13 @@ class SertifikatController extends Controller
                 }
             }
 
-            //cek apakah user upload file baru
             if ($request->hasFile('file')) {
-
-                // hapus file ketika sudah ada
                 if ($sertifikat->file) {
                     Storage::disk('public')->delete('Sertifikat/' . $sertifikat->file);
                 }
-
-                // simpan ke file baru
                 $file = $request->file('file');
                 $filename = now('Asia/Jakarta')->format('d-m-Y_His') . '_' . $file->getClientOriginalName();
                 $file->storeAs('Sertifikat', $filename, 'public');
-
-                // update nama file di database
                 $validatedData['file'] = $filename;
                 $isChanged = true;
             }
@@ -145,13 +133,9 @@ class SertifikatController extends Controller
     public function destroy($id)
     {
         $hapusSertifikat = Sertifikat::findOrFail($id);
-
-        // hapus file bukti kalau ada
         if ($hapusSertifikat->file && Storage::disk('public')->exists('Sertifikat/' . $hapusSertifikat->file)) {
             Storage::disk('public')->delete('Sertifikat/' . $hapusSertifikat->file);
         }
-
-        // hapus data
         $hapusSertifikat->delete();
         return redirect()->route('sertifikat.index');
     }

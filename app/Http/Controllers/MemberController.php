@@ -5,8 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Iuran;
 use App\Models\Member;
 use Exception;
-use GuzzleHttp\Psr7\Query;
-use Illuminate\Container\Attributes\Storage as AttributesStorage;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 
@@ -94,16 +92,10 @@ class MemberController extends Controller
                 'alamat' => 'required|string|max:255',
                 'foto' => 'required|image|max:2048'
             ]);
-
-            // simpan foto ke dalam storage
             $foto = $request->file('foto');
             $fotoname = now('Asia/Jakarta')->format('d-m-Y_His') . '_' . $foto->getClientOriginalName();
             $foto->storeAs('Member', $fotoname, 'public');
-
-            // simpan nama ke dalam database
             $validatedData['foto'] = $fotoname;
-
-            // simpan data
             $member = Member::create($validatedData);
 
             if ($member->status == 'aktif') {
@@ -170,21 +162,13 @@ class MemberController extends Controller
                     break;
                 }
             }
-
-            // cek apakah user upload foto baru
             if ($request->hasFile('foto')) {
-
-                // hapus file ketika sudah ada
                 if ($member->foto) {
                     Storage::disk('public')->delete('Member/' . $member->foto);
                 }
-
-                // simpan ke file baru
                 $foto = $request->file('foto');
                 $fotoname = now('Asia/Jakarta')->format('d-m-Y_His') . '_' . $foto->getClientOriginalName();
                 $foto->storeAs('Member', $fotoname, 'public');
-
-                // simpan nama ke dalam database
                 $validatedData['foto'] = $fotoname;
                 $isChanged = true;
             }
@@ -226,12 +210,9 @@ class MemberController extends Controller
     public function destroy($id)
     {
         $hapusMember = Member::findOrFail($id);
-
-        // hapus foto bukti kalau ada
         if ($hapusMember->foto && Storage::disk('public')->exists('Member/' . $hapusMember->foto)) {
             Storage::disk('public')->delete('Member/' . $hapusMember->foto);
         }
-        // hapus data
         $hapusMember->delete();
         return redirect()->route('member.index');
     }

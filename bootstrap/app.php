@@ -25,7 +25,7 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
 
     })
-     ->withSchedule(function (Schedule $schedule) {  // ← INI DIA!
+     ->withSchedule(function (Schedule $schedule) { 
         $schedule->command('members:deactivate-old')
                  ->dailyAt('00:00')
                  ->timezone('Asia/Jakarta');
@@ -42,7 +42,6 @@ return Application::configure(basePath: dirname(__DIR__))
                 ->withInput();
         }
         
-        // Biarkan exception lain ditangani secara default
         return null;
     });
     })->create();

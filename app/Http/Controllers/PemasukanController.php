@@ -63,14 +63,13 @@ class PemasukanController extends Controller
                 'jumlah.numeric' => 'Jumlah harus berupa angka',
             ]);
 
-
-            // simpan file ke storage
-            $file = $request->file('bukti');
-            $filename = now('Asia/Jakarta')->format('d-m-Y_His') . '_' . $file->getClientOriginalName();
-            $file->storeAs('Pemasukan', $filename, 'public');
-
-            // simpan nama file ke database
-            $validatedData['bukti'] = $filename;
+            $filename = null;
+            if ($request->hasFile('bukti')) {
+                $file = $request->file('bukti');
+                $filename = now('Asia/Jakarta')->format('d-m-Y_His') . '_' . $file->getClientOriginalName();
+                $file->storeAs('Pemasukan', $filename, 'public');
+                $validatedData['bukti'] = $filename;
+            }
 
             //simpan data
             Pemasukan::create($validatedData);
@@ -117,20 +116,13 @@ class PemasukanController extends Controller
                 }
             }
 
-            // cek apakah user upload foto baru
             if ($request->hasFile('bukti')) {
-
-                // hapus file ketika sudah ada
                 if ($pemasukan->bukti) {
                     Storage::disk('public')->delete('Pemasukan/' . $pemasukan->bukti);
                 }
-
-                // simpan ke file baru
                 $foto = $request->file('bukti');
                 $fotoname = now('Asia/Jakarta')->format('d-m-Y_His') . '_' . $foto->getClientOriginalName();
                 $foto->storeAs('Pemasukan', $fotoname, 'public');
-
-                // simpan nama ke dalam database
                 $validatedData['bukti'] = $fotoname;
                 $isChanged = true;
             }
@@ -151,15 +143,10 @@ class PemasukanController extends Controller
     public function destroy($id)
     {
         $hapusPemasukan = Pemasukan::findOrFail($id);
-
-        // hapus file bukti kalau ada
         if ($hapusPemasukan->bukti && Storage::disk('public')->exists('Pemasukan/' . $hapusPemasukan->bukti)) {
             Storage::disk('public')->delete('Pemasukan/' . $hapusPemasukan->bukti);
         }
-
-        // hapus data
         $hapusPemasukan->delete();
-
         return redirect()->route('pemasukan.index');
     }
 }

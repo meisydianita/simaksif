@@ -26,8 +26,8 @@
       <a href="#" class="brand-link">
         <!--begin::Brand Image-->
         <img
-          src="{{asset('AdminLTE/dist/assets/img/himasif 24-25.png')}}"
-          alt="AdminLTE Logo"
+          src="{{asset('img/logo.png')}}"
+          alt="Logo"
           class="brand-image" />
         <!--end::Brand Image-->
         <!--begin::Brand Text-->
@@ -37,6 +37,7 @@
       <!--end::Brand Link-->
     </div>
     <!--end::Sidebar Brand-->
+
     <!--begin::Sidebar Wrapper-->
     <div class="sidebar-wrapper">
       <nav class="mt-2">
@@ -280,10 +281,7 @@
 
           @endif
           @endif
-
-
         </ul>
-
         <!--end::Sidebar Menu-->
       </nav>
     </div>

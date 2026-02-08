@@ -27,7 +27,7 @@ class DeactivateOldMembers extends Command
      */
     public function handle()
     {
-        $threeYearsAgo = Carbon::now()->subYears(3);
+        $threeYearsAgo = Carbon::now()->subYears(4);
         
         $updated = Member::where('tahun_masuk', '<', $threeYearsAgo->year)
                         ->where('status', 'aktif')

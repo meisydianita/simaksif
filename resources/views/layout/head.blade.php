@@ -24,7 +24,7 @@
   <!--begin::Accessibility Features-->
   <!-- Skip links will be dynamically added by accessibility.js -->
   <meta name="supported-color-schemes" content="light dark" />
-  <link rel="preload" href="{{asset('AdminLTE/dist/css/adminlte.css')}}" as="style" />
+  <link rel="preload" href="{{asset('assets/dist/css/adminlte.css')}}" as="style" />
   <!--end::Accessibility Features-->
   <!--begin::Fonts-->
   <!-- <link
@@ -78,7 +78,7 @@
 
   <!-- end-iconify -->
   <!--begin::Required Plugin(AdminLTE)-->
-  <link rel="stylesheet" href="{{ asset('AdminLTE/dist/css/adminlte.css') }}" />
+  <link rel="stylesheet" href="{{ asset('assets/dist/css/adminlte.css') }}" />
   <link rel="stylesheet" href="{{ asset('css/custom.css') }}">
   <!--end::Required Plugin(AdminLTE)-->
 
@@ -87,6 +87,8 @@
 
   <!-- tailwind -->
   <!-- @vite(['resources/css/app.css', 'resources/js/app.js']) -->
+   <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
 
 </head>
 <!--end::Head-->

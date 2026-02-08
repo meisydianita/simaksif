@@ -55,19 +55,19 @@ class KasKeluarController extends Controller
                 'jumlah' => 'required|numeric|min:0|max:99999999999999.99',
                 'penerima' => 'required|string|max:255',
                 'keterangan' => 'nullable|string|max:255',
-                'bukti' => 'required|image|max:2048'
+                'bukti' => 'nullable|image|max:2048'
             ], [
                 'jumlah.max' => 'Jumlah terlalu besar! Maksimal Rp 99.999.999.999.999,99',
                 'jumlah.numeric' => 'Jumlah harus berupa angka',
             ]);
 
-            // simpan file ke storage
-            $file = $request->file('bukti');
-            $filename = now('Asia/Jakarta')->format('d-m-Y_His') . '_' . $file->getClientOriginalName();
-            $file->storeAs('KasKeluar', $filename, 'public');
-
-            // simpan nama file ke database
-            $validatedData['bukti'] = $filename;
+            $filename = null;
+            if ($request->hasFile('bukti')) {
+                $file = $request->file('bukti');
+                $filename = now('Asia/Jakarta')->format('d-m-Y_His') . '_' . $file->getClientOriginalName();
+                $file->storeAs('Pemasukan', $filename, 'public');
+                $validatedData['bukti'] = $filename;
+            }
 
             //simpan data
             KasKeluar::create($validatedData);
@@ -115,27 +115,18 @@ class KasKeluarController extends Controller
                     break;
                 }
             }
-
-            // cek apakah user upload foto baru
             if ($request->hasFile('bukti')) {
-
-                // hapus file ketika sudah ada
                 if ($kas_keluar->bukti) {
                     Storage::disk('public')->delete('KasKeluar/' . $kas_keluar->bukti);
                 }
-
-                // simpan ke file baru
                 $foto = $request->file('bukti');
                 $fotoname = now('Asia/Jakarta')->format('d-m-Y_His') . '_' . $foto->getClientOriginalName();
                 $foto->storeAs('KasKeluar', $fotoname, 'public');
-
-                // simpan nama ke dalam database
                 $validatedData['bukti'] = $fotoname;
             }
 
             // update data
             $kas_keluar->update($validatedData);
-
 
             // redirect to index ketika berhasil diupdate
             if ($isChanged) {
@@ -150,13 +141,9 @@ class KasKeluarController extends Controller
     public function destroy($id)
     {
         $hapusKasKeluar = KasKeluar::findOrFail($id);
-
-        // hapus file bukti
         if ($hapusKasKeluar->bukti && Storage::disk('public')->exists('KasKeluar/' . $hapusKasKeluar->bukti)) {
             Storage::disk('public')->delete('KasKeluar/' . $hapusKasKeluar->bukti);
         }
-
-        // hapus data
         $hapusKasKeluar->delete();
         return redirect()->route('kas-keluar.index');
     }

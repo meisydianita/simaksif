@@ -118,7 +118,6 @@
                       </table>
                     </div>
                   </div>
-                  <!-- /.card-body -->
                   <!-- begin pagination -->
                   <div class="my-3 mx-3">
                     {{ $iurans->links() }}

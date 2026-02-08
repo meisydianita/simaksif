@@ -12,15 +12,9 @@ class IuranDetailController extends Controller
     public function index(Request $request) {}
 
 
-    public function create()
-    {
-        //
-    }
+    public function create(){}
 
-    public function store(Request $request)
-    {
-        //
-    }
+    public function store(Request $request){}
     public function show($memberId)
     {
         $bulan = [
@@ -53,17 +47,9 @@ class IuranDetailController extends Controller
         ));
     }
 
-
-
     public function edit(Iuran $iuran) {}
 
-    public function update(Request $request, IuranDetail $iuranDetail)
-    {
-        //
-    }
+    public function update(Request $request, IuranDetail $iuranDetail){}
 
-    public function destroy(IuranDetail $iuranDetail)
-    {
-        //
-    }
+    public function destroy(IuranDetail $iuranDetail){}
 }

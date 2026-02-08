@@ -10,7 +10,6 @@ class AnggotaSuratKeluarController extends Controller
 {
     public function index(Request $request, AnggotaSuratKeluar $surat_keluar, Query $query)
     {
-
         $jenis_surat = [
             'sk_pengangkatan' => 'Surat Kerja Pengangkatan',
             'peminjaman_tempat_barang' => 'Peminjaman Barang/Tempat',

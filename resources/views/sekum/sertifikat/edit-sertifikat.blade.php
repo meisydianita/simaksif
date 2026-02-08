@@ -48,6 +48,7 @@
                             aria-label=".form-control-sm example"
                             required />
                         </div>
+                        <!--end::Col-->
 
                         <!--begin::Col-->
                         <div class="col-md-6">
@@ -60,6 +61,7 @@
                             name="nama_penerima" />
                         </div>
                         <!--end::Col-->
+
                         <!--begin::Col -->
                         <div class="col-md-6">
                           <label for="validationCustom02" class="form-label">Peran Penerima</label>
@@ -76,6 +78,7 @@
                           </select>
                         </div>
                         <!--end::Col -->
+
                         <!--begin::Col-->
                         <div class="col-md-6">
                           <label for="validationCustom01" class="form-label">Nama Kegiatan</label>
@@ -88,6 +91,7 @@
                             required />
                         </div>
                         <!--end::Col-->
+
                         <!--begin::Col-->
                         <div class="col-md-6">
                           <label for="validationCustom02" class="form-label">Tanggal Sertifikat</label>
@@ -103,6 +107,7 @@
                           <input class="form-control form-control-sm" type="file" id="formFile" name="file">
                         </div>
                         <!--end::Col-->
+                        
                         <!--begin::Col-->
                         <div class="d-flex justify-content-center gap-2">
                           <a href="{{ route('sertifikat.index') }}" class="btn btn-sm btn-orange-custom btn-uniform">Batal</a>

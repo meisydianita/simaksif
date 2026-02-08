@@ -53,7 +53,7 @@
 
                       <!--begin::Col-->
                       <div class="d-flex justify-content-end">
-                        <a class="btn btn-sm btn-dark" onclick="this.href='/cetak-laporan-kas/'
+                        <a class="btn btn-sm btn-blue-custom" onclick="this.href='/cetak-laporan-kas/'
                             + document.getElementById('tanggal_awal').value
                             +'/'
                             + document.getElementById('tanggal_akhir').value"

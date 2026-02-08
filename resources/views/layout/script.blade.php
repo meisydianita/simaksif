@@ -14,6 +14,8 @@
     integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
     crossorigin="anonymous"></script>
 
+  <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
 
   <!--begin::Third Party Plugin(OverlayScrollbars)-->
   <script
@@ -28,7 +30,7 @@
     src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.min.js"
     crossorigin="anonymous"></script>
   <!--end::Required Plugin(Bootstrap 5)--><!--begin::Required Plugin(AdminLTE)-->
-  <script src="{{asset('AdminLTE/dist/js/adminlte.js')}}"></script>
+  <script src="{{asset('assets/dist/js/adminlte.js')}}"></script>
   <!--end::Required Plugin(AdminLTE)--><!--begin::OverlayScrollbars Configure-->
 
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -256,12 +258,15 @@
     .toast-white.success {
       border-left-color: #198754;
     }
+
     .toast-white.danger {
       border-left-color: #dc3545;
     }
+
     .toast-white.info {
       border-left-color: #003580;
     }
+
     .toast-white .btn-close {
       filter: invert(0);
     }
@@ -313,6 +318,27 @@
 
     });
   </script>
+
+  <script>
+  $(document).ready(function() {
+    $('.select2').select2({
+      placeholder: "Cari nama penanggungjawab",
+      allowClear: true,
+      width: '100%',
+      language: {
+      noResults: function() {
+        return "Data tidak ditemukan";
+      },
+      searching: function() {
+        return "Mencari...";
+      }
+    }
+    });
+  });
+</script>
+
+
+
 </body>
 
 </html>

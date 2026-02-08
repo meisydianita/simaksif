@@ -19,19 +19,17 @@
               <div class="card h-100">
                 <div class="card-body text-center p-4">
 
-
                   <div class="position-relative d-inline-block mb-3">
                     <img
                       src="{{ $anggota->photo 
                       ? asset('storage/Profil/Anggota/' . $anggota->photo) 
-                      : asset('AdminLTE/dist/assets/img/mee.png') }}"
+                      : asset('img/admin.png') }}"
                       alt="Foto Profil"
                       class="rounded-circle shadow"
                       width="120"
                       height="120"
                       style="object-fit: cover;">
                   </div>
-
 
                   <h6 class="fw-bold mb-1">{{ $anggota->name }}</h6>
 
@@ -80,7 +78,6 @@
                     <div class="col-md-4 text-muted">Bergabung Sejak</div>
                     <div class="col-md-8 fw-medium">: {{ $anggota->created_at->format('d-m-Y') }}</div>
                   </div>
-
                 </div>
               </div>
             </div>

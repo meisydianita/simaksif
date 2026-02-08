@@ -53,11 +53,11 @@ class AnggotaIuranController extends Controller
 
         foreach ($members as $member) {
 
-            $sudahAda = AnggotaIuran::where('member_id', $member->id)
+            $memberAda = AnggotaIuran::where('member_id', $member->id)
                 ->where('tahun', $tahun)
                 ->exists();
 
-            if (!$sudahAda) {
+            if (!$memberAda) {
                 for ($bulan = 1; $bulan <= 12; $bulan++) {
                     AnggotaIuran::create([
                         'member_id' => $member->id,
@@ -69,8 +69,6 @@ class AnggotaIuranController extends Controller
                 }
             }
         }
-
-        // tampilkan data iuran
         $iurans = AnggotaIuran::with('member')
             ->where('tahun', $tahun)
             ->orderBy('member_id')

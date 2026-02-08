@@ -23,19 +23,14 @@ class LoginController extends Controller
             ]
 
         );
-
-
         $userExists = \App\Models\User::where('email', $request->email)->exists();
 
         if ($userExists) {
-            // Coba login sebagai user
             if (Auth::guard('user')->attempt($credentials)) {
-                // Clear session anggota jika ada
                 if (session('active_guard') === 'anggota') {
                     Auth::guard('anggota')->logout();
                 }
 
-                // Set session untuk user
                 session(['active_guard' => 'user']);
 
                 $user = Auth::guard('user')->user();
@@ -58,14 +53,10 @@ class LoginController extends Controller
         $anggotaExists = \App\Models\Anggota::where('email', $request->email)->exists();
 
         if ($anggotaExists) {
-            // Coba login sebagai anggota
             if (Auth::guard('anggota')->attempt($credentials)) {
-                // Clear session user jika ada
                 if (session('active_guard') === 'user') {
                     Auth::guard('user')->logout();
                 }
-
-                // Set session untuk anggota
                 session(['active_guard' => 'anggota']);
                 $user = Auth::guard('anggota')->user();
                 $welcomeMessage = "Selamat datang, " . $user->name . "!";

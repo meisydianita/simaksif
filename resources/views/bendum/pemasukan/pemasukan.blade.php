@@ -46,20 +46,17 @@
                           @endforeach
                         </select>
                       </div>
-
-                      <!-- Clear Button - DALAM FORM -->
+                      
                       @if(request('search') || request('kategori'))
                       <a href="{{ route('pemasukan.index') }}" class="btn btn-lg btn-sm btn-default">
                         <i class="fa-solid fa-xmark"></i>
                       </a>
                       @endif
                     </form>
-
-                    <!-- Tambah Button -->
+                    
                     <div class="ms-auto">
                       <a href="{{ route('pemasukan.create') }}"
-                        class="btn btn-sm btn-blue-custom"
-                        >
+                        class="btn btn-sm btn-blue-custom">
                         Tambah
                       </a>
                     </div>
@@ -94,18 +91,22 @@
                         <td>Rp. {{ number_format($r->jumlah, 0, ',', '.') }}</td>
                         <td>{{ $r->keterangan }}</td>
                         <td>
+                          @if ($r->bukti)
                           <a href="{{ Storage::url('Pemasukan/'.$r->bukti) }}" target="_blank" style="color:inherit;text-decoration:none;">
                             <i class="far fa-eye"></i>
                           </a> |
                           <a href="{{ Storage::url('Pemasukan/'.$r->bukti) }}" download style="color:inherit;text-decoration:none;">
                             <i class="fas fa-download"></i>
                           </a>
+                          @else
+                          <span class="text-muted">-</span>
+                          @endif
                         </td>
                         <td>
-                          <form action="{{ route('pemasukan.destroy', $r->id) }}" 
-                          method="POST"
-                          class="d-inline"
-                          data-confirm="true">
+                          <form action="{{ route('pemasukan.destroy', $r->id) }}"
+                            method="POST"
+                            class="d-inline"
+                            data-confirm="true">
                             <a href="{{ route('pemasukan.edit', $r->id) }}" style="color:inherit;text-decoration:none;">
                               <i class="fas fa-pen"></i>
                             </a>
@@ -127,7 +128,6 @@
                     </tbody>
                   </table>
                 </div>
-                <!-- /.card-body -->
                 <!-- begin pagination -->
                 <div class="my-3 mx-3">
                   {{ $allpemasukan->links() }}

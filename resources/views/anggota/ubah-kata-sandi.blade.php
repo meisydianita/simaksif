@@ -22,7 +22,7 @@
                     <img
                       src="{{ $anggota->photo 
                       ? asset('storage/Profil/Anggota/' . $anggota->photo) 
-                      : asset('AdminLTE/dist/assets/img/mee.png') }}"
+                      : asset(path: 'img/admin.png') }}"
                       alt="Foto Profil"
                       class="rounded-circle shadow"
                       width="120"

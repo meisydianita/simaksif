@@ -46,7 +46,9 @@
                             name="nomor_pengeluaran"
                             required />
                         </div>
+                        <!--end::Col-->
 
+                        <!--begin::Col-->
                         <div class="col-md-6">
                           <label for="validationCustom01" class="form-label">Nama Pengeluaran</label>
                           <input
@@ -57,6 +59,7 @@
                             name="nama_pengeluaran"
                             required />
                         </div>
+                        <!--end::Col-->
 
                         <!--begin::Col-->
                         <div class="col-md-6">
@@ -80,6 +83,9 @@
                             name="penerima"
                             required />
                         </div>
+                        <!--end::Col-->
+
+                        <!--begin::Col-->
                         <div class="col-md-6">
                           <label for="validationCustom01" class="form-label">Jumlah</label>
                           <input
@@ -104,6 +110,7 @@
                         </div>
                         <!--end::Col -->
 
+                        <!--begin::Col-->
                         <div class="col-md-6">
                           <label for="validationCustom01" class="form-label">Keterangan</label>
                           <input
@@ -113,6 +120,7 @@
                             aria-label=".form-control-sm example"
                             name="keterangan" />
                         </div>
+                        <!--end::Col-->
 
                         <!--begin::Col-->
                         <div class="col-md-6">

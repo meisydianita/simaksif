@@ -58,13 +58,9 @@ class AnggotaLaporanKasController extends Controller
             ->merge($kasKeluar)
             ->sortBy('tanggal')
             ->values();
-
-        // hitung saldo total (opsional)
         $totalMasuk = $laporanKas->sum('masuk');
         $totalKeluar = $laporanKas->sum('keluar');
         $sisaSaldo = $totalMasuk - $totalKeluar;
-
-
 
         return view(
             'anggota.halaman-cetak',

@@ -47,6 +47,7 @@
                             name="npm"
                             required />
                         </div>
+                        <!--end::Col-->
 
                         <!--begin::Col-->
                         <div class="col-md-6">
@@ -59,6 +60,8 @@
                             name="nama_lengkap"
                             required />
                         </div>
+                        <!--end::Col-->
+
                         <div class="col-md-6">
                           <label for="validationCustom01" class="form-label">Tahun Masuk</label>
                           <input
@@ -69,6 +72,7 @@
                             name="tahun_masuk" />
                         </div>
                         <!--end::Col-->
+
                         <!--begin::Col -->
                         <div class="col-md-6">
                           <label for="validationCustom02" class="form-label">Jabatan</label>
@@ -118,6 +122,7 @@
                           </select>
                         </div>
                         <!--end::Col -->
+
                         <!--begin::Col-->
                         <div class="col-md-6">
                           <label for="validationCustom01" class="form-label">Email</label>
@@ -129,6 +134,7 @@
                             name="email" />
                         </div>
                         <!--end::Col-->
+
                         <!--begin::Col-->
                         <div class="col-md-6">
                           <label for="validationCustom01" class="form-label">No. Telepon</label>
@@ -139,7 +145,9 @@
                             aria-label=".form-control-sm example"
                             name="no_hp" />
                         </div>
+                        <!--end::Col-->
 
+                        <!--begin::Col-->
                         <div class="col-md-6">
                           <label for="validationCustom01" class="form-label">Alamat</label>
                           <input
@@ -149,6 +157,7 @@
                             aria-label=".form-control-sm example"
                             name="alamat" />
                         </div>
+
                         <!--begin::Col-->
                         <div class="col-md-6">
                           <label for="foto" class="form-label">Unggah Foto</label>
@@ -161,7 +170,6 @@
                           <a href="{{ route('member.index') }}" class="btn btn-sm btn-orange-custom btn-uniform">Batal</a>
                           <button class="btn btn-sm btn-blue-custom btn-uniform" type="submit">Kirim</button>
                         </div>
-                        <!--end::Col-->
                         <!--end::Col-->
                       </div>
                       <!--end::Row-->

@@ -16,25 +16,13 @@ class LaporanKasController extends Controller
 
     public function create() {}
 
-    public function store(Request $request)
-    {
-        //
-    }
+    public function store(Request $request){}
 
-    public function edit(string $id)
-    {
-        //
-    }
+    public function edit(string $id){}
 
-    public function update(Request $request, string $id)
-    {
-        //
-    }
+    public function update(Request $request, string $id){}
 
-    public function destroy(string $id)
-    {
-        //
-    }
+    public function destroy(string $id){}
 
     public function cetak(Request $request)
     {
@@ -82,12 +70,9 @@ class LaporanKasController extends Controller
             ->sortBy('tanggal')
             ->values();
 
-        // hitung saldo total (opsional)
         $totalMasuk = $laporanKas->sum('masuk');
         $totalKeluar = $laporanKas->sum('keluar');
         $sisaSaldo = $totalMasuk - $totalKeluar;
-
-
 
         return view(
             'bendum.laporankas.halaman-cetak',

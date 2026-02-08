@@ -37,6 +37,7 @@
                     <div class="card-body">
                       <!--begin::Row-->
                       <div class="row g-3">
+                        <!--begin::Col-->
                         <div class="col-md-6">
                           <label for="validationCustom01" class="form-label">Nomor Pengeluaran</label>
                           <input
@@ -47,7 +48,9 @@
                             name="nomor_pengeluaran"
                             required />
                         </div>
+                        <!--end::Col-->
 
+                        <!--begin::Col-->
                         <div class="col-md-6">
                           <label for="validationCustom01" class="form-label">Nama Pengeluaran</label>
                           <input
@@ -58,6 +61,7 @@
                             name="nama_pengeluaran"
                             required />
                         </div>
+                        <!--end::Col-->
 
                         <!--begin::Col-->
                         <div class="col-md-6">
@@ -82,6 +86,9 @@
                             name="penerima"
                             required />
                         </div>
+                        <!--end::Col-->
+
+                        <!--begin::Col-->
                         <div class="col-md-6">
                           <label for="validationCustom01" class="form-label">Jumlah</label>
                           <input
@@ -93,6 +100,7 @@
                             name="jumlah" />
                         </div>
                         <!--end::Col-->
+
                         <!--begin::Col -->
                         <div class="col-md-6">
                           <label for="validationCustom02" class="form-label">Kategori</label>
@@ -105,6 +113,7 @@
                         </div>
                         <!--end::Col -->
 
+                        <!--begin::Col-->
                         <div class="col-md-6">
                           <label for="validationCustom01" class="form-label">Keterangan</label>
                           <input
@@ -114,6 +123,7 @@
                             aria-label=".form-control-sm example"
                             name="keterangan" />
                         </div>
+                        <!--end::Col-->
 
                         <!--begin::Col-->
                         <div class="col-md-6">

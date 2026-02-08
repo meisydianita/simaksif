@@ -40,6 +40,7 @@
                             required />
                         </div>
                         <!--end::Col-->
+
                         <!--begin::Col-->
                         <div class="col-md-6">
                           <label for="validationCustom02" class="form-label">Email</label>
@@ -56,14 +57,13 @@
                         <div class="col">
                           <label for="formFile" class="form-label">Ubah Foto Profil</label>
                           <input class="form-control form-control-sm" type="file" id="formFile" name="photo">
-                          <!-- info file lama -->
                         </div>
 
+                        <!--begin::Col-->
                         <div class="d-flex justify-content-center gap-2">
                           <a href="{{ route('profil-sekum') }}" class="btn btn-sm btn-orange-custom btn-uniform">Batal</a>
                           <button class="btn btn-sm btn-blue-custom btn-uniform" type="submit">Simpan</button>
                         </div>
-
                         <!--end::Col-->
                       </div>
                       <!--end::Row-->

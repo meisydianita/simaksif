@@ -18,7 +18,7 @@ class CheckActiveGuard
     {
         $activeGuard = session('active_guard');
         
-        // Jika tidak ada session guard, coba deteksi
+
         if (!$activeGuard) {
             if (Auth::guard('user')->check()) {
                 $activeGuard = 'user';

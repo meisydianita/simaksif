@@ -63,21 +63,17 @@ class DokumenKegiatanController extends Controller
 
             ]);
 
-            //simpan proposal ke dalam storage
+            //simpan proposal
             $proposal = $request->file('proposal');
             $proposalname = now('Asia/Jakarta')->format('d-m-Y_His') . '_' . $proposal->getClientOriginalName();
             $proposal->storeAs('DokumenKegiatan/Proposal', $proposalname, 'public');
+            $validatedData['proposal'] = $proposalname;
 
-            //simpan lpj ke dalam storage
+            //simpan lpj
             $lpj = $request->file('laporan_pertanggungjawaban');
             $lpjname = now('Asia/Jakarta')->format('d-m-Y_His') . '_' . $lpj->getClientOriginalName();
             $lpj->storeAs('DokumenKegiatan/Lpj', $lpjname, 'public');
-
-            //simpan nama proposal ke database
-            $validatedData['proposal'] = $proposalname;
-
-            //simpan nama lpj ke database
-            $validatedData['laporan_pertanggungjawaban'] = $lpjname;
+            $validatedData['laporan_pertanggungjawaban'] = $lpjname;           
 
             //simpan data
             Dokumenkegiatan::create($validatedData);
@@ -124,36 +120,29 @@ class DokumenKegiatanController extends Controller
                 }
             }
 
-            // cek apakah user upload file proposal baru
             if ($request->hasFile('proposal')) {
 
-                // hapus file ketika sudah ada
                 if ($dokumen_kegiatan->proposal) {
                     Storage::disk('public')->delete('DokumenKegiatan/Proposal' . $dokumen_kegiatan->proposal);
                 }
-                // simpan ke file baru
                 $proposal = $request->file('proposal');
                 $proposalname = now('Asia/Jakarta')->format('d-m-Y_His') . '_' . $proposal->getClientOriginalName();
                 $proposal->storeAs('DokumenKegiatan/Proposal', $proposalname, 'public');
-
-                // update nama file di database
                 $validatedData['proposal'] = $proposalname;
                 $isChanged = true;
             }
 
-            // cek apakah user upload file lpj baru
+
             if ($request->hasFile('laporan_pertanggungjawaban')) {
 
-                // hapus file ketika sudah ada
+
                 if ($dokumen_kegiatan->laporan_pertanggungjawaban) {
                     Storage::disk('public')->delete('DokumenKegiatan/Lpj' . $dokumen_kegiatan->laporan_pertanggungjawaban);
                 }
-                // simpan ke file baru
+
                 $lpj = $request->file('laporan_pertanggungjawaban');
                 $lpjname = now('Asia/Jakarta')->format('d-m-Y_His') . '_' . $lpj->getClientOriginalName();
                 $lpj->storeAs('DokumenKegiatan/Lpj', $lpjname, 'public');
-
-                // update nama file di database
                 $validatedData['laporan_pertanggungjawaban'] = $lpjname;
                 $isChanged = true;
             }
@@ -175,12 +164,10 @@ class DokumenKegiatanController extends Controller
     {
         $hapusDokumenKegiatan = DokumenKegiatan::findOrFail($id);
 
-        // hapus file bukti kalau ada
         if ($hapusDokumenKegiatan->proposal && Storage::disk('public')->exists('DokumenKegiatan/Proposal/' . $hapusDokumenKegiatan->proposal)) {
             Storage::disk('public')->delete('DokumenKegiatan/Proposal/' . $hapusDokumenKegiatan->proposal);
         }
 
-        // hapus file bukti kalau ada
         if ($hapusDokumenKegiatan->laporan_pertanggungjawaban && Storage::disk('public')->exists('DokumenKegiatan/Lpj/' . $hapusDokumenKegiatan->laporan_pertanggungjawaban)) {
             Storage::disk('public')->delete('DokumenKegiatan/Lpj/' . $hapusDokumenKegiatan->laporan_pertanggungjawaban);
         }

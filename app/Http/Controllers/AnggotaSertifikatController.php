@@ -13,13 +13,11 @@ class AnggotaSertifikatController extends Controller
             'Pemateri' => 'Pemateri',
             'Peserta' => 'Peserta',
             'Panitia' => 'Panitia'
-
         ];
 
         $query = AnggotaSertifikat::query();
 
         if ($request->filled('search')) {
-            // Escape special chars + trim
             $searchTerm = '%' . trim($request->search) . '%';
 
             $query->where(function ($q) use ($searchTerm) {
@@ -28,7 +26,6 @@ class AnggotaSertifikatController extends Controller
                     ->orWhereRaw('nama_kegiatan LIKE ?', [$searchTerm]);
             });
         }
-
 
         // Filter Peran Penerima
         if ($request->filled('peran_penerima')) {

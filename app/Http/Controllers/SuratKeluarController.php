@@ -60,13 +60,9 @@ class SuratKeluarController extends Controller
                 'perihal' => 'required|string|max:255',
                 'file_surat' => 'required|file|mimes:pdf,doc,docx|max:10240'
             ]);
-
-            //simpan file ke dalam storage
             $file = $request->file('file_surat');
             $filename = now('Asia/Jakarta')->format('d-m-Y_His') . '_' . $file->getClientOriginalName();
             $file->storeAs('SuratKeluar', $filename, 'public');
-
-            // simpan nama file ke database
             $validatedData['file_surat'] = $filename;
 
             //simpan data
@@ -138,17 +134,12 @@ class SuratKeluarController extends Controller
         }
     }
 
-
-
     public function destroy($id)
     {
         $hapusSuratKeluar = SuratKeluar::findOrFail($id);
-
-        // hapus file bukti kalau ada
         if ($hapusSuratKeluar->file_surat && Storage::disk('public')->exists('SuratKeluar/' . $hapusSuratKeluar->file_surat)) {
             Storage::disk('public')->delete('SuratKeluar/' . $hapusSuratKeluar->file_surat);
         }
-
         $hapusSuratKeluar->delete();
         return redirect()->route('surat-keluar.index');
     }

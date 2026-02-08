@@ -64,22 +64,20 @@
                         </div>
                         <!--end::Col -->
 
+                        <!--begin::Col-->
                         <div class="col-md-12">
                           <label for="formFile" class="form-label">Unggah Bukti</label>
                           <input class="form-control form-control-sm" type="file" id="formFile" name="bukti" accept="image/*">
                         </div>
                         <!--end::Col-->
-                        <!--begin::Col-->
 
+                        <!--begin::Col-->
                         <div class="d-flex justify-content-center gap-2">
                           <a href="{{ route('iurandetail.show', $iuran->member_id) }}"
                             class="btn btn-sm btn-orange-custom btn-uniform">Batal</a>
                           <button class="btn btn-sm btn-blue-custom btn-uniform" type="submit">Kirim</button>
                         </div>
                         <!--end::Col-->
-
-                        <!--end::Col-->
-
 
                       </div>
                       <!--end::Row-->

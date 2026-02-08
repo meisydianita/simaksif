@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 @include('layout.head')
 <style>
     body {
@@ -12,8 +12,8 @@
         <div class="container">
 
             <a class="navbar-brand fw-bold brand-color d-flex align-items-center" href="#">
-                <img src="{{asset('AdminLTE/dist/assets/img/himasif 24-25.png')}}" alt="Logo" height="40" class="me-2">
-                <span class="brand-text" style="color: #003580;">SI HIMASIF</span>
+                <img src="{{asset('img/logo.png')}}" alt="Logo" height="40" class="me-2">
+                <span class="brand-text colorblue">SI HIMASIF</span>
             </a>
 
 
@@ -59,9 +59,9 @@
             <div class="row align-items-center">
                 <div class="col-lg-6">
 
-                    <h1 class="fw-bold mb-3" style="color:#003580;">
+                    <h1 class="fw-bold mb-3 colorblue">
                         Bangun Potensimu Bersama <br>
-                        <span style="color:#003580;">HIMASIF</span>
+                        <span>HIMASIF</span>
                     </h1>
 
                     <p class="text-muted mb-4">
@@ -80,7 +80,7 @@
 
                     <img src="{{asset('img/cois.png')}}"
                         class="img-fluid rounded-4"
-                        alt="Hero Image">
+                        alt="Thumbnail Image">
 
                 </div>
 
@@ -92,7 +92,7 @@
     <section id="profil" class="py-5 bg-light">
         <div class="container">
             <div class="row align-items-center">
-                <h4 style="color: #003580;" class="fw-semibold">Profil</h4>
+                <h4 class="fw-semibold colorblue">PROFIL</h4>
                 <p style="text-align: justify;">HIMASIF (Himpunan Mahasiswa Sistem Informasi) merupakan organisasi kemahasiswaan yang menaungi mahasiswa Program Studi Sistem Informasi di Fakultas Teknik, Universitas Bengkulu. HIMASIF diresmikan pada 24 April 2018 dan tetap aktif hingga sekarang tanpa batas waktu kepengurusan yang ditentukan. HIMASIF berkedudukan di Program Studi Sistem Informasi, Fakultas Teknik, Universitas Bengkulu.
                 </p>
                 <br>
@@ -101,11 +101,11 @@
                 <p style="text-align: justify;">Dalam menjalankan setiap program kerjanya, HIMASIF berpegang pada prinsip profesional, kreatif, dan independen, sehingga setiap kegiatan yang dilaksanakan berorientasi pada kemanfaatan dan kontribusi nyata. Adapun kekuasaan tertinggi berada pada anggota HIMASIF Fakultas Teknik Universitas Bengkulu, sebagai wujud demokrasi dan partisipasi aktif seluruh anggota dalam menentukan arah gerak organisasi.</p>
             </div>
             <div class="row align-items-center">
-                <h4 style="color: #003580;" class="fw-semibold">Visi</h4>
+                <h4 class="fw-semibold colorblue">VISI</h4>
                 <p>Menjadikan HIMASIF yang berwawasan nasional pada tahun 2025 dan internasional pada tahun 2030.</p>
             </div>
             <div class="row align-items-center">
-                <h4 style="color: #003580;" class="fw-semibold">Misi</h4>
+                <h4 class="fw-semibold colorblue">MISI</h4>
                 <ol class="ps-4">
                     <li>Mewujudkan HIMASIF yang bermasyarakat dan profesional</li>
                     <li>Menjadikan HIMASIF sebagai wadah aspirasi bagi anggota Sistem Informasi</li>
@@ -117,9 +117,10 @@
         </div>
 
     </section>
+
     <section id="filosofi" class="py-5 bg-white">
         <div class="container">
-            <h4 style="color: #003580;" class="fw-semibold">Filosopi Logo</h4>
+            <h4 class="fw-semibold colorblue">FILOSOPI LOGO</h4>
             <div class="row align-items-center">
                 <div class="col-lg-9">
                     <ol class="ps-3">
@@ -142,7 +143,7 @@
 
 
         <div class="container">
-            <h4 style="color: #003580;" class="fw-semibold">Pakaian Dinas Harian (PDH)</h4>
+            <h4 class="fw-semibold colorblue">PAKAIAN DINAS HARIAN (PDH)</h4>
             <div class="row align-items-center">
 
                 <div class="col-lg-6 text-start">
@@ -163,8 +164,8 @@
 
         <div class="container">
 
-            <h4 class="fw-semibold" style="color:#003580;">
-                Agenda
+            <h4 class="fw-semibold colorblue">
+                AGENDA
             </h4>
 
             <div class="row g-4">
@@ -282,9 +283,9 @@
 
     </section>
 
-    <section id="kontak" class="py-5 text-center bg-light">
+    <section id="kontak" class="py-5 text-center bg-white">
         <div class="container">
-            <h3 class="fw-bold mb-3" style="color:#003580;">Hubungi Kami!</h3>
+            <h3 class="fw-bold mb-3 colorblue">HUBUNGI KAMI!</h3>
             <p class="text-muted mb-4">
                 Punya pertanyaan? Kritik & saran? Atau cuma mau kenalan?
                 Tim HIMASIF selalu senang mendengar kabar dari kamu!
@@ -300,12 +301,12 @@
     <footer class="text-white" style="background:#0d3b7a;">
         <div class="container py-5">
 
-            <!-- BARIS ATAS -->
+
             <div class="row text-center mb-5 align-items-center">
 
                 <div class="col-md-4 d-flex justify-content-center">
                     <a class="navbar-brand fw-bold brand-color d-flex align-items-center" href="#">
-                        <img src="{{asset('AdminLTE/dist/assets/img/himasif 24-25.png')}}" alt="Logo" height="40" class="me-2">
+                        <img src="{{asset(path: 'img/logo.png')}}" alt="Logo" height="40" class="me-2">
                         <h5 class="fw-bold mb-0">SI HIMASIF</h5>
                     </a>
                 </div>
@@ -322,8 +323,6 @@
 
             </div>
 
-
-            <!-- BARIS BAWAH -->
             <div class="row text-center gy-4">
 
                 <div class="col-md-4">
@@ -351,9 +350,6 @@
 
         </div>
     </footer>
-
-
-
 
 </body>
 

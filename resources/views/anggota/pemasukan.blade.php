@@ -47,7 +47,6 @@
                         </select>
                       </div>
 
-                      <!-- Clear Button - DALAM FORM -->
                       @if(request('search') || request('kategori'))
                       <a href="{{ route('pemasukan-anggota.index') }}" class="btn btn-lg btn-sm btn-default">
                         <i class="fa-solid fa-xmark"></i>
@@ -84,12 +83,18 @@
                         <td>Rp. {{ number_format($r->jumlah, 0, ',', '.') }}</td>
                         <td>{{ $r->keterangan }}</td>
                         <td>
+                          @if ($r->bukti)
                           <a href="{{ Storage::url('Pemasukan/'.$r->bukti) }}" target="_blank" style="color:inherit;text-decoration:none;">
                             <i class="far fa-eye"></i>
                           </a> |
                           <a href="{{ Storage::url('Pemasukan/'.$r->bukti) }}" download style="color:inherit;text-decoration:none;">
                             <i class="fas fa-download"></i>
                           </a>
+
+                          @else
+                          <span class="text-muted">-</span>
+                          @endif
+                          
                         </td>
                       </tr>
                       @empty

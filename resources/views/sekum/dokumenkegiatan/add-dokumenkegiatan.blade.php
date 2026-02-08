@@ -48,6 +48,7 @@
                             required />
                         </div>
                         <!--end::Col -->
+
                         <!--begin::Col-->
                         <div class="col-md-6">
                           <label for="validationCustom02" class="form-label">Tanggal Mulai</label>
@@ -58,6 +59,7 @@
                             required />
                         </div>
                         <!--end::Col-->
+
                         <!--begin::Col-->
                         <div class="col-md-6">
                           <label for="validationCustom02" class="form-label">Tanggal Selesai</label>
@@ -72,12 +74,16 @@
                         <!--begin::Col-->
                         <div class="col-md-6">
                           <label for="validationCustom01" class="form-label">Penanggungjawab</label>
-                          <select name="member_id" id="" class="form-select form-select-sm">
-                            @foreach ($penanggungjawab as $p)
-                            <option value="{{ $p->id }}">{{ $p->nama_lengkap }}</option>
-                            @endforeach
-                          </select>
+                          <div style="position: relative;">
+                            <select name="member_id" class="form-select form-select-sm select2">
+                              <option value="">Pilih Penanggungjawab</option>
+                              @foreach ($penanggungjawab as $p)
+                              <option value="{{ $p->id }}">{{ $p->nama_lengkap }}</option>
+                              @endforeach
+                            </select>
+                          </div>
                         </div>
+                        <!--end::Col-->
 
                         <!--begin::Col-->
                         <div class="col-md-6">
@@ -89,6 +95,9 @@
                             placeholder="Masukkan Tahun"
                             required />
                         </div>
+                        <!--end::Col-->
+
+                        <!--begin::Col-->
                         <div class="col-md-6">
                           <label for="validationCustom02" class="form-label">Deskripsi Kegiatan</label>
                           <input
@@ -99,6 +108,7 @@
                             required />
                         </div>
                         <!--end::Col-->
+
                         <!--begin::Col-->
                         <div class="col-md-6">
                           <label for="formFile" class="form-label">Unggah Proposal</label>
@@ -108,16 +118,15 @@
                           <label for="formFile" class="form-label">Unggah Laporan Pertanggungjawaban</label>
                           <input class="form-control form-control-sm" type="file" id="formFile" name="laporan_pertanggungjawaban" accept=".pdf,.doc,.docx">
                         </div>
+                        <!--end::Col-->
 
+                        <!--begin::Col-->
                         <div class="d-flex justify-content-center gap-2">
                           <a href="{{ route('dokumen-kegiatan.index') }}" class="btn btn-sm btn-orange-custom btn-uniform">Batal</a>
                           <button class="btn btn-sm btn-blue-custom btn-uniform" type="submit">Kirim</button>
                         </div>
 
                         <!--end::Col-->
-
-                        <!--end::Col-->
-
 
                       </div>
                       <!--end::Row-->

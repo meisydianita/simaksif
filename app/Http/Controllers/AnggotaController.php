@@ -26,7 +26,6 @@ class AnggotaController extends Controller
         // hash password
         $validatedData['password'] = Hash::make($validatedData['password']);
 
-         // upload photo jika ada
         if ($request->hasFile('photo')) {
             $foto = $request->file('photo');
             $fotoname = now('Asia/Jakarta')->format('d-m-Y_His') . '_' . $foto->getClientOriginalName();
@@ -66,20 +65,14 @@ class AnggotaController extends Controller
                 unset($validatedData['password']);
             }
 
-            // cek apakah user upload foto baru
             if ($request->hasFile('photo')) {
-                // hapus file jika sudah ada
 
                 if ($anggota->photo) {
                     Storage::disk('public')->delete('Profil/Anggota' . $anggota->photo);
                 }
-
-                // simpan ke file baru
                 $foto = $request->file('photo');
                 $fotoname = now('Asia/Jakarta')->format('d-m-Y_His') . '_' . $foto->getClientOriginalName();
                 $foto->storeAs('Profil/Anggota', $fotoname, 'public');
-
-                // simpan nama ke dalam database
                 $validatedData['photo'] = $fotoname;
                 $isChanged = true;
             }
@@ -97,12 +90,9 @@ class AnggotaController extends Controller
     public function destroy($id)
     {
         $hapusAnggota = Anggota::findOrFail($id);
-
-        // hapus file bukti kalau ada
         if ($hapusAnggota->photo && Storage::disk('public')->exists('Profil/Anggota/' . $hapusAnggota->photo)) {
             Storage::disk('public')->delete('Profil/Anggota/' . $hapusAnggota->photo);
         }
-
         $hapusAnggota->delete();
     }
 
@@ -112,13 +102,11 @@ class AnggotaController extends Controller
         $anggota = Auth::guard('anggota')->user();
 
         try {
-
             $request->validate([
                 'old_password' => 'required',
                 'password' => 'required|min:8|confirmed'
             ]);
 
-            // cek password lama
             if (!Hash::check($request->old_password, $anggota->password)) {
                 return back()->with('error', 'Kata sandi lama salah.');
             }

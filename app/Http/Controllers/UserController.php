@@ -27,7 +27,6 @@ class UserController extends Controller
         // hash password
         $validatedData['password'] = Hash::make($validatedData['password']);
 
-        // upload photo jika ada
         if ($request->hasFile('photo')) {
             $foto = $request->file('photo');
             $fotoname = now('Asia/Jakarta')->format('d-m-Y_His') . '_' . $foto->getClientOriginalName();
@@ -65,11 +64,7 @@ class UserController extends Controller
             } else {
                 unset($validatedData['password']);
             }
-
-            // cek apakah user upload foto baru
             if ($request->hasFile('photo')) {
-                // hapus file jika sudah ada
-
                 if ($user->photo) {
                     Storage::disk('public')->delete('Profil/User' . $user->photo);
                 }
@@ -107,12 +102,9 @@ class UserController extends Controller
     public function destroy($id)
     {
         $hapusUser = User::findOrFail($id);
-
-        // hapus file bukti kalau ada
         if ($hapusUser->photo && Storage::disk('public')->exists('Profil/User/' . $hapusUser->photo)) {
             Storage::disk('public')->delete('Profil/User/' . $hapusUser->photo);
         }
-
         $hapusUser->delete();
     }
 
@@ -128,13 +120,9 @@ class UserController extends Controller
                 'old_password' => 'required',
                 'password' => 'required|min:8|confirmed'
             ]);
-
-            // cek password lama
             if (!Hash::check($request->old_password, $user->password)) {
                 return back()->with('error', 'Kata sandi lama salah.');
             }
-
-            // update password baru (pakai save biar ga merah IDE)
             $user->password = Hash::make($request->password);
             $user->save();
 

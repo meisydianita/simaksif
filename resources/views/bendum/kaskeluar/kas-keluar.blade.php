@@ -57,8 +57,7 @@
 
                     <div class="ms-auto">
                       <a href="{{ route('kas-keluar.create') }}"
-                        class="btn btn-sm btn-blue-custom"
-                        >
+                        class="btn btn-sm btn-blue-custom">
                         Tambah
                       </a>
                     </div>
@@ -93,18 +92,22 @@
                         <td>{{ $r->penerima }}</td>
                         <td>{{ $r->keterangan }}</td>
                         <td>
+                          @if ($r->bukti)
                           <a href="{{ Storage::url('KasKeluar/'.$r->bukti) }}" target="_blank" style="color:inherit;text-decoration:none;">
                             <i class="far fa-eye"></i>
                           </a> |
                           <a href="{{ Storage::url('KasKeluar/'.$r->bukti) }}" download style="color:inherit;text-decoration:none;">
                             <i class="fas fa-download"></i>
                           </a>
+                          @else
+                          <span class="text-muted">-</span>
+                          @endif
                         </td>
                         <td>
-                          <form action="{{ route('kas-keluar.destroy', $r->id) }}" 
-                          method="POST"
-                          class="d-inline"
-                          data-confirm="true">
+                          <form action="{{ route('kas-keluar.destroy', $r->id) }}"
+                            method="POST"
+                            class="d-inline"
+                            data-confirm="true">
                             <a href="{{ route('kas-keluar.edit', $r->id) }}" style="color:inherit;text-decoration:none;">
                               <i class="fas fa-pen"></i>
                             </a>
@@ -126,7 +129,7 @@
                     </tbody>
                   </table>
                 </div>
-                <!-- /.card-body -->
+               
                 <!-- begin pagination -->
                 <div class="my-3 mx-3">
                   {{ $allkaskeluar->links() }}

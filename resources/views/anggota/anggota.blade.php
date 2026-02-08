@@ -76,7 +76,6 @@
                         </select>
                       </div>
 
-                      <!-- Clear Button - DALAM FORM -->
                       @if(request('search') || request('tahun_masuk') || request('divisi') || request('status'))
                       <a href="{{ route('member-anggota.index') }}" class="btn btn-lg btn-sm btn-default">
                         <i class="fa-solid fa-xmark"></i>

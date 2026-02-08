@@ -94,6 +94,7 @@
                             name="tujuan_surat"
                             required />
                         </div>
+                        <!--end::Col-->
 
                         <!--begin::Col-->
                         <div class="col-md-6">
@@ -106,24 +107,21 @@
                             name="perihal"
                             required />
                         </div>
+                        <!--end::Col-->
 
+                        <!--begin::Col-->
                         <div class="col-md-6">
                           <label for="formFile" class="form-label">Unggah Dokumen</label>
                           <input class="form-control form-control-sm" type="file" id="formFile" name="file_surat" accept=".pdf,.doc,.docx">
                         </div>
                         <!--end::Col-->
-                        <!--begin::Col-->
 
+                        <!--begin::Col-->
                         <div class="d-flex justify-content-center gap-2">
                           <a href="{{ route('surat-keluar.index') }}" class="btn btn-sm btn-orange-custom btn-uniform">Batal</a>
                           <button class="btn btn-sm btn-blue-custom btn-uniform" type="submit">Kirim</button>
                         </div>
-
                         <!--end::Col-->
-
-                        <!--end::Col-->
-
-
                       </div>
                       <!--end::Row-->
                     </div>

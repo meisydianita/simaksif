@@ -48,6 +48,7 @@
                             required />
                         </div>
                         <!--end::Col-->
+
                         <!--begin::Col-->
                         <div class="col-md-6">
                           <label for="validationCustom02" class="form-label">Tanggal Surat</label>
@@ -58,6 +59,7 @@
                             required />
                         </div>
                         <!--end::Col-->
+
                         <!--begin::Col-->
                         <div class="col-md-6">
                           <label for="validationCustom01" class="form-label">Asal Surat</label>
@@ -70,6 +72,7 @@
                             required />
                         </div>
                         <!--end::Col-->
+
                         <!--begin::Col-->
                         <div class="col-md-6">
                           <label for="validationCustom01" class="form-label">Perihal</label>
@@ -82,17 +85,19 @@
                             required />
                         </div>
                         <!--end::Col-->
+
                         <!--begin::Col-->
                         <div class="col">
                           <label for="formFile" class="form-label">Unggah Dokumen</label>
                           <input class="form-control form-control-sm" type="file" id="formFile" name="file_surat" accept=".pdf,.doc,.docx">
                         </div>
+                        <!--end::Col-->
 
+                        <!--begin::Col-->
                         <div class="d-flex justify-content-center gap-2">
                           <a href="{{ route('surat-masuk.index') }}" class="btn btn-sm btn-orange-custom btn-uniform">Batal</a>
                           <button class="btn btn-sm btn-blue-custom btn-uniform" type="submit">Kirim</button>
                         </div>
-
                         <!--end::Col-->
                       </div>
                       <!--end::Row-->

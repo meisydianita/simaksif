@@ -55,11 +55,11 @@ class IuranController extends Controller
 
         foreach ($members as $member) {
 
-            $sudahAda = Iuran::where('member_id', $member->id)
+            $memberAda = Iuran::where('member_id', $member->id)
                 ->where('tahun', $tahun)
                 ->exists();
 
-            if (!$sudahAda) {
+            if (!$memberAda) {
                 for ($bulan = 1; $bulan <= 12; $bulan++) {
                     Iuran::create([
                         'member_id' => $member->id,
@@ -102,16 +102,13 @@ class IuranController extends Controller
             'status' => 'required'
         ]);
 
-        // upload bukti kalau ada
+ 
         if ($request->hasFile('bukti')) {
             $file = $request->file('bukti');
             $filename = now('Asia/Jakarta')->format('d-m-Y_His') . '_' . $file->getClientOriginalName();
             $file->storeAs('Iuran', $filename, 'public');
             $validatedData['bukti'] = $filename;
         }
-
-        // simpan nama file ke database
-        $validatedData['bukti'] = $filename;
 
         // simpan data
         Iuran::create($validatedData);
@@ -155,20 +152,14 @@ class IuranController extends Controller
                 }
             }
 
-            // cek apakah user upload foto baru
-            if ($request->hasFile('bukti')) {
 
-                // hapus file ketika sudah ada
+            if ($request->hasFile('bukti')) {
                 if ($iuran->bukti) {
                     Storage::disk('public')->delete('Iuran/' . $iuran->bukti);
                 }
-
-                // simpan ke file baru
                 $foto = $request->file('bukti');
                 $filename = now('Asia/Jakarta')->format('d-m-Y_His') . '_' . $foto->getClientOriginalName();
                 $foto->storeAs('Iuran', $filename, 'public');
-
-                // simpan nama ke dalam database
                 $validatedData['bukti'] = $filename;
             }
 

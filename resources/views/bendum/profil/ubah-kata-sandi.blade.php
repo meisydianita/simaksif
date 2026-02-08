@@ -22,7 +22,7 @@
                     <img
                       src="{{ $user->photo 
                       ? asset('storage/Profil/User/' . $user->photo) 
-                      : asset('AdminLTE/dist/assets/img/mee.png') }}"
+                      : asset('img/admin.png') }}"
                       alt="Foto Profil"
                       class="rounded-circle shadow"
                       width="120"
