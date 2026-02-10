@@ -12,33 +12,6 @@ use PHPUnit\TextUI\Configuration\Php;
 
 class UserController extends Controller
 {
-    public function store(Request $request)
-    {
-        $user = Auth::guard('user')->user();
-        // validate data
-        $validatedData = $request->validate([
-            'name' => 'required|string|max:100',
-            'email'    => 'required|email|max:100|unique:users,email',
-            'password' => 'required|min:8',
-            'level' => 'required',
-            'photo' => 'nullable|image|max:2048'
-        ]);
-
-        // hash password
-        $validatedData['password'] = Hash::make($validatedData['password']);
-
-        if ($request->hasFile('photo')) {
-            $foto = $request->file('photo');
-            $fotoname = now('Asia/Jakarta')->format('d-m-Y_His') . '_' . $foto->getClientOriginalName();
-            $foto->storeAs('Profil/User', $fotoname, 'public');
-            $validatedData['photo'] = $fotoname;
-        }
-
-        // simpan data
-        $user = User::create($validatedData);
-    }
-
-
     public function update(Request $request, User $user)
     {
         try {

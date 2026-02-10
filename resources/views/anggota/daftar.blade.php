@@ -24,6 +24,11 @@
                 <div class="form-card">
                   <div class="form-fields">
                     <div class="form-group">
+                      <label>NPM</label>
+                      <input type="text" name="name" placeholder="Masukkan Nomor Pokok Mahasiswa">
+                    </div>
+
+                    <div class="form-group">
                       <label>Nama Lengkap</label>
                       <input type="text" name="name" placeholder="Masukkan nama lengkap">
                     </div>

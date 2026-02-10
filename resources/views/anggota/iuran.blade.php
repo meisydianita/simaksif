@@ -91,9 +91,14 @@
                             @endif
                           </td>
                           <td>
+                            @if($r->id == $memberLogin->id)
                             <a href="{{ route('iurandetail-anggota.show', $r->id) }}" style="color: inherit;text-decoration:none;">
                               <i class="far fa-eye"></i>
                             </a>
+                            @else
+                            <span class="text-muted">-</span>
+                          @endif
+
                           </td>
                         </tr>
                         @empty

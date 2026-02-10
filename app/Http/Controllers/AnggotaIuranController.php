@@ -29,8 +29,21 @@ class AnggotaIuranController extends Controller
             '11' => 'November',
             '12' => 'Desember'
         ];
+        $anggotaLogin = auth('anggota')->user();
+
+
+        $memberLogin = Member::where('npm', $anggotaLogin->npm)->first();
 
         $membersQuery = Member::query();
+
+        if (!$request->filled('status')) {
+
+            $membersQuery->where('id', $memberLogin->id);
+        } else {
+            $membersQuery
+                ->where('status', $request->status)
+                ->where('id', '!=', $memberLogin->id);
+        }
 
         if ($request->filled('search')) {
             $membersQuery->where(function ($q) use ($request) {
@@ -41,34 +54,15 @@ class AnggotaIuranController extends Controller
         }
 
 
-        if ($request->filled('status') || $request->get('status') === null) {
-            $membersQuery->where('status', $request->get('status', 'aktif'));
+        if ($request->filled('status')) {
+            $membersQuery->where('status', $request->status);
         }
+
+        $tahun = now()->year;
 
 
         $membersAll = $membersQuery->get();
-        // ambil semua member aktif
-        $members = Member::where('status', 'aktif')->get();
-        $tahun = $request->get('tahun', now()->year);
 
-        foreach ($members as $member) {
-
-            $memberAda = AnggotaIuran::where('member_id', $member->id)
-                ->where('tahun', $tahun)
-                ->exists();
-
-            if (!$memberAda) {
-                for ($bulan = 1; $bulan <= 12; $bulan++) {
-                    AnggotaIuran::create([
-                        'member_id' => $member->id,
-                        'bulan' => $bulan,
-                        'tahun' => $tahun,
-                        'jumlah' => ($bulan == 1) ? 10000 : 5000,
-                        'status' => 'belum_lunas'
-                    ]);
-                }
-            }
-        }
         $iurans = AnggotaIuran::with('member')
             ->where('tahun', $tahun)
             ->orderBy('member_id')
@@ -78,6 +72,6 @@ class AnggotaIuranController extends Controller
         $totalIuran = AnggotaIuran::count();
         $belumLunas = AnggotaIuran::where('status', 'belum_lunas')->count();
 
-        return view('anggota.iuran', compact('iurans', 'tahun', 'members', 'tahun', 'belumLunas', 'totalIuran', 'membersAll', 'status'));
+        return view('anggota.iuran', compact('iurans', 'tahun', 'tahun', 'belumLunas', 'totalIuran', 'membersAll', 'status', 'memberLogin'));
     }
 }

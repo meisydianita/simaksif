@@ -12,13 +12,17 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('anggotas', function (Blueprint $table) {
-             $table->string('photo')->nullable()->after('password');
+            if (!Schema::hasColumn('anggotas', 'photo')) {
+                $table->string('photo')->nullable()->after('password');
+            }
         });
-        Schema::create('password_reset_tokens_anggota', function (Blueprint $table) {
-            $table->string('email')->primary();
-            $table->string('token');
-            $table->timestamp('created_at')->nullable();
-        });
+        if (!Schema::hasTable('password_reset_tokens_anggota')) {
+            Schema::create('password_reset_tokens_anggota', function (Blueprint $table) {
+                $table->string('email')->primary();
+                $table->string('token');
+                $table->timestamp('created_at')->nullable();
+            });
+        }
     }
 
     /**
@@ -28,7 +32,7 @@ return new class extends Migration
     {
         Schema::table('anggotas', function (Blueprint $table) {
             $table->dropColumn('photo');
-        Schema::dropIfExists('password_reset_tokens');
+            Schema::dropIfExists('password_reset_tokens_anggota');
         });
     }
 };

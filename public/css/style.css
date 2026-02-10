@@ -11,7 +11,7 @@ html, body {
   font-family: "Poppins", Helvetica;
 }
 
-/* CONTAINER */
+
 .login {
   width: 100%;
   height: 100vh;
@@ -21,7 +21,7 @@ html, body {
   overflow: hidden;
 }
 
-/* PANEL KANAN */
+
 .group {
   position: absolute;
   top: 0;
@@ -56,7 +56,7 @@ html, body {
   gap: 20px;
 }
 
-/* TEKS */
+
 .text-wrapper {
   width: 417px;
   font-size: 50px;
@@ -73,7 +73,7 @@ html, body {
   text-align: center;
 }
 
-/* FORM CARD */
+
 .frame-wrapper {
   width: 427px;
   display: flex;
@@ -101,7 +101,7 @@ html, body {
 }
 
 
-/* FORM */
+
 .form-group {
   display: flex;
   flex-direction: column;
@@ -121,7 +121,7 @@ html, body {
   background-color: #0035800d;
 }
 
-/* BUTTON */
+
 .login-button {
   width: 330px;
   height: 44px;
@@ -163,7 +163,7 @@ html, body {
   font-weight: 600;
 }
 
-/* PANEL KIRI */
+
 .robot {
   position: absolute;
   left: -95px;
@@ -173,7 +173,7 @@ html, body {
   height: 300px;
 }
 
-/* TEKS KIRI */
+
 .text-wrapper-8 {
   position: absolute;
   top: 300px;
@@ -272,7 +272,7 @@ html, body {
 }
 
 .content-wrapper {
-  margin-top: 70px;
+  margin-top: 50px;
   width: 429px;
   display: flex;
   flex-direction: column;
@@ -315,7 +315,7 @@ html, body {
 
 .form-card {
   width: 427px;
-  height: 370px; 
+  height: 400px; 
   background-color: #ffffff;
   border-radius: 15px;
   box-shadow: inset 0 4px 4px #0000001a, 0 4px 4px #0000001a;

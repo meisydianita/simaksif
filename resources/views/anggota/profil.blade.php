@@ -60,6 +60,11 @@
 
                 <div class="card-body">
                   <div class="row mb-2">
+                    <div class="col-md-4 text-muted">NPM</div>
+                    <div class="col-md-8 fw-medium">: {{ $anggota->npm }}</div>
+                  </div>
+
+                  <div class="row mb-2">
                     <div class="col-md-4 text-muted">Nama</div>
                     <div class="col-md-8 fw-medium">: {{ $anggota->name }}</div>
                   </div>

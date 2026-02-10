@@ -30,6 +30,19 @@
                       <div class="row g-3">
                         <!--begin::Col-->
                         <div class="col-md-6">
+                          <label for="validationCustom01" class="form-label">NPM</label>
+                          <input
+                            class="form-control form-control-sm"
+                            type="text"
+                            value="{{ $anggota->npm }}"
+                            aria-label=".form-control-sm example"
+                            name="npm"
+                            required />
+                        </div>
+                        <!--end::Col-->
+
+                        <!--begin::Col-->
+                        <div class="col-md-6">
                           <label for="validationCustom01" class="form-label">Nama</label>
                           <input
                             class="form-control form-control-sm"
@@ -40,6 +53,7 @@
                             required />
                         </div>
                         <!--end::Col-->
+
                         <!--begin::Col-->
                         <div class="col-md-6">
                           <label for="validationCustom02" class="form-label">Email</label>
