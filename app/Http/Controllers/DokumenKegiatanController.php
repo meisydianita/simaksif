@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Dokumenkegiatan;
-use App\Models\Member;
 use Exception;
-use GuzzleHttp\Psr7\Query;
-use Illuminate\Support\Facades\Storage;
+use App\Models\Member;
 use Illuminate\Http\Request;
-use PhpParser\Node\Stmt\TryCatch;
+use App\Models\Dokumenkegiatan;
+use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 
 class DokumenKegiatanController extends Controller
 {
@@ -45,45 +45,73 @@ class DokumenKegiatanController extends Controller
         return view('sekum.dokumenkegiatan.add-dokumenkegiatan', compact('penanggungjawab'));
     }
 
+
+
     public function store(Request $request)
     {
-        //data akan diproses di sini ketika disubmit
+        $validator = Validator::make($request->all(), [
+            'nama_kegiatan' => [
+                'required',
+                'string',
+                'max:100',
+                Rule::unique('dokumen_kegiatans')
+                    ->where(fn($q) => $q->where('tahun', $request->tahun))
+            ],
+            'tanggal_mulai' => 'required|date',
+            'tanggal_selesai' => 'required|date',
+            'member_id' => 'required',
+            'tahun' => 'required|digits:4',
+            'deskripsi_kegiatan' => 'nullable|string|max:255',
+            'proposal' => 'required|file|mimes:pdf,doc,docx|max:10240',
+            'laporan_pertanggungjawaban' => 'required|file|mimes:pdf,doc,docx|max:10240'
+        ], [
+            'nama_kegiatan.unique' => 'Nama kegiatan pada tahun tersebut sudah terdaftar.',
+            'tanggal_selesai.after_or_equal' => 'Tanggal selesai tidak boleh sebelum tanggal mulai.',
+            'member_id.required' => 'Penanggungjawab wajib dipilih.',
+            'member_id.exists' => 'Penanggungjawab tidak valid.',
+            'tahun.max' => 'Format tahun salah.',
+            'deskripsi_kegiatan.max' => 'Deskripsi kegiatan maksimal 255 karakter.',
+            'proposal.max' => 'Ukuran proposal maksimal 10MB.',
+            'proposal.mimes' => 'Proposal harus memiliki format pdf, doc, dan docx.',
+            'laporan_pertanggungjawaban.max' => 'Ukuran LPJ maksimal 10MB.',
+            'laporan_pertanggungjawaban.mimes' => 'Laporan Pertanggungjawaban harus memiliki format pdf, doc, dan docx.'
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()
+                ->back()
+                ->with('error', implode('<br>', $validator->errors()->all()))
+                ->withInput();
+        }
 
         try {
-            // validate data
-            $validatedData = $request->validate([
-                'nama_kegiatan' => 'required|string|max:100',
-                'tanggal_mulai' => 'required|date',
-                'tanggal_selesai' => 'required|date',
-                'member_id' => 'required',
-                'tahun' => 'required|digits:4',
-                'deskripsi_kegiatan' => 'required|string',
-                'proposal' => 'required|file|mimes:pdf,doc,docx|max:10240',
-                'laporan_pertanggungjawaban' => 'required|file|mimes:pdf,doc,docx|max:10240'
+            $validatedData = $validator->validated();
 
-            ]);
-
-            //simpan proposal
+            // simpan proposal
             $proposal = $request->file('proposal');
             $proposalname = now('Asia/Jakarta')->format('d-m-Y_His') . '_' . $proposal->getClientOriginalName();
             $proposal->storeAs('DokumenKegiatan/Proposal', $proposalname, 'public');
             $validatedData['proposal'] = $proposalname;
 
-            //simpan lpj
+            // simpan lpj
             $lpj = $request->file('laporan_pertanggungjawaban');
             $lpjname = now('Asia/Jakarta')->format('d-m-Y_His') . '_' . $lpj->getClientOriginalName();
             $lpj->storeAs('DokumenKegiatan/Lpj', $lpjname, 'public');
-            $validatedData['laporan_pertanggungjawaban'] = $lpjname;           
+            $validatedData['laporan_pertanggungjawaban'] = $lpjname;
 
-            //simpan data
+
             Dokumenkegiatan::create($validatedData);
 
-            //redirect to index ketika berhasil disimpan
-            return redirect()->route('dokumen-kegiatan.index')->with('success', 'Data berhasil ditambah.');
-        } catch (Exception $e) {
-            return redirect()->route('dokumen-kegiatan.index')->with('error', 'Gagal menyimpan data: ' . $e->getMessage());
+            return redirect()
+                ->route('dokumen-kegiatan.index')
+                ->with('success', 'Data berhasil ditambahkan.');
+        } catch (\Exception $e) {
+            return redirect()
+                ->route('dokumen-kegiatan.index')
+                ->with('error', ['Gagal menyimpan data. Silakan coba lagi.']);
         }
     }
+
     public function show(DokumenKegiatan $dokumen_kegiatan)
     {
         return view('sekum.dokumenkegiatan.dokumen-kegiatan', compact('dokumen_kegiatan'));
@@ -97,19 +125,39 @@ class DokumenKegiatanController extends Controller
 
     public function update(Request $request, DokumenKegiatan $dokumen_kegiatan)
     {
+        $validator = Validator::make($request->all(), [
+            'nama_kegiatan' => 'required|string|max:100',
+            'tanggal_mulai' => 'required|date',
+            'tanggal_selesai' => 'required|date',
+            'member_id' => 'required',
+            'tahun' => 'required|digits:4',
+            'deskripsi_kegiatan' => 'required|string',
+            'proposal' => 'nullable|file|mimes:pdf,doc,docx|max:10240',
+            'laporan_pertanggungjawaban' => 'nullable|file|mimes:pdf,doc,docx|max:10240'
+        ], [
+            'nama_kegiatan.unique' => 'Nama kegiatan pada tahun tersebut sudah terdaftar.',
+            'tanggal_selesai.after_or_equal' => 'Tanggal selesai tidak boleh sebelum tanggal mulai.',
+            'member_id.required' => 'Penanggungjawab wajib dipilih.',
+            'member_id.exists' => 'Penanggungjawab tidak valid.',
+            'tahun.max' => 'Format tahun salah.',
+            'deskripsi_kegiatan.max' => 'Deskripsi kegiatan maksimal 255 karakter.',
+            'proposal.max' => 'Ukuran proposal maksimal 10MB.',
+            'proposal.mimes' => 'Proposal harus memiliki format pdf, doc, dan docx.',
+            'laporan_pertanggungjawaban.max' => 'Ukuran LPJ maksimal 10MB.',
+            'laporan_pertanggungjawaban.mimes' => 'Laporan Pertanggungjawaban harus memiliki format pdf, doc, dan docx.'
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()
+                ->back()
+                ->with('error', implode('<br>', $validator->errors()->all()))
+                ->withInput();
+        }
+
         try {
             // data akan diproses di sini saat disubmit
             // validate data
-            $validatedData = $request->validate([
-                'nama_kegiatan' => 'required|string|max:100',
-                'tanggal_mulai' => 'required|date',
-                'tanggal_selesai' => 'required|date',
-                'member_id' => 'required',
-                'tahun' => 'required|digits:4',
-                'deskripsi_kegiatan' => 'required|string',
-                'proposal' => 'nullable|file|mimes:pdf,doc,docx|max:10240',
-                'laporan_pertanggungjawaban' => 'nullable|file|mimes:pdf,doc,docx|max:10240'
-            ]);
+            $validatedData = $validator->validated();
             $isChanged = false;
 
             $mainFields = ['nama_kegiatan', 'tanggal_mulai', 'tanggal_selesai', 'member_id', 'tahun', 'deskripsi_kegiatan'];
@@ -156,7 +204,8 @@ class DokumenKegiatanController extends Controller
             }
             return redirect()->route('dokumen-kegiatan.index')->with('info', 'Tidak ada perubahan data.');
         } catch (Exception $e) {
-            return redirect()->route('dokumen-kegiatan.index')->with('error', 'Gagal memperbarui data: ' . $e->getMessage());
+            return redirect()->back()
+                ->with('error', 'Gagal memperbarui data. Silahkan coba lagi. ');
         }
     }
 

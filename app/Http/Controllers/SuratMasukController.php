@@ -7,6 +7,7 @@ use Exception;
 use GuzzleHttp\Psr7\Query;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 
 class SuratMasukController extends Controller
 {
@@ -36,15 +37,30 @@ class SuratMasukController extends Controller
     public function store(Request $request)
     {
         //data akan diproses di sini ketika disubmit
+        $validator = Validator::make($request->all(), [
+            'nomor_surat' => 'required|unique:surat_masuks,nomor_surat',
+            'tanggal_surat' => 'required|date',
+            'asal_surat' => 'required|string|max:255',
+            'perihal' => 'required|string|max:255',
+            'file_surat' => 'required|file|mimes:pdf,doc,docx|max:10240'
+        ], [
+            'nomor_surat.unique' => 'Nomor surat harus bersifat unik.',
+            'asal_surat.max' => 'Asal surat maksimal 255 karakter.',
+            'perihal.max' => 'Perihal maksimal 255 karakter.',
+            'file_surat.max' => 'Ukuran surat maksimal 10MB.',
+            'file_surat.mimes' => 'File surat harus memiliki format pdf, doc, dan docx.'
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()
+                ->back()
+                ->with('error', implode('<br>', $validator->errors()->all()))
+                ->withInput();
+        }
+
         try {
-            //buat validasi
-            $validatedData = $request->validate([
-                'nomor_surat' => 'required|unique:surat_masuks,nomor_surat',
-                'tanggal_surat' => 'required|date',
-                'asal_surat' => 'required|string|max:255',
-                'perihal' => 'required|string|max:255',
-                'file_surat' => 'required|file|mimes:pdf,doc,docx|max:10240'
-            ]);
+            $validatedData = $validator->validated();
+
             $file = $request->file('file_surat');
             $filename = now('Asia/Jakarta')->format('d-m-Y_His') . '_' . $file->getClientOriginalName();
             $file->storeAs('SuratMasuk', $filename, 'public');
@@ -54,9 +70,11 @@ class SuratMasukController extends Controller
             Suratmasuk::create($validatedData);
 
             // redirect ke index ketika berhasil disimpan
-            return redirect()->route('surat-masuk.index')->with('success', 'Data berhasil ditambah.');
+            return redirect()->route('surat-masuk.index')
+                ->with('success', 'Data berhasil ditambah.');
         } catch (Exception $e) {
-            return redirect()->route('surat-masuk.index')->with('error', 'Gagal menyimpan data: ' . $e->getMessage());
+            return redirect()
+                ->with('error', ['Gagal menyimpan data. Silakan coba lagi.']);
         }
     }
 
@@ -73,14 +91,29 @@ class SuratMasukController extends Controller
 
     public function update(Request $request, SuratMasuk $surat_masuk)
     {
+        $validator = Validator::make($request->all(), [
+            'nomor_surat'   => 'required|unique:surat_masuks,nomor_surat,' . $surat_masuk->id,
+            'tanggal_surat' => 'required|date',
+            'asal_surat'    => 'required|string|max:255',
+            'perihal'       => 'required|string|max:255',
+            'file_surat'    => 'nullable|file|mimes:pdf,doc,docx|max:10240'
+        ], [
+            'nomor_surat.unique' => 'Nomor surat harus bersifat unik.',
+            'asal_surat.max' => 'Asal surat maksimal 255 karakter.',
+            'perihal.max' => 'Perihal maksimal 255 karakter.',
+            'file_surat.max' => 'Ukuran surat maksimal 10MB.',
+            'file_surat.mimes' => 'File surat harus memiliki format pdf, doc, dan docx.'
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()
+                ->back()
+                ->with('error', implode('<br>', $validator->errors()->all()))
+                ->withInput();
+        }
+        
         try {
-            $validatedData = $request->validate([
-                'nomor_surat'   => 'required|unique:surat_masuks,nomor_surat,' . $surat_masuk->id,
-                'tanggal_surat' => 'required|date',
-                'asal_surat'    => 'required|string|max:255',
-                'perihal'       => 'required|string|max:255',
-                'file_surat'    => 'nullable|file|mimes:pdf,doc,docx|max:10240'
-            ]);
+            $validatedData = $validator->validated();
 
             $isChanged = false;
             $mainFields = ['nomor_surat', 'tanggal_surat', 'asal_surat', 'perihal'];
@@ -110,7 +143,9 @@ class SuratMasukController extends Controller
 
             return redirect()->route('surat-masuk.index')->with('info', 'Tidak ada perubahan data.');
         } catch (\Exception $e) {
-            return redirect()->route('surat-masuk.index')->with('error', 'Gagal memperbarui data: ' . $e->getMessage());
+            return redirect()
+                ->back()
+                ->with('error', 'Gagal memperbarui data. Silahkan coba lagi. ');
         }
     }
 

@@ -89,7 +89,7 @@
                         <!--begin::Col-->
                         <div class="col">
                           <label for="formFile" class="form-label">Unggah Dokumen</label>
-                          <input class="form-control form-control-sm" type="file" id="formFile" name="file_surat" accept=".pdf,.doc,.docx">
+                          <input class="form-control form-control-sm" type="file" id="formFile" name="file_surat" accept=".pdf,.doc,.docx" required>
                         </div>
                         <!--end::Col-->
 

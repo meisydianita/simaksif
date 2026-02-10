@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Anggota;
 use Exception;
+use App\Models\Anggota;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rules\Password;
 
 class AnggotaController extends Controller
 {
@@ -15,13 +17,34 @@ class AnggotaController extends Controller
     {
         $anggota = Auth::guard('anggota')->user();
         // validate data
-        $validatedData = $request->validate([
-            'name' => 'required|string|max:100',
-            'email'    => 'required|email|max:100|unique:anggotas,email',
-            'password' => 'required|min:8',
-            'level' => 'required',
-            'photo' => 'nullable|image|max:2048'
-        ]);
+        $validatedData = $request->validate(
+            [
+                'name' => 'required|string|max:100',
+                'email'    => 'required|email|max:100|unique:anggotas,email',
+                'password' => [
+                    'required',
+                    Password::min(8)
+                        ->letters()
+                        ->numbers()
+                        ->symbols()
+                ],
+                'level' => 'required',
+                'photo' => 'nullable|image|max:2048'
+            ],
+            [
+                'name.max' => 'Nama lengkap maksimal berisi 100 karakter',
+                'email.unique' => 'Email sudah terdaftar.',
+                'email.email' => 'Format email tidak valid.',
+                'password.min' => 'Kata sandi minimal 8 karakter.',
+                'password.letters' => 'Kata sandi harus terdapat huruf.',
+                'password.mixedCase' => 'Kata sandi harus terdapat huruf besar dan kecil.',
+                'password.numbers' => 'Kata sandi harus terdapat angka.',
+                'password.symbols' => 'Kata sandi harus terdapat simbol (!@#$%).',
+                'photo.image' => 'Foto harus berformat gambar.',
+                'photo.max' => 'Ukuran foto maksimal 2MB.',
+            ]
+
+        );
 
         // hash password
         $validatedData['password'] = Hash::make($validatedData['password']);
@@ -40,16 +63,44 @@ class AnggotaController extends Controller
 
     public function update(Request $request, $id)
     {
+        $anggota = Anggota::findOrFail($id);
+        // validate data
+
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string|max:100',
+            'email' => 'required|email|max:100|unique:anggotas,email,' . $anggota->id,
+            'password' => [
+                'required',
+                Password::min(8)
+                    ->letters()
+                    ->numbers()
+                    ->symbols()
+            ],
+            'level' => 'nullable',
+            'photo' => 'nullable|image|max:2048'
+        ], [
+            'name.max' => 'Nama lengkap maksimal berisi 100 karakter',
+            'email.unique' => 'Email sudah terdaftar.',
+            'email.email' => 'Format email tidak valid.',
+            'password.min' => 'Kata sandi minimal 8 karakter.',
+            'password.letters' => 'Kata sandi harus terdapat huruf.',
+            'password.mixedCase' => 'Kata sandi harus terdapat huruf besar dan kecil.',
+            'password.numbers' => 'Kata sandi harus terdapat angka.',
+            'password.symbols' => 'Kata sandi harus terdapat simbol (!@#$%).',
+            'photo.image' => 'Foto harus berformat gambar.',
+            'photo.max' => 'Ukuran foto maksimal 2MB.',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()
+                ->route('profil-anggota.index')
+                ->with('error', implode('<br>', $validator->errors()->all()))
+                ->withInput();
+        }
+
         try {
-            // validate data
-            $anggota = Anggota::findOrFail($id);
-            $validatedData = $request->validate([
-                'name' => 'required|string|max:100',
-                'email' => 'required|email|max:100|unique:anggotas,email,' . $anggota->id,
-                'password' => 'nullable|min:8',
-                'level' => 'nullable',
-                'photo' => 'nullable|image|max:2048'
-            ]);
+
+            $validatedData = $validator->validated();
             $isChanged = false;
             $mainFields = ['name', 'email', 'password', 'level'];
             foreach ($mainFields as $field) {
@@ -80,10 +131,14 @@ class AnggotaController extends Controller
                 // update data
                 $anggota->update($validatedData);
                 return redirect()->route('profil-anggota')->with('success', 'Data berhasil diperbarui.');
-            }            
-                return redirect()->route('profil-anggota')->with('info', 'Tidak ada perubahan data.');
+            }
+            return redirect()
+                ->route('profil-anggota')
+                ->with('info', 'Tidak ada perubahan data.');
         } catch (Exception $e) {
-                return redirect()->route('profil-anggota')->with('error', 'Gagal memperbarui data.' . $e->getMessage());
+            return redirect()
+                ->route('profil-anggota')
+                ->with('error', ['Gagal memperbarui data. Silakan coba lagi.']);
         }
     }
 
@@ -115,7 +170,6 @@ class AnggotaController extends Controller
             $anggota->save();
 
             return back()->with('success', 'Kata sandi berhasil diperbarui.');
-
         } catch (Exception $e) {
             return back()->with('error', 'Konfirmasi kata sandi salah.');
         }

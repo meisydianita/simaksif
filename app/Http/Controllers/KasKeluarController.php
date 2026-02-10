@@ -6,6 +6,7 @@ use App\Models\KasKeluar;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 use Symfony\Component\HttpKernel\HttpCache\Store;
 
 class KasKeluarController extends Controller
@@ -45,21 +46,35 @@ class KasKeluarController extends Controller
 
     public function store(Request $request)
     {
+        $validator = Validator::make($request->all(), [
+            'nomor_pengeluaran' => 'required|unique:kas_keluars,nomor_pengeluaran',
+            'nama_pengeluaran' => 'required|string|max:255',
+            'tanggal_pengeluaran' => 'required|date',
+            'kategori' => 'required',
+            'jumlah' => 'required|numeric|min:0|max:99999999999999.99',
+            'penerima' => 'required|string|max:255',
+            'keterangan' => 'nullable|string|max:255',
+            'bukti' => 'nullable|image|max:2048'
+        ], [
+            'nomor_pemasukan.unique' => 'Nomor pemasukan harus bersifat unik.',
+            'nama_pemasukan.max' => 'Nama pemasukan maksimal 255 karakter.',
+            'sumber_pemasukan.max' => 'Sumber pemasukan maksimal 255 karakter.',
+            'jumlah.max' => 'Jumlah terlalu besar! Maksimal Rp 99.999.999.999.999,99',
+            'jumlah.numeric' => 'Jumlah harus berupa angka',
+            'keterangan.max' => 'Keterangan maksimal 255 karakter.',
+            'bukti.mimes' => 'Bukti harus memiliki format gambar.',
+            'bukti.max' => 'Ukuran foto maksimal 2MB.',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()
+                ->back()
+                ->with('error', implode('<br>', $validator->errors()->all()))
+                ->withInput();
+        }
         try {
             // make validation
-            $validatedData = $request->validate([
-                'nomor_pengeluaran' => 'required|unique:kas_keluars,nomor_pengeluaran',
-                'nama_pengeluaran' => 'required|string|max:255',
-                'tanggal_pengeluaran' => 'required|date',
-                'kategori' => 'required',
-                'jumlah' => 'required|numeric|min:0|max:99999999999999.99',
-                'penerima' => 'required|string|max:255',
-                'keterangan' => 'nullable|string|max:255',
-                'bukti' => 'nullable|image|max:2048'
-            ], [
-                'jumlah.max' => 'Jumlah terlalu besar! Maksimal Rp 99.999.999.999.999,99',
-                'jumlah.numeric' => 'Jumlah harus berupa angka',
-            ]);
+            $validatedData = $validator->validated();
 
             $filename = null;
             if ($request->hasFile('bukti')) {
@@ -73,9 +88,13 @@ class KasKeluarController extends Controller
             KasKeluar::create($validatedData);
 
             // redirect ke index ketika berhasil disimpan
-            return redirect()->route('kas-keluar.index')->with('success', 'Data berhasil ditambah.');
+            return redirect()
+                ->route('kas-keluar.index')
+                ->with('success', 'Data berhasil ditambah.');
         } catch (Exception $e) {
-            return redirect()->route('kas-keluar.index')->with('error', 'Gagal menyimpan data: ' . $e->getMessage());
+            return redirect()
+                ->route('kas-keluar.index')
+                ->with('error', ['Gagal menyimpan data. Silakan coba lagi.']);
         }
     }
 
@@ -91,21 +110,37 @@ class KasKeluarController extends Controller
 
     public function update(Request $request, KasKeluar $kas_keluar)
     {
+
+        $validator = Validator::make($request->all(), [
+            'nomor_pengeluaran' => 'nullable|unique:kas_keluars,nomor_pengeluaran,' . $kas_keluar->id,
+            'nama_pengeluaran' => 'required|string|max:255',
+            'tanggal_pengeluaran' => 'required|date',
+            'kategori' => 'required',
+            'jumlah' => 'required|numeric|min:0|max:99999999999999.99',
+            'penerima' => 'required|string|max:255',
+            'keterangan' => 'nullable|string|max:255',
+            'bukti' => 'nullable|image|max:2048'
+        ], [
+            'nomor_pemasukan.unique' => 'Nomor pemasukan harus bersifat unik.',
+            'nama_pemasukan.max' => 'Nama pemasukan maksimal 255 karakter.',
+            'sumber_pemasukan.max' => 'Sumber pemasukan maksimal 255 karakter.',
+            'jumlah.max' => 'Jumlah terlalu besar! Maksimal Rp 99.999.999.999.999,99',
+            'jumlah.numeric' => 'Jumlah harus berupa angka',
+            'keterangan.max' => 'Keterangan maksimal 255 karakter.',
+            'bukti.mimes' => 'Bukti harus memiliki format gambar.',
+            'bukti.max' => 'Ukuran foto maksimal 2MB.',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()
+                ->with('error', implode('<br>', $validator->errors()->all()))
+                ->withInput();
+        }
+
         try {
             // make validation
-            $validatedData = $request->validate([
-                'nomor_pengeluaran' => 'nullable|unique:kas_keluars,nomor_pengeluaran,' . $kas_keluar->id,
-                'nama_pengeluaran' => 'required|string|max:255',
-                'tanggal_pengeluaran' => 'required|date',
-                'kategori' => 'required',
-                'jumlah' => 'required|numeric|min:0|max:99999999999999.99',
-                'penerima' => 'required|string|max:255',
-                'keterangan' => 'nullable|string|max:255',
-                'bukti' => 'nullable|image|max:2048'
-            ], [
-                'jumlah.max' => 'Jumlah terlalu besar! Maksimal Rp 99.999.999.999.999,99',
-                'jumlah.numeric' => 'Jumlah harus berupa angka',
-            ]);
+            $validatedData = $validator->validated();
+
             $isChanged = false;
 
             $mainFields = ['nomor_pengeluaran', 'nama_pengeluaran', 'tanggal_pengeluaran', 'kategori', 'jumlah', 'penerima', 'keterangan'];
@@ -134,7 +169,7 @@ class KasKeluarController extends Controller
             }
             return redirect()->route('kas-keluar.index')->with('info', 'Tidak ada perubahan data.');
         } catch (\Exception $e) {
-            return redirect()->route('kas-keluar.index')->with('error', 'Gagal memperbarui data: ' . $e->getMessage());
+            return redirect()->route('kas-keluar.index')->with('error', 'Gagal memperbarui data. Silakan coba lagi.');
         }
     }
 

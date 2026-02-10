@@ -38,6 +38,19 @@
                     <div class="card-body">
                       <!--begin::Row-->
                       <div class="row g-3">
+
+                        <!--begin::Col-->
+                        <div class="col-md-6">
+                          <label for="validationCustom01" class="form-label">Nomor Surat</label>
+                          <input
+                            class="form-control form-control-sm"
+                            type="text"
+                            value="{{ $surat_keluar->nomor_surat }}"
+                            aria-label=".form-control-sm example"
+                            name="nomor_surat"
+                            required />
+                        </div>
+                        <!--end::Col-->
                         <!--begin::Col -->
                         <div class="col-md-6">
                           <label for="validationCustom02" class="form-label">Jenis</label>
@@ -58,18 +71,6 @@
                         </div>
                         <!--end::Col -->
 
-                        <!--begin::Col-->
-                        <div class="col-md-6">
-                          <label for="validationCustom01" class="form-label">Nomor Surat</label>
-                          <input
-                            class="form-control form-control-sm"
-                            type="text"
-                            value="{{ $surat_keluar->nomor_surat }}"
-                            aria-label=".form-control-sm example"
-                            name="nomor_surat"
-                            required />
-                        </div>
-                        <!--end::Col-->
 
                         <!--begin::Col-->
                         <div class="col-md-6">

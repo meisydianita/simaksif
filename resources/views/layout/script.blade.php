@@ -125,7 +125,7 @@
   <script>
     Swal.fire({
       title: "Gagal!",
-      text: "{{ session('error') }}",
+      html: `{!! session('error') !!}`,
       icon: "error",
       confirmButtonText: "OK",
       confirmButtonColor: "#003580",
@@ -320,22 +320,22 @@
   </script>
 
   <script>
-  $(document).ready(function() {
-    $('.select2').select2({
-      placeholder: "Cari nama penanggungjawab",
-      allowClear: true,
-      width: '100%',
-      language: {
-      noResults: function() {
-        return "Data tidak ditemukan";
-      },
-      searching: function() {
-        return "Mencari...";
-      }
-    }
+    $(document).ready(function() {
+      $('.select2').select2({
+        placeholder: "Cari nama penanggungjawab",
+        allowClear: true,
+        width: '100%',
+        language: {
+          noResults: function() {
+            return "Data tidak ditemukan";
+          },
+          searching: function() {
+            return "Mencari...";
+          }
+        }
+      });
     });
-  });
-</script>
+  </script>
 
 
 

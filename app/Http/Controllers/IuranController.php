@@ -7,6 +7,7 @@ use App\Models\Member;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 
 class IuranController extends Controller
 {
@@ -42,11 +43,9 @@ class IuranController extends Controller
             });
         }
 
-
         if ($request->filled('status') || $request->get('status') === null) {
             $membersQuery->where('status', $request->get('status', 'aktif'));
         }
-
 
         $membersAll = $membersQuery->get();
         // ambil semua member aktif
@@ -91,7 +90,7 @@ class IuranController extends Controller
     public function store(Request $request)
     {
         // make validation
-        $validatedData = $request->validate([
+        $validator = Validator::make($request->all(), [
             'member_id' => 'required',
             'bulan' => 'required',
             'tahun' => 'required|digits:4',
@@ -100,9 +99,21 @@ class IuranController extends Controller
             'metode_bayar' => 'nullable',
             'bukti' => 'nullable|image|max:2048',
             'status' => 'required'
-        ]);
+        ], [
+            'jumlah.max' => 'Jumlah terlalu besar! Maksimal Rp 99.999.999.999.999,99',
+            'jumlah.numeric' => 'Jumlah harus berupa angka',
+            'tahun.max' => 'Format tahun salah.',
+            'bukti.max' => 'Ukuran foto maksimal 2MB.',
+            'bukti.mimes' => 'Foto harus memiliki format gambar.'
 
- 
+        ]);
+        if ($validator->fails()) {
+            return redirect()->back()
+                ->with('error', implode('<br>', $validator->errors()->all()))
+                ->withInput();
+        }
+
+
         if ($request->hasFile('bukti')) {
             $file = $request->file('bukti');
             $filename = now('Asia/Jakarta')->format('d-m-Y_His') . '_' . $file->getClientOriginalName();
@@ -130,18 +141,33 @@ class IuranController extends Controller
 
     public function update(Request $request, Iuran $iuran)
     {
+        $validator = Validator::make($request->all(), [
+            'member_id' => 'nullable',
+            'bulan' => 'nullable',
+            'tahun' => 'nullable|digits:4',
+            'jumlah' => 'nullable|numeric|min:0|max:99999999999999.99',
+            'tanggal_bayar' => 'nullable|date',
+            'metode_bayar' => 'nullable',
+            'bukti' => 'nullable|image|max:2048',
+            'status' => 'required'
+
+        ], [
+            'jumlah.max' => 'Jumlah terlalu besar! Maksimal Rp 99.999.999.999.999,99',
+            'jumlah.numeric' => 'Jumlah harus berupa angka',
+            'tahun.max' => 'Format tahun salah.',
+            'bukti.max' => 'Ukuran foto maksimal 2MB.',
+            'bukti.mimes' => 'Foto harus memiliki format gambar.'
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()
+                ->with('error', implode('<br>', $validator->errors()->all()))
+                ->withInput();
+        }
+
         try {
             // update validation
-            $validatedData = $request->validate([
-                'member_id' => 'nullable',
-                'bulan' => 'nullable',
-                'tahun' => 'nullable|digits:4',
-                'jumlah' => 'nullable|numeric|min:0|max:99999999999999.99',
-                'tanggal_bayar' => 'nullable|date',
-                'metode_bayar' => 'nullable',
-                'bukti' => 'nullable|image|max:2048',
-                'status' => 'required'
-            ]);
+            $validatedData = $validator->validate();
             $isChanged = false;
 
             $mainFields = ['member_id', 'bulan', 'tahun', 'jumlah', 'tanggal_bayar', 'metode_bayar', 'status'];
@@ -172,7 +198,9 @@ class IuranController extends Controller
             }
             return redirect()->route('iurandetail.show', $iuran->member_id)->with('info', 'Tidak ada perubahan data.');
         } catch (Exception $e) {
-            return redirect()->route('iurandetail.show', $iuran->member_id)->with('error', 'Gagal memperbarui data.' . $e->getMessage());
+            return redirect()
+            ->route('iurandetail.show', $iuran->member_id)
+            ->with('error', 'Gagal memperbarui data. Silahkan coba lagi.');
         }
     }
 

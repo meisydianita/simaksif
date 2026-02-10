@@ -6,6 +6,7 @@ use App\Models\Pemasukan;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 
 class PemasukanController extends Controller
 {
@@ -47,21 +48,36 @@ class PemasukanController extends Controller
 
     public function store(Request $request)
     {
+        // make validation
+        $validator = Validator::make($request->all(), [
+            'nomor_pemasukan' => 'required|unique:pemasukans,nomor_pemasukan',
+            'nama_pemasukan' => 'required|string|max:255',
+            'tanggal_pemasukan' => 'required|date',
+            'kategori' => 'required',
+            'sumber_pemasukan' => 'required|string|max:255',
+            'jumlah' => 'required|numeric|min:0|max:99999999999999.99',
+            'keterangan' => 'nullable|string|max:255',
+            'bukti' => 'nullable|image|max:2048'
+        ], [
+            'nomor_pemasukan.unique' => 'Nomor pemasukan harus bersifat unik.',
+            'nama_pemasukan.max' => 'Nama pemasukan maksimal 255 karakter.',
+            'sumber_pemasukan.max' => 'Sumber pemasukan maksimal 255 karakter.',
+            'jumlah.max' => 'Jumlah terlalu besar! Maksimal Rp 99.999.999.999.999,99',
+            'jumlah.numeric' => 'Jumlah harus berupa angka',
+            'keterangan.max' => 'Keterangan maksimal 255 karakter.',
+            'bukti.mimes' => 'Bukti harus memiliki format gambar.',
+            'bukti.max' => 'Ukuran foto maksimal 2MB.',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()
+                ->back()
+                ->with('error', implode('<br>', $validator->errors()->all()))
+                ->withInput();
+        }
+
         try {
-            // make validation
-            $validatedData = $request->validate([
-                'nomor_pemasukan' => 'required|unique:pemasukans,nomor_pemasukan',
-                'nama_pemasukan' => 'required|string|max:255',
-                'tanggal_pemasukan' => 'required|date',
-                'kategori' => 'required',
-                'sumber_pemasukan' => 'required|string|max:255',
-                'jumlah' => 'required|numeric|min:0|max:99999999999999.99',
-                'keterangan' => 'nullable|string|max:255',
-                'bukti' => 'nullable|image|max:2048'
-            ], [
-                'jumlah.max' => 'Jumlah terlalu besar! Maksimal Rp 99.999.999.999.999,99',
-                'jumlah.numeric' => 'Jumlah harus berupa angka',
-            ]);
+            $validatedData = $validator->validated();
 
             $filename = null;
             if ($request->hasFile('bukti')) {
@@ -75,9 +91,11 @@ class PemasukanController extends Controller
             Pemasukan::create($validatedData);
 
             // redirect ke index ketika berhasil disimpan
-            return redirect()->route('pemasukan.index')->with('success', 'Data berhasil ditambah.');
+            return redirect()->route('pemasukan.index')
+                ->with('success', 'Data berhasil ditambah.');
         } catch (Exception $e) {
-            return redirect()->route('pemasukan.index')->with('error', 'Gagal menyimpan data: ' . $e->getMessage());
+            return redirect()->back()
+                ->with('error', ['Gagal menyimpan data. Silakan coba lagi.']);
         }
     }
     public function show(Pemasukan $pemasukan)
@@ -91,21 +109,35 @@ class PemasukanController extends Controller
 
     public function update(Request $request, Pemasukan $pemasukan)
     {
+        $validator = Validator::make($request->all(), [
+            'nomor_pemasukan' => 'nullable|unique:pemasukans,nomor_pemasukan,' . $pemasukan->id,
+            'nama_pemasukan' => 'required|string|max:255',
+            'tanggal_pemasukan' => 'required|date',
+            'kategori' => 'required',
+            'sumber_pemasukan' => 'required|string|max:255',
+            'jumlah' => 'required|numeric|min:0|max:99999999999999.99',
+            'keterangan' => 'nullable|string|max:255',
+            'bukti' => 'nullable|image|max:2048'
+        ], [
+            'nomor_pemasukan.unique' => 'Nomor pemasukan harus bersifat unik.',
+            'nama_pemasukan.max' => 'Nama pemasukan maksimal 255 karakter.',
+            'sumber_pemasukan.max' => 'Sumber pemasukan maksimal 255 karakter.',
+            'jumlah.max' => 'Jumlah terlalu besar! Maksimal Rp 99.999.999.999.999,99',
+            'jumlah.numeric' => 'Jumlah harus berupa angka',
+            'keterangan.max' => 'Keterangan maksimal 255 karakter.',
+            'bukti.mimes' => 'Bukti harus memiliki format gambar.',
+            'bukti.max' => 'Ukuran foto maksimal 2MB.',
+        ]);
+
+        if ($validator->fails()){
+            return redirect ()->back()
+            ->with('error', implode('<br>', $validator->errors()->all()))
+            ->withInput();
+        }
         try {
             // update validation
-            $validatedData = $request->validate([
-                'nomor_pemasukan' => 'nullable|unique:pemasukans,nomor_pemasukan,' . $pemasukan->id,
-                'nama_pemasukan' => 'required|string|max:255',
-                'tanggal_pemasukan' => 'required|date',
-                'kategori' => 'required',
-                'sumber_pemasukan' => 'required|string|max:255',
-                'jumlah' => 'required|numeric|min:0|max:99999999999999.99',
-                'keterangan' => 'nullable|string|max:255',
-                'bukti' => 'nullable|image|max:2048'
-            ], [
-                'jumlah.max' => 'Jumlah terlalu besar! Maksimal Rp 99.999.999.999.999,99',
-                'jumlah.numeric' => 'Jumlah harus berupa angka',
-            ]);
+            $validatedData = $validator->validated();
+            
             $isChanged = false;
 
             $mainFields = ['nomor_pemasukan', 'nama_pemasukan', 'tanggal_pemasukan', 'kategori', 'sumber_pemasukan', 'jumlah', 'keterangan'];
@@ -136,7 +168,8 @@ class PemasukanController extends Controller
             }
             return redirect()->route('pemasukan.index')->with('info', 'Tidak ada perubahan data.');
         } catch (Exception $e) {
-            return redirect()->route('pemasukan.index')->with('error', 'Gagal memperbarui data: ' . $e->getMessage());
+            return redirect()->back()
+            ->with('error', 'Gagal memperbarui data. Silahkan coba lagi. ');
         }
     }
 

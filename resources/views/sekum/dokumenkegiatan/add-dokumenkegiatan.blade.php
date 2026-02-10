@@ -112,11 +112,12 @@
                         <!--begin::Col-->
                         <div class="col-md-6">
                           <label for="formFile" class="form-label">Unggah Proposal</label>
-                          <input class="form-control form-control-sm" type="file" id="formFile" name="proposal" accept=".pdf,.doc,.docx">
+                          <input class="form-control form-control-sm" type="file" id="formFile" name="proposal" accept=".pdf,.doc,.docx" required>
                         </div>
+
                         <div class="col-md-6">
                           <label for="formFile" class="form-label">Unggah Laporan Pertanggungjawaban</label>
-                          <input class="form-control form-control-sm" type="file" id="formFile" name="laporan_pertanggungjawaban" accept=".pdf,.doc,.docx">
+                          <input class="form-control form-control-sm" type="file" id="formFile" name="laporan_pertanggungjawaban" accept=".pdf,.doc,.docx" required>
                         </div>
                         <!--end::Col-->
 

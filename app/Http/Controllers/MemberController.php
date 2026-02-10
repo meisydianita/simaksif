@@ -7,6 +7,7 @@ use App\Models\Member;
 use Exception;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class MemberController extends Controller
 {
@@ -78,20 +79,40 @@ class MemberController extends Controller
     public function store(Request $request)
     {
         // data akan diproses di sini ketika disubmit (create)
+
+        $validator = Validator::make($request->all(), [
+            'npm' => 'required|string|max:16|unique:members,npm',
+            'nama_lengkap' => 'required|string|max:100',
+            'tahun_masuk' => 'required|digits:4',
+            'jabatan' => 'required',
+            'divisi' => 'nullable',
+            'status' => 'required',
+            'email' => 'required|email|max:100|unique:members,email',
+            'no_hp' => 'required|string|regex:/^[0-9]{10,20}$/',
+            'alamat' => 'required|string|max:255',
+            'foto' => 'required|image|max:2048'
+        ], [
+            'npm.unique' => 'Nomor Pokok Mahasiswa harus bersifat unik.',
+            'nama_lengkap.max' => 'Nama lengkap maksimal 100 karakter.',
+            'tahun_masuk.max' => 'Format tahun masuk salah.',
+            'email.unique' => 'Email harus bersifat unik.',
+            'email.email' => 'Format email tidak valid.',
+            'no_hp.regex' => 'Nomor HP harus berupa angka dengan panjang 10-20 digit.',
+            'alamat.max' => 'Alamat maksimal 255 karakter.',
+            'foto.max' => 'Ukuran foto maksimal 2MB.',
+            'foto.mimes' => 'File surat harus memiliki format gambar.'
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()
+                ->back()
+                ->with('error', implode('<br>', $validator->errors()->all()))
+                ->withInput();
+        }
+
         try {
             // validate data
-            $validatedData = $request->validate([
-                'npm' => 'required|string|max:16|unique:members,npm',
-                'nama_lengkap' => 'required|string|max:100',
-                'tahun_masuk' => 'required|digits:4',
-                'jabatan' => 'required',
-                'divisi' => 'nullable',
-                'status' => 'required',
-                'email' => 'required|email|max:100|unique:members,email',
-                'no_hp' => 'required|string|regex:/^[0-9]{10,20}$/',
-                'alamat' => 'required|string|max:255',
-                'foto' => 'required|image|max:2048'
-            ]);
+            $validatedData = $request->validate([]);
             $foto = $request->file('foto');
             $fotoname = now('Asia/Jakarta')->format('d-m-Y_His') . '_' . $foto->getClientOriginalName();
             $foto->storeAs('Member', $fotoname, 'public');
@@ -120,9 +141,13 @@ class MemberController extends Controller
             }
 
             // redirect to index ketika berhasil disimpan
-            return redirect()->route('member.index')->with('success', 'Data berhasil ditambah.');
+            return redirect()
+                ->route('member.index')
+                ->with('success', 'Data berhasil ditambah.');
         } catch (Exception $e) {
-            return redirect()->route('member.index')->with('error', 'Gagal menyimpan data: ' . $e->getMessage());
+            return redirect()
+                ->route('member.index')
+                ->with('error', ['Gagal menyimpan data. Silakan coba lagi.']);
         }
     }
 
@@ -138,21 +163,42 @@ class MemberController extends Controller
 
     public function update(Request $request, Member $member)
     {
+
+        // function yang memproses saat update disubmit
+        // validate data
+        $validator = Validator::make($request->all(), [
+            'npm' => 'required|string|max:16|unique:members,npm,' . $member->id,
+            'nama_lengkap' => 'required|string|max:100',
+            'tahun_masuk' => 'required|digits:4',
+            'jabatan' => 'required',
+            'divisi' => 'required',
+            'status' => 'required',
+            'email' => 'required|email|max:100|unique:members,email,' . $member->id,
+            'no_hp' => 'required|string|regex:/^[0-9]{10,20}$/',
+            'alamat' => 'required|string|max:255',
+            'foto' => 'nullable|image|mimes:jpg,jpeg,png|max:2048'
+
+        ], [
+            'npm.unique' => 'Nomor Pokok Mahasiswa harus bersifat unik.',
+            'nama_lengkap.max' => 'Nama lengkap maksimal 100 karakter.',
+            'tahun_masuk.max' => 'Format tahun masuk salah.',
+            'email.unique' => 'Email harus bersifat unik.',
+            'email.email' => 'Format email tidak valid.',
+            'no_hp.regex' => 'Nomor HP harus berupa angka dengan panjang 10-20 digit.',
+            'alamat.max' => 'Alamat maksimal 255 karakter.',
+            'foto.max' => 'Ukuran foto maksimal 2MB.',
+            'foto.mimes' => 'File surat harus memiliki format gambar.'
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()
+            ->back()
+                ->with('error', implode('<br>', $validator->errors()->all()))
+                ->withInput();
+        }
+
         try {
-            // function yang memproses saat update disubmit
-            // validate data
-            $validatedData = $request->validate([
-                'npm' => 'required|string|max:16|unique:members,npm,' . $member->id,
-                'nama_lengkap' => 'required|string|max:100',
-                'tahun_masuk' => 'required|digits:4',
-                'jabatan' => 'required',
-                'divisi' => 'required',
-                'status' => 'required',
-                'email' => 'required|email|max:100|unique:members,email,' . $member->id,
-                'no_hp' => 'required|string|regex:/^[0-9]{10,20}$/',
-                'alamat' => 'required|string|max:255',
-                'foto' => 'nullable|image|mimes:jpg,jpeg,png|max:2048'
-            ]);
+            $validatedData = $validator->validate();
             $isChanged = false;
 
             $mainFields = ['npm', 'nama_lengkap', 'tahun_masuk', 'jabatan', 'divisi', 'status', 'email', 'no_hp', 'alamat'];
@@ -203,7 +249,8 @@ class MemberController extends Controller
             }
             return redirect()->route('member.index')->with('info', 'Tidak ada perubahan data.');
         } catch (Exception $e) {
-            return redirect()->route('member.index')->with('error', 'Gagal memperbarui data.' . $e->getMessage());
+            return redirect()->route('member.index')
+            ->with('error', 'Gagal memperbarui data. Silahkan coba lagi.');
         }
     }
 

@@ -26,31 +26,16 @@
                     <div class="form-group">
                       <label>Nama Lengkap</label>
                       <input type="text" name="name" placeholder="Masukkan nama lengkap">
-                      @error('name')
-                      <div class="error-warning">
-                        {{ $message }}
-                      </div>
-                      @enderror
                     </div>
 
                     <div class="form-group">
                       <label>Email</label>
                       <input type="email" name="email" placeholder="Masukkan email">
-                      @error('email')
-                      <div class="error-warning">
-                        {{ $message }}
-                      </div>
-                      @enderror
                     </div>
 
                     <div class="form-group">
                       <label>Kata Sandi</label>
                       <input type="password" name="password" placeholder="Masukkan kata sandi">
-                      @error('password')
-                      <div class="error-warning">
-                        {{ $message }}
-                      </div>
-                      @enderror
                     </div>
 
                     <button class="submit-btn" type="submit">Daftar</button>
@@ -89,11 +74,13 @@
 
       let activeMessage = null;
       let messageType = null;
+      let autoCloseTime = 3000;
 
       for (const [type, message] of Object.entries(messages)) {
         if (message && message.trim() !== "") {
           activeMessage = message;
           messageType = type === 'error' ? 'error' : 'success';
+          autoCloseTime = (type === 'error') ? 0 : 3000;
           break;
         }
       }
@@ -105,7 +92,7 @@
 
       toast.innerHTML = `
       <div class="toast-header">
-        <div class="toast-body">${activeMessage}</div>
+        <div class="toast-body" id="toast-message"></div>
         <button type="button" class="btn-close">&times;</button>
       </div>
       `;
@@ -117,6 +104,10 @@
         document.body.appendChild(container);
       }
       container.appendChild(toast);
+
+      const toastBody = toast.querySelector('#toast-message');
+      toastBody.innerHTML = activeMessage.replace(/\n/g, '<br>');
+
       setTimeout(() => {
         toast.classList.add('show');
       }, 10);
@@ -129,18 +120,22 @@
         }, 300);
       });
 
-      setTimeout(() => {
-        if (toast.parentNode) {
-          toast.classList.remove('show');
-          setTimeout(() => {
-            if (toast.parentNode) {
-              toast.remove();
-            }
-          }, 300);
-        }
-      }, 3000);
+
+      if (autoCloseTime > 0) {
+        setTimeout(() => {
+          if (toast.parentNode) {
+            toast.classList.remove('show');
+            setTimeout(() => {
+              if (toast.parentNode) {
+                toast.remove();
+              }
+            }, 300);
+          }
+        }, autoCloseTime);
+      }
     });
   </script>
+
 </body>
 
 </html>

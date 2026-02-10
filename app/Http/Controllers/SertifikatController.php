@@ -7,6 +7,7 @@ use Exception;
 use GuzzleHttp\Psr7\Query;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class SertifikatController extends Controller
 {
@@ -31,7 +32,6 @@ class SertifikatController extends Controller
             });
         }
 
-
         // Filter Peran Penerima
         if ($request->filled('peran_penerima')) {
             $query->where(function ($q) use ($request) {
@@ -49,16 +49,32 @@ class SertifikatController extends Controller
     public function store(Request $request)
     {
         //data akan diproses di sini ketika disubmit
+        $validator = Validator::make($request->all(), [
+            'nomor_sertifikat' => 'required|unique:sertifikats,nomor_sertifikat',
+            'nama_penerima' => 'required|string|max:100',
+            'peran_penerima' => 'required',
+            'nama_kegiatan' => 'required|string|max:100',
+            'tanggal_sertifikat' => 'required|date',
+            'file' => 'required|file|mimes:pdf,doc,docx,jpg,jpeg,png|max:10240'
+        ], [
+            'nomor_sertifikat.unique' => 'Nomor sertifikat harus bersifat unik.',
+            'nama_penerima.max' => 'Nama penerima maksimal 100 karakter.',
+            'nama_kegiatan.max' => 'Nama kegiatan maksimal 100 karakter.',
+            'file_surat.max' => 'Ukuran surat maksimal 10MB.',
+            'file.mimes' => 'File surat harus memiliki format pdf, doc, docx, jpg, jpeg, dan png.'
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()
+                ->back()
+                ->with('error', implode('<br>', $validator->errors()->all()))
+                ->withInput();
+        }
+
         try {
             // validate data
-            $validatedData = $request->validate([
-                'nomor_sertifikat' => 'required|unique:sertifikats,nomor_sertifikat',
-                'nama_penerima' => 'required|string|max:100',
-                'peran_penerima' => 'required',
-                'nama_kegiatan' => 'required|string|max:100',
-                'tanggal_sertifikat' => 'required|date',
-                'file' => 'required|file|mimes:pdf,doc,docx,jpg,jpeg,png|max:10240'
-            ]);
+            $validatedData = $validator->validated();
+
             $file = $request->file('file');
             $filename = now('Asia/Jakarta')->format('d-m-Y_His') . '_' . $file->getClientOriginalName();
             $file->storeAs('Sertifikat', $filename, 'public');
@@ -68,9 +84,13 @@ class SertifikatController extends Controller
             Sertifikat::create($validatedData);
 
             //redirect to index ketika berhasil disimpan
-            return redirect()->route('sertifikat.index')->with('success', 'Data berhasil ditambah.');
+            return redirect()
+                ->route('sertifikat.index')
+                ->with('success', 'Data berhasil ditambah.');
         } catch (Exception $e) {
-            return redirect()->route('sertifikat.index')->with('error', 'Gagal menyimpan data: ' . $e->getMessage());
+            return redirect()
+                ->route('sertifikat.index')
+                ->with('error', ['Gagal menyimpan data. Silakan coba lagi.']);
         }
     }
     public function show(Sertifikat $sertifikat)
@@ -85,17 +105,33 @@ class SertifikatController extends Controller
 
     public function update(Request $request, Sertifikat $sertifikat)
     {
+        $validator = Validator::make($request->all(), [
+            'nomor_sertifikat' => 'required|unique:sertifikats,nomor_sertifikat,' . $sertifikat->id,
+            'nama_penerima' => 'required|string|max:100',
+            'peran_penerima' => 'required',
+            'nama_kegiatan' => 'required|string|max:100',
+            'tanggal_sertifikat' => 'required|date',
+            'file' => 'nullable|file|mimes:pdf,doc,docx,jpg,jpeg,png|max:10240'
+
+        ], [
+            'nomor_sertifikat.unique' => 'Nomor sertifikat harus bersifat unik.',
+            'nama_penerima.max' => 'Nama penerima maksimal 100 karakter.',
+            'nama_kegiatan.max' => 'Nama kegiatan maksimal 100 karakter.',
+            'file_surat.max' => 'Ukuran surat maksimal 10MB.',
+            'file.mimes' => 'File surat harus memiliki format pdf, doc, docx, jpg, jpeg, dan png.'
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()
+                ->back()
+                ->with('error', implode('<br>', $validator->errors()->all()))
+                ->withInput();
+        }
+
         try {
             //function yang memproses saat update disubmit
             // validate data
-            $validatedData = $request->validate([
-                'nomor_sertifikat' => 'required|unique:sertifikats,nomor_sertifikat,' . $sertifikat->id,
-                'nama_penerima' => 'required|string|max:100',
-                'peran_penerima' => 'required',
-                'nama_kegiatan' => 'required|string|max:100',
-                'tanggal_sertifikat' => 'required|date',
-                'file' => 'nullable|file|mimes:pdf,doc,docx,jpg,jpeg,png|max:10240'
-            ]);
+            $validatedData = $validator->validate();
             $isChanged = false;
 
             $mainFields = ['nomor_sertifikat', 'nama_penerima', 'peran_penerima', 'nama_kegiatan', 'tanggal_sertifikat'];
@@ -126,7 +162,8 @@ class SertifikatController extends Controller
             }
             return redirect()->route(route: 'sertifikat.index')->with('info', 'Tidak ada perubahan data.');
         } catch (\Exception $e) {
-            return redirect()->route('sertifikat.index')->with('error', 'Gagal memperbarui data: ' . $e->getMessage());
+            return redirect()->route('sertifikat.index')
+            ->with('error', 'Gagal memperbarui data. Silahkan coba lagi. ');
         }
     }
 

@@ -16,10 +16,8 @@ class LoginController extends Controller
             ],
             [
                 'email.required' => 'Email harus diisi!',
-                'email.max' => 'Email minimal berisi 100 karakter',
-                'email.email' => 'Format email harus benar',
+                'email.email' => 'Format email tidak valid',
                 'password.required' => 'Kata sandi harus diisi',
-                'password.min' => 'Kata sandi minimal berisi 8 karakter',
             ]
 
         );
