@@ -94,7 +94,7 @@
                           @empty
                           <tr>
                             <td colspan="8" class="text-center py-4">
-                              <div class="text-muted">Tidak Terdapat Data Iuran</div>
+                              <div class="text-muted">Kamu tidak memiliki kewajiban membayar Iuran.</div>
                             </td>
                           </tr>
                           @endforelse

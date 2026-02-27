@@ -18,5 +18,8 @@ class Member extends Model
         return $this->hasMany(Iuran::class);
     }
 
-
+    public function sertifikats()
+    {
+        return $this->hasMany(Sertifikat::class);
+    }
 }

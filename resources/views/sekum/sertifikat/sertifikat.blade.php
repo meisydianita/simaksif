@@ -75,6 +75,7 @@
                         <th class="fw-normal">No.</th>
                         <th class="fw-normal">Nomor Sertifikat</th>
                         <th class="fw-normal">Tanggal Sertifikat</th>
+                        <th class="fw-normal">NPM</th>
                         <th class="fw-normal">Nama Penerima</th>
                         <th class="fw-normal">Peran Penerima</th>
                         <th class="fw-normal">Nama Kegiatan</th>
@@ -85,9 +86,10 @@
                     <tbody>
                       @forelse ($allsertifikat as $key => $r)
                       <tr>
-                        <td>{{ $key + 1 }}</td>
+                        <td>{{ $key + 1 }}.</td>
                         <td>{{ $r->nomor_sertifikat }}</td>
                         <td>{{ \Carbon\Carbon::parse($r->tanggal_sertifikat)->format('d-m-Y') }}</td>
+                        <td>{{ $r->member->npm ?? '-' }}</td>
                         <td>{{ $r->nama_penerima }}</td>
                         <td>{{ $r->peran_penerima }}</td>
                         <td>{{ $r->nama_kegiatan }}</td>

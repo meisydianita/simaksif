@@ -24,7 +24,7 @@
                 <div class="info-box-content">
                   <span class="info-box-text">Kas Masuk</span>
                   <span class="info-box-number">
-                    <a href="{{ route('pemasukan.index') }}" style="text-decoration:none; color: black;">Rp {{ number_format($totalkasmasuk, 0, ',', '.') }}</a>
+                    <a href="{{ route('pemasukan.index') }}" class="total-link">Rp {{ number_format($totalkasmasuk, 0, ',', '.') }}</a>
                   </span>
                 </div>
                 <!-- /.info-box-content -->
@@ -40,7 +40,7 @@
                 <div class="info-box-content">
                   <span class="info-box-text">Kas Keluar</span>
                   <span class="info-box-number">
-                    <a href="{{ route('kas-keluar.index') }}" style="text-decoration:none; color: black;">Rp {{ number_format($totalkaskeluar, 0, ',', '.') }}</a>
+                    <a href="{{ route('kas-keluar.index') }}" class="total-link">Rp {{ number_format($totalkaskeluar, 0, ',', '.') }}</a>
                   </span>
                 </div>
                 <!-- /.info-box-content -->
@@ -57,7 +57,7 @@
                 <div class="info-box-content">
                   <span class="info-box-text">Sisa Saldo</span>
                   <span class="info-box-number">
-                    <a href="#" style="text-decoration:none; color: black;">Rp {{ number_format($sisasaldo, 0, ',', '.') }}</a>
+                    <a href="#" class="total-link">Rp {{ number_format($sisasaldo, 0, ',', '.') }}</a>
                 </div>
                 <!-- /.info-box-content -->
               </div>

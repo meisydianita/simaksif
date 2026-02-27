@@ -30,7 +30,7 @@
                       <div class="row g-3">
                         <!--begin::Col-->
                         <div class="col-md-6">
-                          <label for="validationCustom01" class="form-label">Nomor Surat</label>
+                          <label for="validationCustom01" class="form-label">Nomor Surat Masuk</label>
                           <input
                             class="form-control form-control-sm"
                             type="text"

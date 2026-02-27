@@ -35,14 +35,14 @@
                       </div>
                       <!-- Tahun -->
                       <div class="input-group input-group-sm" style="width: 280px;">
-                        <select class="form-select form-select-sm" aria-label="Small select example" style="width: 280px" ; name="tahun" onchange="this.form.submit()">
+                        <select class="form-select form-select-sm" aria-label="Small select example" name="tahun" onchange="this.form.submit()">
                           <option selected value="">
                             <!-- Clear Filter Button -->
                             @if(request('search') || request('tahun'))
                             <a href="{{ route('dokumen-kegiatan.index') }}" class="btn btn-lg btn-sm btn-default">
                             </a>
                             @endif
-                            Pilih Tahun
+                            Pilih Tahun Kegiatan
                           </option>
                           @foreach($tahun as $thn)
                           <option value="{{ $thn }}" {{ request('tahun') == $thn ? 'selected' : '' }}>

@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rules\Password;
 
 class AnggotaController extends Controller
 {
@@ -18,13 +19,38 @@ class AnggotaController extends Controller
         // validate data
 
         $validator = Validator::make($request->all(), [
+            'npm' => 'required|string|max:9',
             'name' => 'required|string|max:100',
             'email' => 'required|email|max:100|unique:anggotas,email,' . $anggota->id,
-            'password' => 'nullable|min:8',
+            'password' => [
+                'nullable',
+                Password::min(8)
+                    ->mixedCase()
+                    ->numbers()
+                    ->symbols()
+            ],
             'level' => 'nullable',
-            'photo' => 'nullable|image|max:2048'
+            'photo' => 'nullable|image|max:1024'
+        ], [
+            'password.min' => 'Kata sandi minimal berisi 8 karakter',
+            'password.mixedCase' => 'Kata sandi harus terdapat huruf besar dan kecil.',
+            'password.numbers' => 'Kata sandi harus terdapat angka.',
+            'password.symbols' => 'Kata sandi harus terdapat simbol',
+            'npm.max' => 'Npm maksimal berisi 9 karakter',
+            'name.required' => 'Nama lengkap harus diisi',
+            'name.max' => 'Nama lengkap maksimal berisi 100 karakter',
+            'email.unique' => 'Email sudah terdaftar.',
+            'email.required' => 'Email harus diisi!',
+            'email.max' => 'Email maksimal berisi 100 karakter',
+            'email.email' => 'Format email tidak valid'
         ]);
 
+        if ($validator->fails()) {
+            return redirect()
+                ->back()
+                ->with('error', implode('<br>', $validator->errors()->all()))
+                ->withInput();
+        }
 
         try {
 
@@ -84,11 +110,36 @@ class AnggotaController extends Controller
         /** @var \App\Models\Anggota $anggota */
         $anggota = Auth::guard('anggota')->user();
 
-        try {
-            $request->validate([
+        $validator = Validator::make(
+            $request->all(),
+            [
                 'old_password' => 'required',
-                'password' => 'required|min:8|confirmed'
-            ]);
+                'password' => [
+                    'confirmed',
+                    'required',
+                    Password::min(8)
+                        ->mixedCase()
+                        ->numbers()
+                        ->symbols()
+                ],
+            ],
+            [
+                'password.confirmed' => 'Konfirmasi kata sandi salah.',
+                'password.min' => 'Kata sandi minimal berisi 8 karakter',
+                'password.mixed' => 'Kata sandi harus terdapat huruf besar dan kecil.',
+                'password.numbers' => 'Kata sandi harus terdapat angka.',
+                'password.symbols' => 'Kata sandi harus terdapat simbol.',
+            ]
+        );
+        if ($validator->fails()) {
+            return redirect()
+                ->back()
+                ->with('error', implode('<br>', $validator->errors()->all()))
+                ->withInput();
+        }
+
+        try {
+            $validator = $validator->validate();
 
             if (!Hash::check($request->old_password, $anggota->password)) {
                 return back()->with('error', 'Kata sandi lama salah.');

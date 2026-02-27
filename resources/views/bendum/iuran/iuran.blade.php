@@ -73,7 +73,7 @@
                       <tbody>
                         @forelse ($membersAll as $key =>$r)
                         <tr>
-                          <td>{{ $key + 1 }}</td>
+                          <td>{{ $key + 1 }}.</td>
                           <td>{{ $r->npm }}</td>
                           <td>{{ $r->nama_lengkap }}</td>
                           <td>

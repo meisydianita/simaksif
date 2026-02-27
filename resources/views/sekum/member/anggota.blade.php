@@ -114,7 +114,7 @@
                     <tbody>
                       @forelse ($allmember as $key=>$r)
                       <tr>
-                        <td>{{ $key + 1 }}</td>
+                        <td>{{ $key + 1 }}.</td>
                         <td>{{ $r->npm }}</td>
                         <td>{{ $r->nama_lengkap }}</td>
                         <td>{{ $r->tahun_masuk }}</td>
@@ -122,7 +122,7 @@
                         <td>{{ $r->divisi }}</td>
                         <td>
                           @php
-                          $threeYearsAgo = now()->subYears(3)->year;
+                          $threeYearsAgo = now()->subYears(4)->year;
                           $isActive = $r->tahun_masuk >= $threeYearsAgo && $r->status == 'aktif';
                           @endphp
                           <span class="badge {{ $isActive ? 'bg-success' : 'bg-danger' }}">

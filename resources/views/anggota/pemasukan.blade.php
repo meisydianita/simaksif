@@ -74,7 +74,7 @@
                     <tbody>
                       @forelse ($allpemasukan as $key => $r)
                       <tr>
-                        <td>{{ $key + 1 }}</td>
+                        <td>{{ $key + 1 }}.</td>
                         <td>{{ $r->nomor_pemasukan }}</td>
                         <td>{{ $r->nama_pemasukan }}</td>
                         <td>{{ \Carbon\Carbon::parse($r->tanggal_pemasukan)->format('d-m-Y') }}</td>

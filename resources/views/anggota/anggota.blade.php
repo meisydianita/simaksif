@@ -42,23 +42,7 @@
                           <option value="{{ $thn }}" {{ request('tahun_masuk') == $thn ? 'selected' : '' }}>{{ $thn }}</option>
                           @endforeach
                         </select>
-                      </div>
-
-                      <!-- Divisi -->
-                      <div class="input-group input-group-sm" style="width: 215px;">
-                        <select class="form-select form-select-sm" name="divisi" onchange="this.form.submit()" style="width: 200px">
-                          <option value="">
-                            @if(request('search') || request(''))
-                            <a href="{{ route('member-anggota.index') }}" class="btn btn-lg btn-sm btn-default">
-                            </a>
-                            @endif
-                            Pilih Divisi
-                          </option>
-                          @foreach($divisi as $dvs => $d)
-                          <option value="{{ $dvs }}" {{ request('divisi') == $dvs ? 'selected' : '' }}>{{ $d }}</option>
-                          @endforeach
-                        </select>
-                      </div>
+                      </div>                     
 
                       <!-- Status -->
                       <div class="input-group input-group-sm" style="width: 215px;">
@@ -76,7 +60,7 @@
                         </select>
                       </div>
 
-                      @if(request('search') || request('tahun_masuk') || request('divisi') || request('status'))
+                      @if(request('search') || request('tahun_masuk') || request('status'))
                       <a href="{{ route('member-anggota.index') }}" class="btn btn-lg btn-sm btn-default">
                         <i class="fa-solid fa-xmark"></i>
                       </a>
@@ -93,36 +77,26 @@
                         <th class="fw-normal">NPM</th>
                         <th class="fw-normal">Nama Lengkap</th>
                         <th class="fw-normal">Tahun Masuk</th>
-                        <th class="fw-normal">Jabatan</th>
-                        <th class="fw-normal">Divisi</th>
-                        <th class="fw-normal">Status</th>
-                        <th class="fw-normal">Email</th>
-                        <th class="fw-normal">No. Telepon</th>
-                        <th class="fw-normal">Alamat</th>
+                        <th class="fw-normal">Status</th>                
                         <th class="fw-normal">Foto</th>
                       </tr>
                     </thead>
                     <tbody>
                       @forelse ($allmember as $key=>$r)
                       <tr>
-                        <td>{{ $key + 1 }}</td>
+                        <td>{{ $key + 1 }}.</td>
                         <td>{{ $r->npm }}</td>
                         <td>{{ $r->nama_lengkap }}</td>
-                        <td>{{ $r->tahun_masuk }}</td>
-                        <td>{{ $jabatan[$r->jabatan] ?? $r->jabatan }}</td>
-                        <td>{{ $r->divisi }}</td>
+                        <td>{{ $r->tahun_masuk }}</td>                        
                         <td>
                           @php
-                          $threeYearsAgo = now()->subYears(3)->year;
+                          $threeYearsAgo = now()->subYears(4)->year;
                           $isActive = $r->tahun_masuk >= $threeYearsAgo && $r->status == 'aktif';
                           @endphp
                           <span class="badge {{ $isActive ? 'bg-success' : 'bg-danger' }}">
                             {{ $isActive ? 'Aktif' : 'Tidak Aktif' }}
                           </span>
-                        </td>
-                        <td>{{ $r->email }}</td>
-                        <td>{{ $r->no_hp }}</td>
-                        <td>{{ $r->alamat }}</td>
+                        </td>                        
                         <td>
                           <a href="{{ Storage::url('Member/'.$r->foto) }}" target="_blank" style="color:inherit;text-decoration:none;">
                             <img src="{{ Storage::url('Member/'.$r->foto) }}"

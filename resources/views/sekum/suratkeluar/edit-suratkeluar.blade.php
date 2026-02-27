@@ -67,6 +67,7 @@
                             <option @if($surat_keluar->jenis_surat == 'permohonan_dana') selected @endif value="permohonan_dana">Permohonan Dana</option>
                             <option @if($surat_keluar->jenis_surat == 'aktif_organisasi') selected @endif value="aktif_organisasi">Aktif Organisasi</option>
                             <option @if($surat_keluar->jenis_surat == 'peringatan') selected @endif value="peringatan">Peringatan</option>
+                            <option @if($surat_keluar->jenis_surat == 'lain_lain') selected @endif value="lain_lain">Lain-lain</option>
                           </select>
                         </div>
                         <!--end::Col -->

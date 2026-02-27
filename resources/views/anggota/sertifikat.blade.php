@@ -33,23 +33,7 @@
                           value="{{ request('search') }}"
                           autocomplete="off">
                       </div>
-
-                      <!-- Peran Penerima -->
-                      <div class="input-group input-group-sm" style="width: 280px;">
-                        <select class="form-select form-select-sm" aria-label="Small select example" style="width: 280px" ; name="peran_penerima" onchange="this.form.submit()">
-                          <option selected value="">
-                            <!-- Clear Filter Button -->
-                            @if(request('search') || request(''))
-                            <a href="{{ route('sertifikat.index') }}" class="btn btn-lg btn-sm btn-default">
-                            </a>
-                            @endif
-                            Pilih Peran Penerima
-                          </option>
-                          @foreach ($peran_penerima as $key=> $label)
-                          <option value="{{$key}}" {{ request('peran_penerima') == $key ? 'selected' : '' }}>{{$label}}</option>
-                          @endforeach
-                        </select>
-                      </div>
+                     
                       <!-- Clear Filter Button -->
                       @if(request('search') || request('peran_penerima'))
                       <a href="{{ route('sertifikat-anggota.index') }}" class="btn btn-lg btn-sm btn-default">
@@ -67,8 +51,7 @@
                         <th class="fw-normal">No.</th>
                         <th class="fw-normal">Nomor Sertifikat</th>
                         <th class="fw-normal">Tanggal Sertifikat</th>
-                        <th class="fw-normal">Nama Penerima</th>
-                        <th class="fw-normal">Peran Penerima</th>
+                        <th class="fw-normal">Peran</th>
                         <th class="fw-normal">Nama Kegiatan</th>
                         <th class="fw-normal">File Surat</th>
                       </tr>
@@ -76,10 +59,9 @@
                     <tbody>
                       @forelse ($allsertifikat as $key => $r)
                       <tr>
-                        <td>{{ $key + 1 }}</td>
+                        <td>{{ $key + 1 }}.</td>
                         <td>{{ $r->nomor_sertifikat }}</td>
                         <td>{{ \Carbon\Carbon::parse($r->tanggal_sertifikat)->format('d-m-Y') }}</td>
-                        <td>{{ $r->nama_penerima }}</td>
                         <td>{{ $r->peran_penerima }}</td>
                         <td>{{ $r->nama_kegiatan }}</td>
 
@@ -95,7 +77,7 @@
                       @empty
                       <tr>
                         <td colspan="7" class="text-center py-4">
-                          <div class="text-muted">Tidak Terdapat Data Sertifikat</div>
+                          <div class="text-muted">Kamu Belum Memiliki Data Sertifikat</div>
                         </td>
                       </tr>
                       @endforelse

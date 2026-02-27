@@ -42,12 +42,12 @@ class SuratMasukController extends Controller
             'tanggal_surat' => 'required|date',
             'asal_surat' => 'required|string|max:255',
             'perihal' => 'required|string|max:255',
-            'file_surat' => 'required|file|mimes:pdf,doc,docx|max:10240'
+            'file_surat' => 'required|file|mimes:pdf,doc,docx|max:3072'
         ], [
             'nomor_surat.unique' => 'Nomor surat harus bersifat unik.',
             'asal_surat.max' => 'Asal surat maksimal 255 karakter.',
             'perihal.max' => 'Perihal maksimal 255 karakter.',
-            'file_surat.max' => 'Ukuran surat maksimal 10MB.',
+            'file_surat.max' => 'Ukuran surat maksimal 3 MB.',
             'file_surat.mimes' => 'File surat harus memiliki format pdf, doc, dan docx.'
         ]);
 
@@ -96,12 +96,12 @@ class SuratMasukController extends Controller
             'tanggal_surat' => 'required|date',
             'asal_surat'    => 'required|string|max:255',
             'perihal'       => 'required|string|max:255',
-            'file_surat'    => 'nullable|file|mimes:pdf,doc,docx|max:10240'
+            'file_surat'    => 'nullable|file|mimes:pdf,doc,docx|max:3072'
         ], [
             'nomor_surat.unique' => 'Nomor surat harus bersifat unik.',
             'asal_surat.max' => 'Asal surat maksimal 255 karakter.',
             'perihal.max' => 'Perihal maksimal 255 karakter.',
-            'file_surat.max' => 'Ukuran surat maksimal 10MB.',
+            'file_surat.max' => 'Ukuran surat maksimal 3 MB.',
             'file_surat.mimes' => 'File surat harus memiliki format pdf, doc, dan docx.'
         ]);
 

@@ -25,7 +25,7 @@
                   <div class="form-fields">
                     <div class="form-group">
                       <label>NPM</label>
-                      <input type="text" name="name" placeholder="Masukkan Nomor Pokok Mahasiswa">
+                      <input type="text" name="npm" placeholder="Masukkan Nomor Pokok Mahasiswa" required>
                     </div>
 
                     <div class="form-group">
@@ -73,8 +73,9 @@
   <script>
     document.addEventListener('DOMContentLoaded', function() {
       const messages = {
-        success: "{{ session('signup_success') }}",
-        error: "{{ session('signup_error') }}"
+        success: `{!! session('signup_success') !!}`,
+        error: `{!! session('signup_error') !!}`
+
       };
 
       let activeMessage = null;

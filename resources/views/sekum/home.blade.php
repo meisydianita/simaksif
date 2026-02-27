@@ -24,7 +24,7 @@
                 <div class="info-box-content">
                   <span class="info-box-text">Surat Masuk</span>
                   <span class="info-box-number">
-                    <a href="{{ route('surat-masuk.index') }}" style="text-decoration:none; color: black;">{{ $totalsuratmasuk }}</a>
+                    <a href="{{ route('surat-masuk.index') }}" class="total-link">{{ $totalsuratmasuk }}</a>
                   </span>
                 </div>
                 <!-- /.info-box-content -->
@@ -40,7 +40,7 @@
                 <div class="info-box-content">
                   <span class="info-box-text">Surat Keluar</span>
                   <span class="info-box-number">
-                    <a href="{{ route('surat-keluar.index') }}" style="text-decoration:none; color: black;">{{ $totalsuratkeluar }}</a>
+                    <a href="{{ route('surat-keluar.index') }}" class="total-link">{{ $totalsuratkeluar }}</a>
                   </span>
                 </div>
                 <!-- /.info-box-content -->
@@ -56,7 +56,7 @@
                 <div class="info-box-content">
                   <span class="info-box-text">Sertifikat</span>
                   <span class="info-box-number">
-                    <a href="{{ route('sertifikat.index') }}" style="text-decoration:none; color: black;">{{ $totalsertifikat }}</a>
+                    <a href="{{ route('sertifikat.index') }}" class="total-link">{{ $totalsertifikat }}</a>
                 </div>
                 <!-- /.info-box-content -->
               </div>
@@ -71,7 +71,7 @@
                 <div class="info-box-content">
                   <span class="info-box-text">Dokumen Kegiatan</span>
                   <span class="info-box-number">
-                    <a href="{{ route('dokumen-kegiatan.index') }}" style="text-decoration:none; color: black;">{{ $totaldokumenkegiatan }}</a>
+                    <a href="{{ route('dokumen-kegiatan.index') }}" class="total-link">{{ $totaldokumenkegiatan }}</a>
                   </span>
                 </div>
                 <!-- /.info-box-content -->
@@ -89,7 +89,7 @@
                 <div class="info-box-content">
                   <span class="info-box-text">Anggota Aktif</span>
                   <span class="info-box-number">
-                    <a href="{{ route('member.index') }}" style="text-decoration:none; color: black;">{{ $totalmemberaktif }}</a>
+                    <a href="{{ route('member.index') }}" class="total-link">{{ $totalmemberaktif }}</a>
                   </span>
                   </span>
                 </div>
@@ -108,7 +108,7 @@
                 <div class="info-box-content">
                   <span class="info-box-text">Anggota Tidak Aktif</span>
                   <span class="info-box-number">
-                    <a href="{{ route('member.index') }}" style="text-decoration:none; color: black;">{{ $totalmembernonaktif }}</a>
+                    <a href="{{ route('member.index') }}" class="total-link">{{ $totalmembernonaktif }}</a>
                   </span>
                 </div>
                 <!-- /.info-box-content -->

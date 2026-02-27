@@ -9,17 +9,7 @@
 
 <body>
   <!--begin::Sidebar-->
-  <aside class="app-sidebar shadow" style="background-color: #ffffff;" data-bs-theme="light">
-    <style>
-      .app-sidebar[style*="background-color: #ffffff"] .nav-link:hover {
-        background-color: rgba(0, 53, 128, 0.1) !important;
-        border-left: 3px solid #003580 !important;
-      }
-
-      .app-sidebar[style*="background-color: #ffffff"] .nav-link.active {
-        background-color: rgba(0, 53, 128, 0.15) !important;
-      }
-    </style>
+  <aside class="app-sidebar shadow sidebar-light">
     <!--begin::Sidebar Brand-->
     <div class="sidebar-brand">
       <!--begin::Brand Link-->
@@ -31,7 +21,7 @@
           class="brand-image" />
         <!--end::Brand Image-->
         <!--begin::Brand Text-->
-        <span class="brand-text" style="color: #003580;">SI HIMASIF</span>
+        <span class="brand-text">SIMAKSIF</span>
         <!--end::Brand Text-->
       </a>
       <!--end::Brand Link-->
@@ -145,7 +135,7 @@
 
           <li class="nav-item">
             <a href="{{ route('laporan-kas.index') }}" class="nav-link">
-              <i class="nav-icon fa-solid fa-folder" style="color: #003580;"></i>
+              <i class="nav-icon fa-solid fa-folder sb-icon"></i>
               <p class="sb-text">Laporan Kas</p>
             </a>
           </li>
@@ -174,32 +164,7 @@
 
             <ul class="nav nav-treeview">
 
-              <li class="nav-item">
-                <a href="#" class="nav-link">
-                  <i class="nav-icon fa-solid fa-envelope sb-icon"></i>
-                  <p class="sb-text">
-                    Surat Menyurat
-                    <i class="nav-arrow bi bi-chevron-right sb-icon"></i>
-                  </p>
-                </a>
-
-                <ul class="nav nav-treeview">
-                  <li class="nav-item">
-                    <a href="{{ route('surat-masuk-anggota.index') }}" class="nav-link">
-                      <i class="nav-icon bi bi-circle sb-icon"></i>
-                      <p class="sb-text">Surat Masuk</p>
-                    </a>
-                  </li>
-
-                  <li class="nav-item">
-                    <a href="{{ route('surat-keluar-anggota.index') }}" class="nav-link">
-                      <i class="nav-icon bi bi-circle sb-icon"></i>
-                      <p class="sb-text">Surat Keluar</p>
-                    </a>
-                  </li>
-                </ul>
-              </li>
-
+              
               <li class="nav-item">
                 <a href="{{ route('sertifikat-anggota.index') }}" class="nav-link">
                   <i class="nav-icon fa-solid fa-file sb-icon"></i>

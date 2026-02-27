@@ -116,6 +116,21 @@
 
         </tbody>
     </table>
+
+    <br><br>
+
+    <div style="width: 100%; margin-top: 50px;">
+        <div style="width: 40%; float: right; text-align: center;">
+            <p style="margin: 0;">
+                Bengkulu, {{ \Carbon\Carbon::now()->translatedFormat('d F Y') }}
+            </p>
+
+            <p style="margin: 0;">
+                Dicetak oleh,<br><br><br><br>
+                <strong>{{ Illuminate\Support\Facades\Auth::user()->name ?? Illuminate\Support\Facades\Auth::guard('anggota')->user()->name }}</strong>
+            </p>            
+        </div>
+    </div>
     <script>
         window.onload = function() {
             window.print();

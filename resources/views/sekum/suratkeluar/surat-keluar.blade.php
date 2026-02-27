@@ -85,7 +85,7 @@
                     <tbody>
                       @forelse ($allsuratkeluar as $key => $r)
                       <tr>
-                        <td>{{ $key + 1 }}</td>
+                        <td>{{ $key + 1 }}.</td>
                         <td>{{ $r->nomor_surat }}</td>
                         <td>{{ \Carbon\Carbon::parse($r->tanggal_surat)->format('d-m-Y') }}</td>
                         <td>{{ $jenis_surat[$r->jenis_surat] ?? $r->jenis_surat }}</td>

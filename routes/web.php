@@ -29,10 +29,8 @@ use App\Http\Controllers\SuratKeluarController;
 use App\Http\Controllers\SertifikatController;
 use App\Http\Controllers\UserController;
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
+Route::get('/', function () {return view('welcome');});
+Route::get('/sihimasif', function () {return view('welcome-himasif');});
 Route::get('/login', function () {return view('login');})->name('login');
 Route::post('/postlogin', [LoginController::class, 'postlogin'])->name('postlogin');
 Route::post('/postlogout', [LoginController::class, 'postlogout'])->name('logout');
@@ -80,8 +78,6 @@ Route::middleware(['auth:user', 'ceklevel:Bendahara Umum'])->group(function () {
 
 Route::middleware(['auth:anggota', 'ceklevel:Anggota'])->group(function () {
     Route::get('/beranda-anggota', [HomeController::class, 'anggota'])->name('beranda-anggota');
-    Route::resource('surat-masuk-anggota', AnggotaSuratMasukController::class);
-    Route::resource('surat-keluar-anggota', AnggotaSuratKeluarController::class);
     Route::resource('sertifikat-anggota', AnggotaSertifikatController::class);
     Route::resource('dokumen-kegiatan-anggota', AnggotaDokumenKegiatanController::class);
     Route::resource('iuran-anggota', AnggotaIuranController::class);

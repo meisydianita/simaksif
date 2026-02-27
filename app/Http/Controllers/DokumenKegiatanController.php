@@ -62,8 +62,8 @@ class DokumenKegiatanController extends Controller
             'member_id' => 'required',
             'tahun' => 'required|digits:4',
             'deskripsi_kegiatan' => 'nullable|string|max:255',
-            'proposal' => 'required|file|mimes:pdf,doc,docx|max:10240',
-            'laporan_pertanggungjawaban' => 'required|file|mimes:pdf,doc,docx|max:10240'
+            'proposal' => 'required|file|mimes:pdf,doc,docx|max:5120',
+            'laporan_pertanggungjawaban' => 'required|file|mimes:pdf,doc,docx|max:5120'
         ], [
             'nama_kegiatan.unique' => 'Nama kegiatan pada tahun tersebut sudah terdaftar.',
             'tanggal_selesai.after_or_equal' => 'Tanggal selesai tidak boleh sebelum tanggal mulai.',
@@ -71,9 +71,9 @@ class DokumenKegiatanController extends Controller
             'member_id.exists' => 'Penanggungjawab tidak valid.',
             'tahun.max' => 'Format tahun salah.',
             'deskripsi_kegiatan.max' => 'Deskripsi kegiatan maksimal 255 karakter.',
-            'proposal.max' => 'Ukuran proposal maksimal 10MB.',
+            'proposal.max' => 'Ukuran proposal maksimal 5 MB.',
             'proposal.mimes' => 'Proposal harus memiliki format pdf, doc, dan docx.',
-            'laporan_pertanggungjawaban.max' => 'Ukuran LPJ maksimal 10MB.',
+            'laporan_pertanggungjawaban.max' => 'Ukuran LPJ maksimal 5 MB.',
             'laporan_pertanggungjawaban.mimes' => 'Laporan Pertanggungjawaban harus memiliki format pdf, doc, dan docx.'
         ]);
 
@@ -132,8 +132,8 @@ class DokumenKegiatanController extends Controller
             'member_id' => 'required',
             'tahun' => 'required|digits:4',
             'deskripsi_kegiatan' => 'required|string',
-            'proposal' => 'nullable|file|mimes:pdf,doc,docx|max:10240',
-            'laporan_pertanggungjawaban' => 'nullable|file|mimes:pdf,doc,docx|max:10240'
+            'proposal' => 'nullable|file|mimes:pdf,doc,docx|max:5120',
+            'laporan_pertanggungjawaban' => 'nullable|file|mimes:pdf,doc,docx|max:5120'
         ], [
             'nama_kegiatan.unique' => 'Nama kegiatan pada tahun tersebut sudah terdaftar.',
             'tanggal_selesai.after_or_equal' => 'Tanggal selesai tidak boleh sebelum tanggal mulai.',
@@ -141,9 +141,9 @@ class DokumenKegiatanController extends Controller
             'member_id.exists' => 'Penanggungjawab tidak valid.',
             'tahun.max' => 'Format tahun salah.',
             'deskripsi_kegiatan.max' => 'Deskripsi kegiatan maksimal 255 karakter.',
-            'proposal.max' => 'Ukuran proposal maksimal 10MB.',
+            'proposal.max' => 'Ukuran proposal maksimal 5 MB.',
             'proposal.mimes' => 'Proposal harus memiliki format pdf, doc, dan docx.',
-            'laporan_pertanggungjawaban.max' => 'Ukuran LPJ maksimal 10MB.',
+            'laporan_pertanggungjawaban.max' => 'Ukuran LPJ maksimal 5 MB.',
             'laporan_pertanggungjawaban.mimes' => 'Laporan Pertanggungjawaban harus memiliki format pdf, doc, dan docx.'
         ]);
 

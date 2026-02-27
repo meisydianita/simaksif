@@ -57,7 +57,7 @@ class PemasukanController extends Controller
             'sumber_pemasukan' => 'required|string|max:255',
             'jumlah' => 'required|numeric|min:0|max:99999999999999.99',
             'keterangan' => 'nullable|string|max:255',
-            'bukti' => 'nullable|image|max:2048'
+            'bukti' => 'nullable|image|max:1024'
         ], [
             'nomor_pemasukan.unique' => 'Nomor pemasukan harus bersifat unik.',
             'nama_pemasukan.max' => 'Nama pemasukan maksimal 255 karakter.',
@@ -66,7 +66,7 @@ class PemasukanController extends Controller
             'jumlah.numeric' => 'Jumlah harus berupa angka',
             'keterangan.max' => 'Keterangan maksimal 255 karakter.',
             'bukti.mimes' => 'Bukti harus memiliki format gambar.',
-            'bukti.max' => 'Ukuran foto maksimal 2MB.',
+            'bukti.max' => 'Ukuran foto maksimal 1 MB.',
         ]);
 
         if ($validator->fails()) {
@@ -117,7 +117,7 @@ class PemasukanController extends Controller
             'sumber_pemasukan' => 'required|string|max:255',
             'jumlah' => 'required|numeric|min:0|max:99999999999999.99',
             'keterangan' => 'nullable|string|max:255',
-            'bukti' => 'nullable|image|max:2048'
+            'bukti' => 'nullable|image|max:1024'
         ], [
             'nomor_pemasukan.unique' => 'Nomor pemasukan harus bersifat unik.',
             'nama_pemasukan.max' => 'Nama pemasukan maksimal 255 karakter.',
@@ -126,7 +126,7 @@ class PemasukanController extends Controller
             'jumlah.numeric' => 'Jumlah harus berupa angka',
             'keterangan.max' => 'Keterangan maksimal 255 karakter.',
             'bukti.mimes' => 'Bukti harus memiliki format gambar.',
-            'bukti.max' => 'Ukuran foto maksimal 2MB.',
+            'bukti.max' => 'Ukuran foto maksimal 1 MB.',
         ]);
 
         if ($validator->fails()){

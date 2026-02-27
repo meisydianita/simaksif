@@ -40,11 +40,11 @@
 
                         <!--begin::Col-->
                         <div class="col-md-6">
-                          <label for="validationCustom01" class="form-label">Nomor Surat</label>
+                          <label for="validationCustom01" class="form-label">Nomor Surat Keluar</label>
                           <input
                             class="form-control form-control-sm"
                             type="text"
-                            placeholder="Masukkan Nomor Surat"
+                            placeholder="Masukkan Nomor Surat Keluar"
                             aria-label=".form-control-sm example"
                             name="nomor_surat"
                             required />
@@ -67,6 +67,7 @@
                             <option value="permohonan_dana">Permohonan Dana</option>
                             <option value="aktif_organisasi">Aktif Organisasi</option>
                             <option value="peringatan">Peringatan</option>
+                            <option value="lain-lain">Lain-lain</option>
                           </select>
                         </div>
                         <!--end::Col -->

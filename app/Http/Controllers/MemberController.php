@@ -90,7 +90,7 @@ class MemberController extends Controller
             'email' => 'required|email|max:100|unique:members,email',
             'no_hp' => 'required|string|regex:/^[0-9]{10,20}$/',
             'alamat' => 'required|string|max:255',
-            'foto' => 'required|image|max:2048'
+            'foto' => 'required|image|max:1024'
         ], [
             'npm.unique' => 'Nomor Pokok Mahasiswa harus bersifat unik.',
             'nama_lengkap.max' => 'Nama lengkap maksimal 100 karakter.',
@@ -99,7 +99,7 @@ class MemberController extends Controller
             'email.email' => 'Format email tidak valid.',
             'no_hp.regex' => 'Nomor HP harus berupa angka dengan panjang 10-20 digit.',
             'alamat.max' => 'Alamat maksimal 255 karakter.',
-            'foto.max' => 'Ukuran foto maksimal 2MB.',
+            'foto.max' => 'Ukuran foto maksimal 1 MB.',
             'foto.mimes' => 'File surat harus memiliki format gambar.'
         ]);
 
@@ -112,7 +112,7 @@ class MemberController extends Controller
 
         try {
             // validate data
-            $validatedData = $request->validate([]);
+            $validatedData = $validator->validate();
             $foto = $request->file('foto');
             $fotoname = now('Asia/Jakarta')->format('d-m-Y_His') . '_' . $foto->getClientOriginalName();
             $foto->storeAs('Member', $fotoname, 'public');
@@ -147,7 +147,7 @@ class MemberController extends Controller
         } catch (Exception $e) {
             return redirect()
                 ->route('member.index')
-                ->with('error', ['Gagal menyimpan data. Silakan coba lagi.']);
+                ->with('error', 'Gagal menyimpan data. Silakan coba lagi.');
         }
     }
 
@@ -176,7 +176,7 @@ class MemberController extends Controller
             'email' => 'required|email|max:100|unique:members,email,' . $member->id,
             'no_hp' => 'required|string|regex:/^[0-9]{10,20}$/',
             'alamat' => 'required|string|max:255',
-            'foto' => 'nullable|image|mimes:jpg,jpeg,png|max:2048'
+            'foto' => 'nullable|image|mimes:jpg,jpeg,png|max:1024'
 
         ], [
             'npm.unique' => 'Nomor Pokok Mahasiswa harus bersifat unik.',
@@ -186,7 +186,7 @@ class MemberController extends Controller
             'email.email' => 'Format email tidak valid.',
             'no_hp.regex' => 'Nomor HP harus berupa angka dengan panjang 10-20 digit.',
             'alamat.max' => 'Alamat maksimal 255 karakter.',
-            'foto.max' => 'Ukuran foto maksimal 2MB.',
+            'foto.max' => 'Ukuran foto maksimal 1 MB.',
             'foto.mimes' => 'File surat harus memiliki format gambar.'
         ]);
 

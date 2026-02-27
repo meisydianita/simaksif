@@ -52,6 +52,18 @@
 
                         <!--begin::Col-->
                         <div class="col-md-6">
+                          <label for="validationCustom01" class="form-label">NPM</label>
+                          <input
+                            class="form-control form-control-sm"
+                            type="text"
+                            value="{{ old('npm', optional($sertifikat->member)->npm)}}"
+                            aria-label=".form-control-sm example"
+                            name="npm" />
+                        </div>
+                        <!--end::Col-->
+
+                        <!--begin::Col-->
+                        <div class="col-md-6">
                           <label for="validationCustom01" class="form-label">Nama Penerima</label>
                           <input
                             class="form-control form-control-sm"
@@ -61,7 +73,7 @@
                             name="nama_penerima" />
                         </div>
                         <!--end::Col-->
-
+                        
                         <!--begin::Col -->
                         <div class="col-md-6">
                           <label for="validationCustom02" class="form-label">Peran Penerima</label>
@@ -75,6 +87,8 @@
                             <option @if($sertifikat->peran_penerima == 'Pemateri') selected @endif value="Pemateri">Pemateri</option>
                             <option @if($sertifikat->peran_penerima == 'Peserta') selected @endif value="Peserta">Peserta</option>
                             <option @if($sertifikat->peran_penerima == 'Panitia') selected @endif value="Panitia">Panitia</option>
+                            <option @if($sertifikat->peran_penerima == 'Pengurus') selected @endif value="Pengurus">Pengurus</option>
+                            <option @if($sertifikat->peran_penerima == 'BPO') selected @endif value="BPO">Badan Pengurus Organisasi</option>
                           </select>
                         </div>
                         <!--end::Col -->
@@ -102,7 +116,7 @@
                             value="{{ $sertifikat->tanggal_sertifikat }}"
                             required />
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-12">
                           <label for="formFile" class="form-label">Unggah Dokumen</label>
                           <input class="form-control form-control-sm" type="file" id="formFile" name="file">
                         </div>

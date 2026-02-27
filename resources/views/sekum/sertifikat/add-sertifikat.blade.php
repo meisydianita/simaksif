@@ -50,6 +50,18 @@
 
                         <!--begin::Col-->
                         <div class="col-md-6">
+                          <label for="validationCustom01" class="form-label">NPM</label>
+                          <input
+                            class="form-control form-control-sm"
+                            type="text"
+                            placeholder="Masukkan NPM (Anggota)"
+                            aria-label=".form-control-sm example"
+                            name="npm"/>
+                        </div>
+                        <!--end::Col-->
+
+                        <!--begin::Col-->
+                        <div class="col-md-6">
                           <label for="validationCustom01" class="form-label">Nama Penerima</label>
                           <input
                             class="form-control form-control-sm"
@@ -68,6 +80,8 @@
                             <option value="Pemateri">Pemateri</option>
                             <option value="Peserta">Peserta</option>
                             <option value="Panitia">Panitia</option>
+                            <option value="Pengurus">Pengurus</option>
+                            <option value="BPO">Badan Pengurus Organisasi</option>
                           </select>
                         </div>
                         <!--end::Col -->
@@ -93,7 +107,7 @@
                             name="tanggal_sertifikat"
                             required />
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-12">
                           <label for="formFile" class="form-label">Unggah Dokumen</label>
                           <input class="form-control form-control-sm" type="file" id="formFile" name="file" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png">
                         </div>

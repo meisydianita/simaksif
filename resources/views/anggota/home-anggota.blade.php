@@ -16,39 +16,6 @@
         <div class="container-fluid pt-4">
           <!-- Info boxes -->
           <div class="row">
-            <div class="col-12 col-sm-6 col-md-3">
-              <div class="info-box">
-                <span class="info-box-icon text-bg-success shadow-sm">
-                  <i class="fa-solid fa-envelope"></i>
-                </span>
-                <div class="info-box-content">
-                  <span class="info-box-text">Surat Masuk</span>
-                  <span class="info-box-number">
-                    <a href="{{ route('surat-masuk-anggota.index') }}" style="text-decoration:none; color: black;">{{ $totalsuratmasuk }}</a>
-                  </span>
-                </div>
-                <!-- /.info-box-content -->
-              </div>
-              <!-- /.info-box -->
-            </div>
-            <!-- /.col -->
-            <div class="col-12 col-sm-6 col-md-3">
-              <div class="info-box">
-                <span class="info-box-icon text-bg-danger shadow-sm">
-                  <i class="fa-solid fa-envelope-open"></i>
-                </span>
-                <div class="info-box-content">
-                  <span class="info-box-text">Surat Keluar</span>
-                  <span class="info-box-number">
-                    <a href="{{ route('surat-keluar-anggota.index') }}" style="text-decoration:none; color: black;">{{ $totalsuratkeluar }}</a>
-                  </span>
-                </div>
-                <!-- /.info-box-content -->
-              </div>
-              <!-- /.info-box -->
-            </div>
-            <!-- /.col -->
-            <!-- fix for small devices only -->
             <!-- <div class="clearfix hidden-md-up"></div> -->
             <div class="col-12 col-sm-6 col-md-3">
               <div class="info-box">
@@ -58,7 +25,7 @@
                 <div class="info-box-content">
                   <span class="info-box-text">Sertifikat</span>
                   <span class="info-box-number">
-                    <a href="{{ route('sertifikat-anggota.index') }}" style="text-decoration:none; color: black;">{{ $totalsertifikat }}</a>
+                    <a href="{{ route('sertifikat-anggota.index') }}" class="total-link">{{ $totalsertifikat }}</a>
                 </div>
                 <!-- /.info-box-content -->
               </div>
@@ -73,7 +40,7 @@
                 <div class="info-box-content">
                   <span class="info-box-text">Dokumen Kegiatan</span>
                   <span class="info-box-number">
-                    <a href="{{ route('dokumen-kegiatan-anggota.index') }}" style="text-decoration:none; color: black;">{{ $totaldokumenkegiatan }}</a>
+                    <a href="{{ route('dokumen-kegiatan-anggota.index') }}" class="total-link">{{ $totaldokumenkegiatan }}</a>
                   </span>
                 </div>
                 <!-- /.info-box-content -->
@@ -91,8 +58,26 @@
                 <div class="info-box-content">
                   <span class="info-box-text">Anggota Aktif</span>
                   <span class="info-box-number">
-                    <a href="{{ route('member.index') }}" style="text-decoration:none; color: black;">{{ $totalmemberaktif }}</a>
+                    <a href="{{ route('member-anggota.index') }}" class="total-link">{{ $totalmemberaktif }}</a>
                   </span>
+                  </span>
+                </div>
+                <!-- /.info-box-content -->
+              </div>
+              <!-- /.info-box -->
+            </div>
+            <!-- /.col -->
+            
+            <!-- /.col -->
+            <div class="col-12 col-sm-6 col-md-3">
+              <div class="info-box">
+                <span class="info-box-icon text-bg-warning shadow-sm">
+                  <i class="bi bi-people-fill"></i>
+                </span>
+                <div class="info-box-content">
+                  <span class="info-box-text">Anggota Tidak Aktif</span>
+                  <span class="info-box-number">
+                    <a href="{{ route('member-anggota.index') }}" class="total-link">{{ $totalmembernonaktif }}</a>
                   </span>
                 </div>
                 <!-- /.info-box-content -->
@@ -101,7 +86,7 @@
             </div>
             <!-- /.col -->
 
-            <div class="col-12 col-sm-6 col-md-3">
+            <div class="col-12 col-sm-6 col-md-4">
               <div class="info-box">
                 <span class="info-box-icon text-bg-success shadow-sm">
                   <i class="fa-solid fa-wallet"></i>
@@ -109,7 +94,7 @@
                 <div class="info-box-content">
                   <span class="info-box-text">Kas Masuk</span>
                   <span class="info-box-number">
-                    <a href="{{ route('pemasukan-anggota.index') }}" style="text-decoration:none; color: black;">Rp {{ number_format($totalkasmasuk, 0, ',', '.') }}</a>
+                    <a href="{{ route('pemasukan-anggota.index') }}" class="total-link">Rp {{ number_format($totalkasmasuk, 0, ',', '.') }}</a>
                   </span>
                 </div>
                 <!-- /.info-box-content -->
@@ -117,7 +102,7 @@
               <!-- /.info-box -->
             </div>
             <!-- /.col -->
-            <div class="col-12 col-sm-6 col-md-3">
+            <div class="col-12 col-sm-6 col-md-4">
               <div class="info-box">
                 <span class="info-box-icon text-bg-danger shadow-sm">
                   <i class="fa-solid fa-credit-card"></i>
@@ -125,7 +110,7 @@
                 <div class="info-box-content">
                   <span class="info-box-text">Kas Keluar</span>
                   <span class="info-box-number">
-                    <a href="{{ route('kas-keluar-anggota.index') }}" style="text-decoration:none; color: black;">Rp {{ number_format($totalkaskeluar, 0, ',', '.') }}</a>
+                    <a href="{{ route('kas-keluar-anggota.index') }}" class="total-link">Rp {{ number_format($totalkaskeluar, 0, ',', '.') }}</a>
                   </span>
                 </div>
                 <!-- /.info-box-content -->
@@ -135,7 +120,7 @@
             <!-- /.col -->
             <!-- fix for small devices only -->
             <!-- <div class="clearfix hidden-md-up"></div> -->
-            <div class="col-12 col-sm-6 col-md-3">
+            <div class="col-12 col-sm-6 col-md-4">
               <div class="info-box">
                 <span class="info-box-icon text-bg-primary shadow-sm">
                   <i class="fa-solid fa-money-check"></i>
@@ -143,7 +128,7 @@
                 <div class="info-box-content">
                   <span class="info-box-text">Sisa Saldo</span>
                   <span class="info-box-number">
-                    <a href="#" style="text-decoration:none; color: black;">Rp {{ number_format($sisasaldo, 0, ',', '.') }}</a>
+                    <a href="#" class="total-link">Rp {{ number_format($sisasaldo, 0, ',', '.') }}</a>
                 </div>
                 <!-- /.info-box-content -->
               </div>

@@ -97,13 +97,13 @@ class IuranController extends Controller
             'jumlah' => 'required|numeric|min:0|max:99999999999999.99',
             'tanggal_bayar' => 'nullable|date',
             'metode_bayar' => 'nullable',
-            'bukti' => 'nullable|image|max:2048',
+            'bukti' => 'nullable|image|max:1024',
             'status' => 'required'
         ], [
             'jumlah.max' => 'Jumlah terlalu besar! Maksimal Rp 99.999.999.999.999,99',
             'jumlah.numeric' => 'Jumlah harus berupa angka',
             'tahun.max' => 'Format tahun salah.',
-            'bukti.max' => 'Ukuran foto maksimal 2MB.',
+            'bukti.max' => 'Ukuran foto maksimal 1 MB.',
             'bukti.mimes' => 'Foto harus memiliki format gambar.'
 
         ]);
@@ -148,14 +148,14 @@ class IuranController extends Controller
             'jumlah' => 'nullable|numeric|min:0|max:99999999999999.99',
             'tanggal_bayar' => 'nullable|date',
             'metode_bayar' => 'nullable',
-            'bukti' => 'nullable|image|max:2048',
+            'bukti' => 'nullable|image|max:1024',
             'status' => 'required'
 
         ], [
             'jumlah.max' => 'Jumlah terlalu besar! Maksimal Rp 99.999.999.999.999,99',
             'jumlah.numeric' => 'Jumlah harus berupa angka',
             'tahun.max' => 'Format tahun salah.',
-            'bukti.max' => 'Ukuran foto maksimal 2MB.',
+            'bukti.max' => 'Ukuran foto maksimal 1 MB.',
             'bukti.mimes' => 'Foto harus memiliki format gambar.'
         ]);
 

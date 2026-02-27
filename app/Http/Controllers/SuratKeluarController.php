@@ -21,7 +21,8 @@ class SuratKeluarController extends Controller
             'undangan' => 'Undangan',
             'permohonan_dana' => 'Permohonan Dana',
             'aktif_organisasi' => 'Aktif Organisasi',
-            'peringatan' => 'Peringatan'
+            'peringatan' => 'Peringatan',
+            'lain_lain' => 'Lain-lain'
         ];
         $query = Suratkeluar::query();
 
@@ -57,12 +58,12 @@ class SuratKeluarController extends Controller
             'tanggal_surat' => 'required|date',
             'tujuan_surat' => 'required|string|max:255',
             'perihal' => 'required|string|max:255',
-            'file_surat' => 'required|file|mimes:pdf,doc,docx|max:10240'
+            'file_surat' => 'required|file|mimes:pdf,doc,docx|max:3072'
         ], [
             'nomor_surat.unique' => 'Nomor surat harus bersifat unik.',
             'tujuan_surat.max' => 'Tujuan surat maksimal 255 karakter.',
             'perihal.max' => 'Perihal maksimal 255 karakter.',
-            'file_surat.max' => 'Ukuran surat maksimal 10MB.',
+            'file_surat.max' => 'Ukuran surat maksimal 3 MB.',
             'file_surat.mimes' => 'File surat harus memiliki format pdf, doc, dan docx.'
         ]);
 
@@ -94,18 +95,18 @@ class SuratKeluarController extends Controller
         }
     }
 
-    public function show(SuratKeluar $surat_keluar)
+    public function show(Suratkeluar $surat_keluar)
     {
         // menampilkan detail data
         return view('sekum.suratkeluar.surat-keluar', compact('surat_keluar'));
     }
 
-    public function edit(SuratKeluar $surat_keluar)
+    public function edit(Suratkeluar $surat_keluar)
     {
         return view('sekum.suratkeluar.edit-suratkeluar', compact('surat_keluar'));
     }
 
-    public function update(Request $request, SuratKeluar $surat_keluar)
+    public function update(Request $request, Suratkeluar $surat_keluar)
     {
         $validator = Validator::make($request->all(), [
             'jenis_surat'   => 'required',
@@ -113,13 +114,13 @@ class SuratKeluarController extends Controller
             'tanggal_surat' => 'required|date',
             'tujuan_surat'  => 'required|string|max:255',
             'perihal'       => 'required|string|max:255',
-            'file_surat'    => 'nullable|file|mimes:pdf,doc,docx|max:10240'
+            'file_surat'    => 'nullable|file|mimes:pdf,doc,docx|max:3072'
 
         ], [
             'nomor_surat.unique' => 'Nomor surat harus bersifat unik.',
             'tujuan_surat.max' => 'Tujuan surat maksimal 255 karakter.',
             'perihal.max' => 'Perihal maksimal 255 karakter.',
-            'file_surat.max' => 'Ukuran surat maksimal 10MB.',
+            'file_surat.max' => 'Ukuran surat maksimal 3 MB.',
             'file_surat.mimes' => 'File surat harus memiliki format pdf, doc, dan docx.'
         ]);
 
@@ -171,7 +172,7 @@ class SuratKeluarController extends Controller
 
     public function destroy($id)
     {
-        $hapusSuratKeluar = SuratKeluar::findOrFail($id);
+        $hapusSuratKeluar = Suratkeluar::findOrFail($id);
         if ($hapusSuratKeluar->file_surat && Storage::disk('public')->exists('SuratKeluar/' . $hapusSuratKeluar->file_surat)) {
             Storage::disk('public')->delete('SuratKeluar/' . $hapusSuratKeluar->file_surat);
         }

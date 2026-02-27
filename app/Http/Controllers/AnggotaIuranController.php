@@ -33,6 +33,18 @@ class AnggotaIuranController extends Controller
 
 
         $memberLogin = Member::where('npm', $anggotaLogin->npm)->first();
+        
+        if (!$memberLogin) {
+            return view('anggota.iuran', [
+                'membersAll' => collect(),
+                'memberLogin' => null,
+                'iurans' => collect(),
+                'tahun' => now()->year,
+                'belumLunas' => 0,
+                'totalIuran' => 0,
+                'status' => $status
+            ]);
+        }
 
         $membersQuery = Member::query();
 

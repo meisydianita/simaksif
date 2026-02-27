@@ -21,6 +21,11 @@
           </a>
         </li>
         <li class="nav-item d-none d-md-block">
+          @auth('user')
+          @php
+          $user = Auth::guard('user')->user();
+          @endphp
+          @if($user->level == 'Sekretaris Umum')
           <a href="{{ route('beranda-sekum') }}" class="nav-link d-flex align-items-center p-0">
             <span class="text-primary">Home</span>
             <span class="mx-1 text-muted">/</span>
@@ -28,6 +33,27 @@
               {{ ucwords(str_replace('-', ' ', basename(request()->path()))) }}
             </span>
           </a>
+          @elseif($user->level == 'Bendahara Umum')
+          <a href="{{ route('beranda-bendum') }}" class="nav-link d-flex align-items-center p-0">
+            <span class="text-primary">Home</span>
+            <span class="mx-1 text-muted">/</span>
+            <span class="text-muted">
+              {{ ucwords(str_replace('-', ' ', basename(request()->path()))) }}
+            </span>
+          </a>
+          @endif
+          @endauth
+
+          @auth('anggota')
+          <a href="{{ route('beranda-anggota') }}" class="nav-link d-flex align-items-center p-0">
+            <span class="text-primary">Home</span>
+            <span class="mx-1 text-muted">/</span>
+            <span class="text-muted">
+              {{ ucwords(str_replace('-', ' ', basename(request()->path()))) }}
+            </span>
+          </a>
+          @endauth
+
         </li>
       </ul>
       <!--end::Start Navbar Links-->
@@ -179,7 +205,7 @@
               @auth('anggota')
               <a href="{{ route('profil-anggota') }}" class="btn btn-default btn-flat">Profil</a>
               @endauth
-              
+
               <form action="{{ route('logout') }}" method="POST" style="display: inline;">
                 @csrf
                 <button type="submit" class="btn btn-default btn-flat float-end">

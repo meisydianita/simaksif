@@ -80,7 +80,7 @@
                     <tbody>
                       @forelse ($alldokumenkegiatan as $key => $r)
                       <tr>
-                        <td>{{ $key +1 }}</td>
+                        <td>{{ $key +1 }}.</td>
                         <td>{{ $r->nama_kegiatan }}</td>
                         <td>{{ \Carbon\Carbon::parse($r->tanggal_mulai)->format('d-m-Y') }}</td>
                         <td>{{ \Carbon\Carbon::parse($r->tanggal_selesai)->format('d-m-Y') }}</td>

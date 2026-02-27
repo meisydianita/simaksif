@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\AnggotaSertifikat;
+use App\Models\Member;
 use Illuminate\Http\Request;
 
 class AnggotaSertifikatController extends Controller
@@ -12,10 +13,20 @@ class AnggotaSertifikatController extends Controller
         $peran_penerima = [
             'Pemateri' => 'Pemateri',
             'Peserta' => 'Peserta',
-            'Panitia' => 'Panitia'
+            'Panitia' => 'Panitia',
+            'Pengurus' => 'Pengurus',
+            'BPO' => 'Badan Pengurus Organisasi'
         ];
 
-        $query = AnggotaSertifikat::query();
+        $anggotaLogin = auth('anggota')->user();
+        $member = Member::where('npm', $anggotaLogin->npm)->first();
+
+        if (!$member) {
+            $allsertifikat = collect();
+            return view('anggota.sertifikat', compact('allsertifikat', 'peran_penerima'));
+        }
+        $query = AnggotaSertifikat::where('member_id', $member->id);
+
 
         if ($request->filled('search')) {
             $searchTerm = '%' . trim($request->search) . '%';

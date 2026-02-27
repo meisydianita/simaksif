@@ -58,7 +58,7 @@
                     <tbody>
                       @forelse ($allsuratmasuk as $key => $r)
                       <tr>
-                        <td>{{ $key + 1 }}</td>
+                        <td>{{ $key + 1 }}.</td>
                         <td>{{ $r->nomor_surat }}</td>
                         <td>{{ \Carbon\Carbon::parse($r->tanggal_surat)->Format('d-m-Y') }}</td>
                         <td>{{ $r->asal_surat }}</td>

@@ -15602,18 +15602,38 @@ fieldset legend {
       padding-left: 55px !important;
     }
 
-.nav-link:hover .sb-icon,
-.nav-link:hover .sb-text {
+.app-sidebar .sb-icon,
+.app-sidebar .sb-text {
+    color: #003580;
+    font-size: 14px;
+}
+
+.app-sidebar .nav-link:hover .sb-icon,
+.app-sidebar .nav-link:hover .sb-text {
     color: #001f4d;
 }
 
-.sb-icon {
-    color: #003580;
+
+
+body.dark-mode .app-sidebar .sb-icon,
+body.dark-mode .app-sidebar .sb-text {
+    color: #ffffff;
 }
 
-.sb-text {
-    color: #003580;
-    font-size: 14px;
+body.dark-mode .app-sidebar .nav-link:hover .sb-icon,
+body.dark-mode .app-sidebar .nav-link:hover .sb-text {
+    color: #e0e0e0;
+}
+
+
+html[data-bs-theme="dark"] .app-sidebar .sb-icon,
+html[data-bs-theme="dark"] .app-sidebar .sb-text {
+    color: #ffffff;
+}
+
+html[data-bs-theme="dark"] .app-sidebar .nav-link:hover .sb-icon,
+html[data-bs-theme="dark"] .app-sidebar .nav-link:hover .sb-text {
+    color: #e0e0e0;
 }
 
 #beranda img {
@@ -15622,3 +15642,25 @@ fieldset legend {
 }
 
 
+html[data-bs-theme="light"] .app-sidebar .sidebar-menu .nav-link:hover {
+    background-color: #e9ecef;
+}
+
+html[data-bs-theme="light"] .app-sidebar .sidebar-menu .nav-link.active {
+    background-color: #dee2e6;
+}
+
+.total-link {
+    color: #000000;
+    text-decoration: none;
+}
+
+
+body.dark-mode .total-link {
+    color: #ffffff;
+}
+
+
+html[data-bs-theme="dark"] .total-link {
+    color: #ffffff;
+}

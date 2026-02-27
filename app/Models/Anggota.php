@@ -14,6 +14,7 @@ class Anggota extends Authenticatable
     protected $table ="anggotas";
     protected $primaryKey = 'id';
     protected $fillable = [
+        'npm',
         'name',
         'level',
         'email',
