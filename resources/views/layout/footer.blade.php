@@ -16,7 +16,7 @@
     <!--begin::Copyright-->
     <strong>
       Copyright Himasif &copy; 2025&nbsp;
-      <a href="http://sihimasif.test/" class="text-decoration-none">Himasif.com</a>.
+      <a href="https://simaksif.siunib.org/" class="text-decoration-none">simaksif.siunib.org</a>.
     </strong>
     All rights reserved.
     <!--end::Copyright-->

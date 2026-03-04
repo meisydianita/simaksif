@@ -22,7 +22,7 @@ class AnggotaSertifikatController extends Controller
         $member = Member::where('npm', $anggotaLogin->npm)->first();
 
         if (!$member) {
-            $allsertifikat = collect();
+            $allsertifikat = AnggotaSertifikat::whereNull('id')->paginate(10);
             return view('anggota.sertifikat', compact('allsertifikat', 'peran_penerima'));
         }
         $query = AnggotaSertifikat::where('member_id', $member->id);

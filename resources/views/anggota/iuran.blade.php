@@ -37,7 +37,7 @@
                             <a href="{{ route('iuran-anggota.index') }}" class="btn btn-lg btn-sm btn-default">
                             </a>
                             @endif
-                            Pilih Status
+                            Pilih Status Anggota
                           </option>
                           @foreach($status as $sts => $s)
                           <option value="{{ $sts }}" {{ request('status') == $sts ? 'selected' : '' }}>{{ $s }}</option>

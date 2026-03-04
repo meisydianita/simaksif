@@ -52,7 +52,7 @@
             <!-- /.col -->
             <div class="col-12 col-sm-6 col-md-3">
               <div class="info-box">
-                <span class="info-box-icon text-bg-warning shadow-sm">
+                <span class="info-box-icon text-bg-success shadow-sm">
                   <i class="bi bi-people-fill"></i>
                 </span>
                 <div class="info-box-content">
@@ -67,11 +67,11 @@
               <!-- /.info-box -->
             </div>
             <!-- /.col -->
-            
+
             <!-- /.col -->
             <div class="col-12 col-sm-6 col-md-3">
               <div class="info-box">
-                <span class="info-box-icon text-bg-warning shadow-sm">
+                <span class="info-box-icon text-bg-danger shadow-sm">
                   <i class="bi bi-people-fill"></i>
                 </span>
                 <div class="info-box-content">
@@ -216,10 +216,10 @@
     <!--end::App Main-->
     <script src="https://code.highcharts.com/12.4.0/highcharts.js"></script>
     <script type="text/javascript">
-      var grafiktotalsuratmasuk = <?php echo json_encode($grafiktotalsuratmasuk) ?>;
-      var grafiktotalsuratkeluar = <?php echo json_encode($grafiktotalsuratkeluar) ?>;
       var grafiktotaldokumenkegiatan = <?php echo json_encode($grafiktotaldokumenkegiatan) ?>;
       var grafiktotalsertifikat = <?php echo json_encode($grafiktotalsertifikat) ?>;
+      var grafiktotalmemberaktif = <?php echo json_encode($grafiktotalmemberaktif) ?>;
+      var grafiktotalmembernonaktif = <?php echo json_encode($grafiktotalmembernonaktif) ?>;
       var grafikKasMasuk = <?php echo json_encode($grafikKasMasuk) ?>;
       var grafikKasKeluar = <?php echo json_encode($grafikKasKeluar) ?>;
       var bulan = <?php echo json_encode($bulan) ?>;
@@ -240,24 +240,19 @@
           }
         },
         series: [{
-            name: 'Surat Masuk',
-            data: grafiktotalsuratmasuk,
-            color: '#399918'
-          },
-          {
-            name: 'Surat Keluar',
-            data: grafiktotalsuratkeluar,
-            color: '#980404'
-          },
-          {
             name: 'Dokumen Kegiatan',
             data: grafiktotaldokumenkegiatan,
             color: '#0D1164'
           },
           {
-            name: 'Sertifikat',
-            data: grafiktotalsertifikat,
-            color: '#F87B1B'
+            name: 'Anggota Aktif',
+            data: grafiktotalmemberaktif,
+            color: '#399918'
+          },
+          {
+            name: 'Anggota Tidak Aktif',
+            data: grafiktotalmembernonaktif,
+            color: '#980404'
           }
         ]
       });
@@ -279,7 +274,13 @@
             text: 'Nominal (Rp)'
           },
           labels: {
-            overflow: 'justify'
+            overflow: 'justify',
+            formatter: function() {
+              if (this.value >= 1000000) {
+                return (this.value / 1000000) + ' Juta';
+              }
+              return this.value;
+            }
           }
         },
         tooltip: {

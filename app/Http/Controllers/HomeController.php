@@ -171,25 +171,18 @@ class HomeController extends Controller
     {
         $totalsuratmasuk = AnggotaSuratMasuk::count();
         $totalsuratkeluar = AnggotaSuratKeluar::count();
-        $totalsertifikat = AnggotaSertifikat::count();
+
+        $anggotaLogin = auth('anggota')->user();
+        $member = Member::where('npm', $anggotaLogin->npm)->first();
+        $totalsertifikat = 0;
+        if ($member) {
+            $totalsertifikat = AnggotaSertifikat::where('member_id', $member->id)->count();
+        }
         $totaldokumenkegiatan = AnggotaDokumenKegiatan::count();
         $totalmemberaktif = Member::where('status', 'aktif')->count();
         $totalmembernonaktif = Member::where('status', 'tidak_aktif')->count();
 
         $tahunSekarang = date('Y');
-
-
-        $querySuratMasuk = AnggotaSuratMasuk::whereYear('created_at', $tahunSekarang)
-            ->selectRaw('MONTH(created_at) as bulan, COUNT(*) as total')
-            ->groupBy('bulan')
-            ->orderBy('bulan')
-            ->get();
-
-        $querySuratKeluar = AnggotaSuratKeluar::whereYear('created_at', $tahunSekarang)
-            ->selectRaw('MONTH(created_at) as bulan, COUNT(*) as total')
-            ->groupBy('bulan')
-            ->orderBy('bulan')
-            ->get();
 
         $queryDokumenKegiatan = AnggotaDokumenKegiatan::whereYear('created_at', $tahunSekarang)
             ->selectRaw('MONTH(created_at) as bulan, COUNT(*) as total')
@@ -198,6 +191,20 @@ class HomeController extends Controller
             ->get();
 
         $querySertifikat = AnggotaSertifikat::whereYear('created_at', $tahunSekarang)
+            ->selectRaw('MONTH(created_at) as bulan, COUNT(*) as total')
+            ->groupBy('bulan')
+            ->orderBy('bulan')
+            ->get();
+
+        $queryMemberAktif = Member::where('status', 'aktif')
+            ->whereYear('created_at', $tahunSekarang)
+            ->selectRaw('MONTH(created_at) as bulan, COUNT(*) as total')
+            ->groupBy('bulan')
+            ->orderBy('bulan')
+            ->get();
+
+        $queryMemberNonaktif = Member::where('status', 'tidak_aktif')
+            ->whereYear('created_at', $tahunSekarang)
             ->selectRaw('MONTH(created_at) as bulan, COUNT(*) as total')
             ->groupBy('bulan')
             ->orderBy('bulan')
@@ -212,10 +219,10 @@ class HomeController extends Controller
             return $data;
         }
 
-        $grafiktotalsuratmasuk = mapDataKeBulan($querySuratMasuk);
-        $grafiktotalsuratkeluar = mapDataKeBulan($querySuratKeluar);
         $grafiktotaldokumenkegiatan = mapDataKeBulan($queryDokumenKegiatan);
         $grafiktotalsertifikat = mapDataKeBulan($querySertifikat);
+        $grafiktotalmemberaktif = mapDataKeBulan($queryMemberAktif);
+        $grafiktotalmembernonaktif = mapDataKeBulan($queryMemberNonaktif);
 
 
         $tanggalMulaiTahun = now()->startOfYear();
@@ -285,10 +292,10 @@ class HomeController extends Controller
             'totaldokumenkegiatan',
             'totalmemberaktif',
             'totalmembernonaktif',
-            'grafiktotalsuratmasuk',
-            'grafiktotalsuratkeluar',
             'grafiktotaldokumenkegiatan',
             'grafiktotalsertifikat',
+            'grafiktotalmemberaktif',
+            'grafiktotalmembernonaktif',
             'totalkasmasuk',
             'totalkaskeluar',
             'sisasaldo',

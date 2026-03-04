@@ -457,3 +457,58 @@ html, body {
 .error-warning{
   color: #e3342f; font-size: 0.875rem; margin-top: 0rem;
 }
+
+
+@media (max-width: 768px) {
+
+  html, body {
+    overflow: auto;
+  }
+
+  .login {
+    min-width: 100%;
+    height: auto;
+    padding: 40px 20px;
+  }
+
+  .group {
+    position: static;
+    width: 100%;
+    height: auto;
+  }
+
+  .frame {
+    width: 100%;
+    height: auto;
+  }
+
+  .div {
+    margin-top: 0;
+    width: 100%;
+  }
+
+  .group-2,
+  .frame-wrapper,
+  .group-wrapper {
+    width: 100%;
+  }
+
+  .group-3 {
+    width: 100%;
+  }
+
+  .login-button {
+    width: 100%;
+  }
+
+  .robot,
+  .text-wrapper-8,
+  .text-wrapper-9 {
+    display: none;
+  }
+
+  .text-wrapper {
+    font-size: 32px;
+  }
+
+}
