@@ -48,6 +48,7 @@
               <!-- /.info-box -->
             </div>
             <!-- /.col -->
+
             <div class="col-12 col-sm-6 col-md-3">
               <div class="info-box">
                 <span class="info-box-icon text-bg-success shadow-sm">
@@ -57,13 +58,12 @@
                   <span class="info-box-text">Sertifikat</span>
                   <span class="info-box-number">
                     <a href="{{ route('sertifikat.index') }}" class="total-link">{{ $totalsertifikat }}</a>
-                  </span>
                 </div>
                 <!-- /.info-box-content -->
               </div>
               <!-- /.info-box -->
             </div>
-            <!-- /.col -->
+
             <div class="col-12 col-sm-6 col-md-3">
               <div class="info-box">
                 <span class="info-box-icon text-bg-secondary shadow-sm">
@@ -117,6 +117,8 @@
               <!-- /.info-box -->
             </div>
             <!-- /.col -->
+
+
           </div>
           <!-- /.row -->
           <!--begin::Row-->
@@ -135,7 +137,7 @@
               <!-- Default box -->
               <div class="card">
                 <div class="card-header">
-                  <h3 class="card-title">Grafik Tren Pengelolaan Data Administrasi Bulanan {{ $tahunSekarang }}</h3>
+                  <h3 class="card-title">Grafik Tren Kas Bulanan {{ $tahunSekarang }}</h3>
                   <div class="card-tools">
                     <button
                       type="button"
@@ -216,7 +218,6 @@
   </div>
   <!--end::App Wrapper-->
   @include('layout.script')
-  
 </body>
 <!--end::Body-->
 
