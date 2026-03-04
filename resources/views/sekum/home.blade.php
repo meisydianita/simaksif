@@ -170,7 +170,8 @@
     <!--end::App Main-->
     <script src="https://code.highcharts.com/12.4.0/highcharts.js"></script>
     <script type="text/javascript">
-      var grafiktotalsuratmasuk = <?php echo json_encode($grafiktotalsuratmasuk) ?>;
+      document.addEventListener('DOMContentLoaded', function () {
+        var grafiktotalsuratmasuk = <?php echo json_encode($grafiktotalsuratmasuk) ?>;
       var grafiktotalsuratkeluar = <?php echo json_encode($grafiktotalsuratkeluar) ?>;
       var grafiktotaldokumenkegiatan = <?php echo json_encode($grafiktotaldokumenkegiatan) ?>;
       var grafiktotalsertifikat = <?php echo json_encode($grafiktotalsertifikat) ?>;
@@ -213,6 +214,9 @@
           }
         ]
       });
+
+      });
+      
     </script>
     @include('layout.footer')
   </div>
