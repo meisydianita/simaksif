@@ -168,7 +168,12 @@
       <!--end::App Content-->
     </main>
     <!--end::App Main-->
-    <script src="https://code.highcharts.com/12.4.0/highcharts.js"></script>
+
+    @include('layout.footer')
+  </div>
+  <!--end::App Wrapper-->
+  @include('layout.script')
+      <script src="https://code.highcharts.com/12.4.0/highcharts.js"></script>
     <script type="text/javascript">
       document.addEventListener('DOMContentLoaded', function () {
         var grafiktotalsuratmasuk = <?php echo json_encode($grafiktotalsuratmasuk) ?>;
@@ -218,10 +223,6 @@
       });
       
     </script>
-    @include('layout.footer')
-  </div>
-  <!--end::App Wrapper-->
-  @include('layout.script')
 </body>
 <!--end::Body-->
 
