@@ -157,8 +157,8 @@
                   </div>
                 </div>
                 <div class="card-body">
-    <div id="grafik" style="width:100%; height:400px;"></div>
-</div>
+                  <div id="grafik" style="width:100%; height:400px;"></div>
+                </div>
                 <!-- /.card-body -->
               </div>
               <!-- /.card -->
@@ -170,60 +170,61 @@
       <!--end::App Content-->
     </main>
     <!--end::App Main-->
+    <script src="https://code.highcharts.com/12.4.0/highcharts.js"></script>
+    <script type="text/javascript">
+      document.addEventListener('DOMContentLoaded', function() {
+        var grafiktotalsuratmasuk = <?php echo json_encode($grafiktotalsuratmasuk) ?>;
+        var grafiktotalsuratkeluar = <?php echo json_encode($grafiktotalsuratkeluar) ?>;
+        var grafiktotaldokumenkegiatan = <?php echo json_encode($grafiktotaldokumenkegiatan) ?>;
+        var grafiktotalsertifikat = <?php echo json_encode($grafiktotalsertifikat) ?>;
+        var bulan = <?php echo json_encode($bulan) ?>;
+
+        Highcharts.chart('grafik', {
+          title: null,
+          xAxis: {
+            categories: bulan
+          },
+          yAxis: {
+            title: {
+              text: 'Jumlah Data'
+            },
+            plotOptions: {
+              series: {
+                allowPointSelect: true
+              }
+            }
+          },
+          series: [{
+              name: 'Surat Masuk',
+              data: grafiktotalsuratmasuk,
+              color: '#399918'
+            },
+            {
+              name: 'Surat Keluar',
+              data: grafiktotalsuratkeluar,
+              color: '#980404'
+            },
+            {
+              name: 'Dokumen Kegiatan',
+              data: grafiktotaldokumenkegiatan,
+              color: '#0D1164'
+            },
+            {
+              name: 'Sertifikat',
+              data: grafiktotalsertifikat,
+              color: '#F87B1B'
+            }
+          ]
+        });
+
+      });
+    </script>
 
     @include('layout.footer')
   </div>
   <!--end::App Wrapper-->
   @include('layout.script')
-  <script src="https://code.highcharts.com/12.4.0/highcharts.js"></script>
-  <script type="text/javascript">
-    document.addEventListener('DOMContentLoaded', function() {
-      var grafiktotalsuratmasuk = <?php echo json_encode($grafiktotalsuratmasuk) ?>;
-      var grafiktotalsuratkeluar = <?php echo json_encode($grafiktotalsuratkeluar) ?>;
-      var grafiktotaldokumenkegiatan = <?php echo json_encode($grafiktotaldokumenkegiatan) ?>;
-      var grafiktotalsertifikat = <?php echo json_encode($grafiktotalsertifikat) ?>;
-      var bulan = <?php echo json_encode($bulan) ?>;
 
-      Highcharts.chart('grafik', {
-        title: null,
-        xAxis: {
-          categories: bulan
-        },
-        yAxis: {
-          title: {
-            text: 'Jumlah Data'
-          },
-          plotOptions: {
-            series: {
-              allowPointSelect: true
-            }
-          }
-        },
-        series: [{
-            name: 'Surat Masuk',
-            data: grafiktotalsuratmasuk,
-            color: '#399918'
-          },
-          {
-            name: 'Surat Keluar',
-            data: grafiktotalsuratkeluar,
-            color: '#980404'
-          },
-          {
-            name: 'Dokumen Kegiatan',
-            data: grafiktotaldokumenkegiatan,
-            color: '#0D1164'
-          },
-          {
-            name: 'Sertifikat',
-            data: grafiktotalsertifikat,
-            color: '#F87B1B'
-          }
-        ]
-      });
-
-    });
-  </script>
 </body>
 <!--end::Body-->
 
