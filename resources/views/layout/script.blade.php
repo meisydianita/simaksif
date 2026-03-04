@@ -226,27 +226,23 @@
     document.addEventListener('DOMContentLoaded', function() {
       const searchInput = document.getElementById('searchInput');
 
-      if (searchInput) {
+      // Enter = submit
+      searchInput.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+          this.form.submit();
+        }
+      });
 
-        // Enter = submit
-        searchInput.addEventListener('keypress', function(e) {
-          if (e.key === 'Enter') {
+      // Ketik 2+ huruf = delay 500ms lalu submit (debounce)
+      let timeout;
+      searchInput.addEventListener('input', function() {
+        clearTimeout(timeout);
+        timeout = setTimeout(() => {
+          if (this.value.length >= 0) {
             this.form.submit();
           }
-        });
-
-        // Ketik = delay lalu submit
-        let timeout;
-        searchInput.addEventListener('input', function() {
-          clearTimeout(timeout);
-          timeout = setTimeout(() => {
-            if (this.value.length >= 0) {
-              this.form.submit();
-            }
-          }, 50);
-        });
-
-      }
+        }, 50);
+      });
     });
   </script>
   <!--end::OverlayScrollbars Configure-->
