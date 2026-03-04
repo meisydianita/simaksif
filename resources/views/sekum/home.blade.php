@@ -167,55 +167,58 @@
     <!--end::App Main-->
     <script src="https://code.highcharts.com/12.4.0/highcharts.js"></script>
     <script type="text/javascript">
-      var grafiktotalsuratmasuk = <?php echo json_encode($grafiktotalsuratmasuk) ?>;
-      var grafiktotalsuratkeluar = <?php echo json_encode($grafiktotalsuratkeluar) ?>;
-      var grafiktotaldokumenkegiatan = <?php echo json_encode($grafiktotaldokumenkegiatan) ?>;
-      var grafiktotalsertifikat = <?php echo json_encode($grafiktotalsertifikat) ?>;
-      var bulan = <?php echo json_encode($bulan) ?>;
+      document.addEventListener('DOMContentLoaded', function() {
 
-      Highcharts.chart('grafik', {
-        title: null,
-        xAxis: {
-          categories: bulan
-        },
-        yAxis: {
-          title: {
-            text: 'Jumlah Data'
+        var grafiktotalsuratmasuk = <?php echo json_encode($grafiktotalsuratmasuk) ?>;
+        var grafiktotalsuratkeluar = <?php echo json_encode($grafiktotalsuratkeluar) ?>;
+        var grafiktotaldokumenkegiatan = <?php echo json_encode($grafiktotaldokumenkegiatan) ?>;
+        var grafiktotalsertifikat = <?php echo json_encode($grafiktotalsertifikat) ?>;
+        var bulan = <?php echo json_encode($bulan) ?>;
+
+        Highcharts.chart('grafik', {
+          title: null,
+          xAxis: {
+            categories: bulan
           },
-          plotOptions: {
-            series: {
-              allowPointSelect: true
+          yAxis: {
+            title: {
+              text: 'Jumlah Data'
+            },
+            plotOptions: {
+              series: {
+                allowPointSelect: true
+              }
             }
-          }
-        },
-        series: [{
-            name: 'Surat Masuk',
-            data: grafiktotalsuratmasuk,
-            color: '#399918'
           },
-          {
-            name: 'Surat Keluar',
-            data: grafiktotalsuratkeluar,
-            color: '#980404'
-          },
-          {
-            name: 'Dokumen Kegiatan',
-            data: grafiktotaldokumenkegiatan,
-            color: '#0D1164'
-          },
-          {
-            name: 'Sertifikat',
-            data: grafiktotalsertifikat,
-            color: '#F87B1B'
-          }
-        ]
+          series: [{
+              name: 'Surat Masuk',
+              data: grafiktotalsuratmasuk,
+              color: '#399918'
+            },
+            {
+              name: 'Surat Keluar',
+              data: grafiktotalsuratkeluar,
+              color: '#980404'
+            },
+            {
+              name: 'Dokumen Kegiatan',
+              data: grafiktotaldokumenkegiatan,
+              color: '#0D1164'
+            },
+            {
+              name: 'Sertifikat',
+              data: grafiktotalsertifikat,
+              color: '#F87B1B'
+            }
+          ]
+        });
       });
     </script>
     @include('layout.footer')
   </div>
   <!--end::App Wrapper-->
   @include('layout.script')
-  
+
 </body>
 <!--end::Body-->
 
