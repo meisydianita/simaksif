@@ -156,7 +156,9 @@
                     </button>
                   </div>
                 </div>
-                <div class="card-body" id="grafik"></div>
+                <div class="card-body">
+    <div id="grafik" style="width:100%; height:400px;"></div>
+</div>
                 <!-- /.card-body -->
               </div>
               <!-- /.card -->
@@ -173,10 +175,10 @@
   </div>
   <!--end::App Wrapper-->
   @include('layout.script')
-      <script src="https://code.highcharts.com/12.4.0/highcharts.js"></script>
-    <script type="text/javascript">
-      document.addEventListener('DOMContentLoaded', function () {
-        var grafiktotalsuratmasuk = <?php echo json_encode($grafiktotalsuratmasuk) ?>;
+  <script src="https://code.highcharts.com/12.4.0/highcharts.js"></script>
+  <script type="text/javascript">
+    document.addEventListener('DOMContentLoaded', function() {
+      var grafiktotalsuratmasuk = <?php echo json_encode($grafiktotalsuratmasuk) ?>;
       var grafiktotalsuratkeluar = <?php echo json_encode($grafiktotalsuratkeluar) ?>;
       var grafiktotaldokumenkegiatan = <?php echo json_encode($grafiktotaldokumenkegiatan) ?>;
       var grafiktotalsertifikat = <?php echo json_encode($grafiktotalsertifikat) ?>;
@@ -220,9 +222,8 @@
         ]
       });
 
-      });
-      
-    </script>
+    });
+  </script>
 </body>
 <!--end::Body-->
 
