@@ -57,7 +57,7 @@
                   <span class="info-box-text">Sertifikat</span>
                   <span class="info-box-number">
                     <a href="{{ route('sertifikat.index') }}" class="total-link">{{ $totalsertifikat }}</a>
-                    </span>
+                  </span>
                 </div>
                 <!-- /.info-box-content -->
               </div>
