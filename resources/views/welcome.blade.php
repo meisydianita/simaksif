@@ -216,7 +216,7 @@
                 </div>
 
                 <div class="col-md-4">
-                    <small>© 2025 HIMASIF. All rights reserved.</small>
+                    <small>© 2026 HIMASIF. All rights reserved.</small>
                 </div>
 
                 <div class="col-md-4 d-flex justify-content-center gap-3">
@@ -232,7 +232,7 @@
                 <div class="col-md-4">
                     <i class="bi bi-globe fs-2 mb-3"></i>
                     <h6 class="fw-semibold">Website</h6>
-                    <small>www.himasif.ac.id</small>
+                    <small>simaksif.siunib.org</small>
                 </div>
 
                 <div class="col-md-4 border-start border-end">

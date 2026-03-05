@@ -117,8 +117,6 @@
               <!-- /.info-box -->
             </div>
             <!-- /.col -->
-
-
           </div>
           <!-- /.row -->
           <!--begin::Row-->
