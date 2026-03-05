@@ -85,9 +85,10 @@
 
                 <div class="col-lg-6 text-end">
 
-                    <img src="{{asset('img/cois.png')}}"
+                    <img src="{{asset('img/admin-rm.png')}}"
                         class="img-fluid rounded-4"
-                        alt="Thumbnail Image">
+                        alt="Thumbnail Image"
+                        style="max-width: 400px;">
 
                 </div>
 
@@ -172,7 +173,7 @@
 
                 <div class="col-lg-3 text-end">
 
-                    <img src="{{asset('img/admin.png')}}"
+                    <img src="{{asset('img/himasif.jpg')}}"
                         class="img-fluid rounded-4"
                         alt="Thumbnail Image">
 
