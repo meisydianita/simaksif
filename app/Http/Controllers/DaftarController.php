@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Exception;
-use App\Models\User;
 use App\Models\Anggota;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -22,7 +20,7 @@ class DaftarController extends Controller
         $validator = Validator::make(
             $request->all(),
             [                
-                'npm' => 'required|max:9|unique:anggotas,npm',
+                'npm' => 'required|max:9|exists:members,npm|unique:anggotas,npm',
                 'name' => 'required|string|max:100',
                 'email' => 'required|email|max:100|unique:anggotas,email',
                 'password' => [
@@ -34,7 +32,10 @@ class DaftarController extends Controller
                 ],
             ],
             [
+                'npm.required' => 'NPM harus diisi.',
                 'npm.max' => 'Npm maksimal berisi 9 karakter',
+                'npm.exists' => 'NPM tidak terdaftar sebagai anggota HIMASIF.',
+                'npm.unique' => 'NPM sudah memiliki akun.',
                 'name.required' => 'Nama lengkap harus diisi',
                 'name.max' => 'Nama lengkap maksimal berisi 100 karakter',
                 'email.unique' => 'Email sudah terdaftar.',
